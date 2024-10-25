@@ -12,11 +12,11 @@
 ## C# vs. Java
 | Feature                   | C#                          | Java                        |
 |---------------------------|-----------------------------|-----------------------------|
-| Method Naming Convention  | PascalCase GetStudents()    | lowerCase getStudents()     |
+| Importing Libraries       | using System;               | import java.util.Random;    |
+| Method Naming Convention  | GetStudents() // PascalCase | getStudents() // lowerCase  |
 | Documentation Comments    | `///`                       | `/** * * @author */`        |
-| Print to Console          | `Console.WriteLine()`       | `System.out.println()`      |
-| Importing Libraries       | `using`                     | `import package.*`          |
-| Random Number Generation  | `new Random().Next(0, 101)` | `new Random().nextInt(100)` |
+| Print to Console          | `Console.WriteLine("abc")`  | `System.out.println("abc")` |
+| Random Number Generation  | `new Random().Next(0, 101)` | `new Random().nextInt(101)` |
 
 ## Links
 - https://www.jetbrains.com/idea/download/other.html
