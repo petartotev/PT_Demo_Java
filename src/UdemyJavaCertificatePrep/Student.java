@@ -12,6 +12,10 @@
  * @author Petar Totev
  */
 public class Student {
+    public Student() {
+        System.out.println("Student is created!");
+    }
+
     String name;
     public String getName() {
         return name;
