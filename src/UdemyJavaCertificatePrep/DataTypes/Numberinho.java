@@ -1,7 +1,7 @@
 package DataTypes;
 
 public class Numberinho {
-    public void PlayWithNumbersAndUnderscores() {
+    public void playWithNumbersAndUnderscores() {
         int a = 1_000_000;
         int b = 1_2;
         int c = 1_____2;

@@ -1,3 +1,5 @@
+package DataTypes;
+
 import java.util.Random;
 
 public class Randomizer {

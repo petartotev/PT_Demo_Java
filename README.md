@@ -32,6 +32,7 @@
 | Print to Console                      | `Console.WriteLine("abc")`     | `System.out.println("abc")` |
 | Random Number Generation              | `new Random().Next(0, 101)`    | `new Random().nextInt(101)` |
 | Constants                             | const string MyTest            | final String MY_TEST        |
+| Foreach Loops                         | foreach (var car in Cars) { }  | for (String car : cars) { } |
 
 ## Data Types
 
@@ -73,9 +74,31 @@
 | return     | short        | static    | strictfp   | super  |
 | switch     | synchronized | this      | throw      | throws |
 | transient  | try          | void      | volatile   | while  |
-* **var** is not a special word!
+* **var** is not a special word due to legacy reasons, first appeared in Java 10.
+* **var** a.k.a. LVTI
 
 ## Operators
+
+| Operator                        | Example(s)                                                           | Order Of         |
+|---------------------------------|----------------------------------------------------------------------|-------------------|
+| Post-unary operator             | `a++`, `a--`                                                         | Left-to-Right    |
+| Pre-unary operator              | `++a`, `--a`                                                         | Left-to-Right    |
+| Other unary operators           | `-`, `!`, `~`, `+`, `(type)`                                         | Right-to-Left    |
+| Cast                            | `(Type)a`                                                            | Left-to-Right    |
+| Multiplication/division/modulus | `*`, `/`, `%`                                                        | Left-to-Right    |
+| Addition/subtraction            | `+`, `-`                                                             | Left-to-Right    |
+| Shift operators                 | `<<`, `>>`, `>>>`                                                    | Left-to-Right    |
+| Relational operators            | `<`, `>`, `<=`, `>=`, `instanceof`                                   | Left-to-Right    |
+| Equal to / not equal to         | `==`, `!=`                                                           | Left-to-Right    |
+| Logical AND                     | `&`                                                                  | Left-to-Right    |
+| Logical exclusive OR (XOR)      | `^`                                                                  | Left-to-Right    |
+| Logical OR                      | `\|`                                                                 | Left-to-Right    |
+| Conditional AND                 | `&&`                                                                 | Left-to-Right    |
+| Conditional OR                  | `\|\|`                                                               | Left-to-Right    |
+| Ternary operator                | `expr ? a : b`                                                       | Right-to-Left    |
+| Assignment operators            | `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `\|=`, `<<=`, `>>=`, `>>>=` | Right-to-Left |
+| Arrow operator                  | `->`                                                                 | Right-to-Left    |
+
 ### Unary Operators
 ### Binary Operators
 ### Assignment Operators
@@ -84,6 +107,7 @@
 ## Notes
 - float x = 2.7 // does not compile! needs 'f' at the end
 - bit size of boolean is not specified, depends on the machine
+- LVTI
 
 ## Links
 - https://www.jetbrains.com/idea/download/other.html
