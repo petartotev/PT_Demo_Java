@@ -110,6 +110,13 @@
 - bit size of boolean is not specified, depends on the machine
 - LVTI
 
+## Shortcuts
+- Ctrl + Shift + / => Comment out multiple lines
+- Ctrl + D => Duplicate a single line (Ctrl + C and Ctrl + V)
+- Ctrl + Shift + R => Replace
+- Alt + Shift + Up/Down Arrow => Move line up / down
+- Hold Alt and drag down/up => Write on multiple lines
+
 ## Questions
 - Shortcut for formatting a file
 - Shortcut for opening and closing methods

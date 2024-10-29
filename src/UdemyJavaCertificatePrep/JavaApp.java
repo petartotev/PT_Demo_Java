@@ -197,6 +197,90 @@ public class JavaApp {
 
         System.out.println("=============== S10: Abstract Classes & Interfaces [OCA, OCP] ===============");
 
+        System.out.println("========== S10: Abstract Classes [OCA]  ==========");
+
+        /*
+        Abstract class can be extended, but cannot be initialized.
+        Abstract class can have constructors, but can be called only using 'super()' from the child class.
+        ⚠️ Abstract class or abstract method cannot be marked 'final'.
+        ⚠️ Abstract method cannot be marked 'private'.
+        ⚠️ 'abstract static' is not allowed (as static method cannot be overridden).
+         */
+
+        // Vehicle vehicle = new Vehicle(); /* Vehicle is abstract; cannot be instantiated */
+        Car myCar = new Car();
+        myCar.run();
+
+        /*
+        Rules for Using Abstract Methods:
+        1. Only instance methods can be marked abstract (not variables, constructors, static methods).
+        2. Abstract method can only be declared in abstract class.
+        3. Non-abstract class which extends abstract class must implement all inherited methods.
+        4. All other rules with overriding methods apply.
+         */
+
+        System.out.println("========== S10: Interfaces [OCA]  ==========");
+
+        /*
+        Interface is similar to abstract class, but one class can implement any number of interfaces.
+        Keyword 'implements', separated by comma (,).
+        All interfaces are implicitly abstract, so they cannot be marked 'final'.
+         */
+
+        /*
+        Rules of Implementation:
+        1. Keyword 'public' is required.
+        2. Return type must be covariant with the interface method.
+        3. Signature (name & parameters) must match the interface method.
+        4. All inherited methods must be implemented.
+        5. An interface can extend another interface.
+         */
+
+        Car myCar2 = new Car();
+        // Class Car EXTENDS abstract class Vehicle => public abstract void run();
+        // Class Car IMPLEMENTS interface Drivable => int distanceWithFullTank (int tankVolume);
+        // Class Car IMPLEMENTS interface Paintable => void paint();
+        // Interface Paintable EXTENDS interface Colorable => void colorize();
+        myCar2.run();
+        myCar2.distanceWithFullTank(100);
+        myCar2.paint();
+        myCar2.colorize();
+
+        Employee myEmployee = new Employee();
+        // Class Employee IMPLEMENTS interface Academic which has Study() method.
+        // Class Employee IMPLEMENTS interface Employable which also has Study() method.
+        // Class Employee needs only 1 @Override which fits both methods.
+        myEmployee.study();
+
+        /*
+        USING DEFAULT METHODS (use 'default' keyword)
+        Interface Drivable is already declared and implemented by Car...
+        We need to add a new method refuel(), but we don't want to make all child classes implement it.
+         */
+        myCar2.refuel();
+
+        /*
+        Rules for Using Default Methods:
+        1. Keyword default with a method can only be used in the interface.
+        2. Has to have a body (default implementation).
+        3. Implicitly public.
+        4. Cannot be abstract, final, static.
+        5. May or may not be overridden by a class implementing the interface.
+        6. If class inherits 2 default methods with the same signature, it must override the method.
+         */
+        myCar2.playWithElements();
+
+        // STATIC INTERFACE METHODS
+
+        // PRIVATE INTERFACE METHODS
+
+        /*
+        Rules for Using Private Interface Methods:
+        1. marked with keyword 'private'
+        2. must have a body
+        3. private static methods may be called by any method in the interface
+        4. non-static private methods may be called only by non-static methods
+         */
 
         System.out.println("=============== S11: Lambdas & Functional Programming [OCA, OCP] ===============");
 
