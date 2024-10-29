@@ -1,7 +1,7 @@
-public class Dog {
+public class Doggy {
     String name = "Test";
 
-    public Dog() {
+    public Doggy() {
         name = "Rex";
         System.out.println(("Constructor is executed. Dog's name set to Rex!"));
     }

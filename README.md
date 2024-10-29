@@ -33,6 +33,7 @@
 | Random Number Generation              | `new Random().Next(0, 101)`    | `new Random().nextInt(101)` |
 | Constants                             | const string MyTest            | final String MY_TEST        |
 | Foreach Loops                         | foreach (var car in Cars) { }  | for (String car : cars) { } |
+| Base keyword                          | base.name                      | super.name                  |
 
 ## Data Types
 
@@ -108,6 +109,11 @@
 - float x = 2.7 // does not compile! needs 'f' at the end
 - bit size of boolean is not specified, depends on the machine
 - LVTI
+
+## Questions
+- Shortcut for formatting a file
+- Shortcut for opening and closing methods
+- Is there something like section in C#?
 
 ## Links
 - https://www.jetbrains.com/idea/download/other.html
