@@ -11,6 +11,11 @@
   - [Binary Operators](#binary-operators)
   - [Assignment Operators](#assignment-operators)
   - [Comparison Operators](#comparison-operators)
+- [Lambdas and Functional Programming](#lambdas-and-functional-programming)
+  - [Method References](#method-references)
+  - [Functional References](#functional-references)
+  - [Common Functional Interfaces for Primitives](#common-functional-interfaces-for-primitives)
+  - [Primitive Specific Functional Interfaces](#primitive-specific-functional-interfaces)
 - [Notes](#notes)
 - [Links](#links)
 
@@ -104,6 +109,76 @@
 ### Binary Operators
 ### Assignment Operators
 ### Comparison Operators
+
+## Lambdas and Functional Programming
+
+### Method References
+
+| Lambda Expression                   | Method Reference          |
+|-------------------------------------|---------------------------|
+| `s -> System.out.println(s)`        | `System.out::println`     |
+| `(a, b) -> Math.min(a, b)`          | `Math::min`               |
+| `t -> Gravity.freeFall(t)`          | `Gravity::freeFall`       |
+| `() -> s.isEmpty()`                 | `s::isEmpty`              |
+| `s -> s.isBlank()`                  | `String::isEmpty`         |
+
+### Functional References
+
+| Functional Interface | Method Signature   | Return Type |
+|----------------------|--------------------|-------------|
+| Supplier<T>          | `get()`            | T           |
+| Consumer<T>          | `accept(T)`        | void        |
+| BiConsumer<T,U>      | `accept(T, U)`     | void        |
+| Predicate<T>         | `test(T)`          | boolean     |
+| BiPredicate<T,U>     | `test(T, U)`       | boolean     |
+| Function<T,R>        | `apply(T)`         | R           |
+| BiFunction<T,U,R>    | `apply(T, U)`      | R           |
+| UnaryOperator<T>     | `apply(T)`         | T           |
+| BinaryOperator<T>    | `apply(T, T)`      | T           |
+
+### Common Functional Interfaces for Primitives
+
+| Functional Interface       | Return Type | Abstract Method Signature                  |
+|----------------------------|-------------|--------------------------------------------|
+| BoolSupplier               | boolean     | `getAsBoolean()`                           |
+| DoubleSupplier             | double      | `getAsDouble()`                            |
+| IntSupplier                | int         | `getAsInt()`                               |
+| LongSupplier               | long        | `getAsLong()`                              |
+| DoubleConsumer             | void        | `accept(double a)`                         |
+| IntConsumer                | void        | `accept(int a)`                            |
+| LongConsumer               | void        | `accept(long a)`                           |
+| DoublePredicate            | boolean     | `test(double a)`                           |
+| IntPredicate               | boolean     | `test(int a)`                              |
+| LongPredicate              | boolean     | `test(long v)`                             |
+| DoubleFunction<R>          | R           | `apply(double value)`                      |
+| IntFunction<R>             | R           | `apply(int value)`                         |
+| LongFunction<R>            | R           | `apply(long value)`                        |
+| DoubleUnaryOperator        | double      | `applyAsDouble(double value)`              |
+| IntUnaryOperator           | int         | `applyAsInt(int value)`                    |
+| LongUnaryOperator          | long        | `applyAsLong(long value)`                  |
+| DoubleBinaryOperator       | double      | `applyAsDouble(double v, double w)`        |
+| IntBinaryOperator          | int         | `applyAsInt(int v, int w)`                 |
+| LongBinaryOperator         | long        | `applyAsLong(long v, long w)`              |
+
+### Primitive Specific Functional Interfaces
+
+| Functional Interface       | Return Type | Abstract Method Signature                    |
+|----------------------------|-------------|----------------------------------------------|
+| ToDoubleFunction<T>        | double      | `applyAsDouble(T t)`                         |
+| ToIntFunction<T>           | int         | `applyAsInt(T t)`                            |
+| ToLongFunction<T>          | long        | `applyAsLong(T t)`                           |
+| ToDoubleBiFunction<T, U>   | double      | `applyAsDouble(T t, U u)`                    |
+| ToIntBiFunction<T, U>      | int         | `applyAsInt(T t, U u)`                       |
+| ToLongBiFunction<T, U>     | long        | `applyAsLong(T t, U u)`                      |
+| DoubleToIntFunction        | int         | `applyAsInt(double value)`                   |
+| DoubleToLongFunction       | long        | `applyAsLong(double value)`                  |
+| IntToDoubleFunction        | double      | `applyAsDouble(int value)`                   |
+| IntToLongFunction          | long        | `applyAsLong(int value)`                     |
+| LongToDoubleFunction       | double      | `applyAsDouble(long value)`                  |
+| LongToIntFunction          | int         | `applyAsInt(long value)`                     |
+| ObjDoubleConsumer<T>       | void        | `accept(T t, double v)`                      |
+| ObjIntConsumer<T>          | void        | `accept(T t, int v)`                         |
+| ObjLongConsumer<T>         | void        | `accept(T t, long v)`                        |
 
 ## Notes
 - float x = 2.7 // does not compile! needs 'f' at the end

@@ -4,7 +4,11 @@
 import ClassDesign.*;       /* .* is 'wildcard' */
 import DataTypes.*;
 import FlowControl.FlowController;
+import FunctionalProgramming.ElPredicatore;
 import Operators.SmoothOperator;
+
+import java.time.*;
+import java.util.function.*;
 
 // 💡 Class JavaApp is initialized automatically, as main() method is inside the class.
 public class JavaApp {
@@ -283,6 +287,219 @@ public class JavaApp {
          */
 
         System.out.println("=============== S11: Lambdas & Functional Programming [OCA, OCP] ===============");
+
+        System.out.println("========== S11: Functional Interfaces and Lambdas [OCA]  ==========");
+
+        // Functional interface - an interface that has exactly one abstract method.
+        // @FunctionalInterface - annotation for functional interface
+        // Predefined functional interfaces: Supplier, Consumer, Predicate, Function
+
+        // Using Class Beetle implementing Insect:
+        Beetle myBeetle = new Beetle();
+        myBeetle.crawl();
+
+        // Using Anonymous Class:
+        Insect myBeetle2 = new Insect() {
+            public void crawl() { System.out.println("Insect crawls by definition from initialization!"); }
+        };
+        myBeetle2.crawl();
+
+        // Lambda Expression:
+        Insect myLambdaBeetle = () -> System.out.println("Lambda Beetle!");
+        myLambdaBeetle.crawl();
+
+        Fuckable myMultiplyingAnimal = (a, b) -> a * b;
+        myMultiplyingAnimal.multiply(2, 5);
+
+        /*
+        One parameter:
+        n -> 2*n
+        (n) -> 2*n
+        (int n) -> 2*n
+        n -> { return 2*n; }
+        (n) -> { return 2*n; }
+        (int n) -> { return 2*n; }
+
+        More parameters:
+        (a, b) -> a*b
+        (int a, int b) -> a*b
+        (a, b) -> { return a*b; }
+        (int a, int b) -> { return a*b; }
+         */
+
+        System.out.println("========== S11: Using Predicates With Lambda [OCA]  ==========");
+
+        /*
+        Predicate - predefined functional interface provided by Java.
+        Import java.util.function.
+        Predicate has 1 abstract method: test(T) which takes an argument of T and returns boolean:
+
+        @FunctionalInterface
+        public interface Predicate<T> {
+            boolean test(T t);
+            // ...
+        }
+         */
+
+        ElPredicatore myElPredicatore = new ElPredicatore();
+        myElPredicatore.playWithRawPredicates();
+
+        Predicate<Integer> myPredicate = n -> n*n + 5 < 100;
+        ElPredicatore.myProbe(5, myPredicate);
+        ElPredicatore.myProbe(5, n -> n > 3);
+        ElPredicatore.myProbe(15, n -> n < 10);
+
+        System.out.println("========== S11: Method References [OCP]  ==========");
+
+        // TODO
+
+        System.out.println("========== S11: Built-In Functional Interfaces [OCP]  ==========");
+
+        /*
+        import java.util.function package
+         */
+
+        System.out.println("===== Supplier =====");
+
+        /*
+        @FunctionalInterface
+        public interface Supplier<T> {
+            T get();
+        }
+         */
+
+        Supplier<LocalDateTime> dtImpl = () -> LocalDateTime.now();
+        System.out.println(dtImpl.get());
+
+        System.out.println("===== Consumer, BiConsumer =====");
+
+        /*
+        @FunctionalInterface
+        public interface Consumer<T> {
+            void accept(T t);
+            // ...
+        }
+
+        @FunctionalInterface
+        public interface BiConsumer<T, U> {
+            void accept(T t, U u);
+            // ...
+        }
+         */
+
+        Consumer<String> greet = s -> System.out.println("Hello, " + s + "!");
+        greet.accept("John");
+        BiConsumer<String, String> greets = (s, t) -> System.out.println("Hello, " + s + " " + t + "!");
+        greets.accept("John", "Snow");
+
+        System.out.println("===== Predicate, BiPredicate =====");
+
+        /*
+        @FunctionalInterface
+        public interface Predicate<T> {
+            boolean test(T t);
+            // ...
+        }
+
+        @FunctionalInterface
+        public interface BiPredicate<T, U> {
+            boolean test(T t, U u);
+            // ...
+        }
+         */
+
+        Predicate<Integer> gt10 = n -> n > 10;
+        System.out.println(gt10.test(5));
+
+        BiPredicate<Integer, Integer> gt = (n, m) -> n > m;
+        System.out.println(gt.test(5, 10));
+
+        System.out.println("===== Function, BiFunction =====");
+
+        /*
+        @FunctionalInterface
+        public interface Function<T, R> {
+            R apply(T t);
+            // ...
+        }
+
+        @FunctionalInterface
+        public interface BiFunction<T, U, R> {
+            R apply(T t, U u);
+            // ...
+        }
+         */
+
+        Function<Integer, Double> square = n -> (double)(n*n);
+        var res = square.apply(5);
+        System.out.println(res);
+
+        BiFunction<String, Integer, String> con = (s, i) -> s + i;
+        var myCon = con.apply("John", 25);
+        System.out.println(myCon);
+
+        System.out.println("===== UnaryOperator, BinaryOperator =====");
+
+        /*
+        @FunctionalInterface
+        public interface UnaryOperator<T> extends Function<T,T> {
+            // ...
+        }
+
+        @FunctionalInterface
+        public interface BinaryOperator<T> extends BiFunction<T,T,T> {
+            // ...
+        }
+         */
+
+        UnaryOperator<Integer> negative = n -> -n;
+        System.out.println(negative.apply(5));
+
+        UnaryOperator<String> shout = String::toUpperCase;
+        System.out.println(shout.apply("John"));
+
+        BinaryOperator<Double> add = (a, b) -> a + b;
+        System.out.println(add.apply(3.5, 1.5));
+
+        BinaryOperator<String> conn = String::concat;
+        System.out.println(conn.apply("John", "Snow"));
+
+        System.out.println("========== S11: Helper Methods by Functional Interfaces [OCP]  ==========");
+
+        /*
+        Consumer => andThen()
+        Function => andThen(), compose()
+        Predicate => and(), or(), negate()
+         */
+
+        Consumer<String> greet1 = s -> System.out.println("Hello, " + s + "!");
+        Consumer<String> greet2 = s -> System.out.println("Goodbye, " + s + "!");
+        Consumer<String> greet1and2 = greet1.andThen(greet2);
+        greet1and2.accept("John");
+        System.out.println();
+        greet1.andThen(greet2).accept("John");
+
+        Function<Integer, Integer> double123 = n -> n*n;
+        Function<Integer, Integer> triple123 = n -> 3*n;
+        // First function, then second function.
+        Function<Integer, Integer> f1 = double123.andThen(triple123); /* (5 x 5) * 3 */
+        System.out.println(f1.apply(5));
+        // Second function first, then first function second.
+        Function<Integer, Integer> f2 = double123.compose(triple123); /* (5 x 3) * (5 x 3) */
+        System.out.println(f2.apply(5));
+
+        Predicate<Integer> gt100 = n -> n > 10;
+        Predicate<Integer> lt20 = n -> n < 20;
+        Predicate<Integer> p1 = gt10.and(lt20);
+        Predicate<Integer> p2 = gt10.or(lt20);
+        Predicate<Integer> p3 = lt20.negate();
+
+        System.out.println(p1.test(5)); /* false */
+        System.out.println(p2.test(5)); /* true */
+        System.out.println(p3.test(5)); /* if true, returns false */
+
+        System.out.println("========== S11: Functional Interfaces for Primitives [OCP]  ==========");
+
 
 
         System.out.println("=============== S12: Collections [OCA, OCP] ===============");
