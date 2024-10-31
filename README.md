@@ -19,7 +19,7 @@
 - [Collections](#collections)
   - [Map Methods](#map-methods)
   - [Compare Compares](#compare-compares)
-- [Exceptions](#exceptions]
+- [Exceptions](#exceptions)
   - [Unchecked Exceptions](#unchecked-exceptions)
 - [Notes](#notes)
 - [Links](#links)
