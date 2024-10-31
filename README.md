@@ -18,6 +18,7 @@
   - [Primitive Specific Functional Interfaces](#primitive-specific-functional-interfaces)
 - [Collections](#collections)
   - [Map Methods](#map-methods)
+  - [Compare Compares](#compare-compares)
 - [Notes](#notes)
 - [Links](#links)
 
@@ -214,6 +215,15 @@
 | `size()`                                        | Returns number of key/value pairs in the map                                      |
 | `values()`                                      | Returns collection of values                                                      |
 
+## Compare Compares
+
+| Difference                         | `Comparable`          | `Comparator`      |
+|------------------------------------|-----------------------|-------------------|
+| Package name                       | `java.lang`           | `java.util`       |
+| Must be implemented by a class     | YES                   | NO                |
+| Method name                        | `compareTo()`         | `compare()`       |
+| Number of method parameters        | 1                     | 2                 |
+| Used with lambda                   | NO                    | YES               |
 
 ## Notes
 - float x = 2.7 // does not compile! needs 'f' at the end

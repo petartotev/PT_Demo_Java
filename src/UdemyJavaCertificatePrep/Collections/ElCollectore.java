@@ -423,5 +423,21 @@ public class ElCollectore {
         System.out.println(personas);
         Collections.sort(personas, (p1, p2) -> p1.getName().compareTo(p2.getName()));
         System.out.println(personas);
+
+        // Old syntax:
+        Comparator<Persona> byAge = new Comparator<Persona>() {
+            public int compare(Persona p1, Persona p2) {
+                return p1.getAge() - p2.getAge();
+            }
+        };
+        Collections.sort(personas, byAge);
+        System.out.println(people);
+
+        // Alternative:
+        // Using comparing() method with method reference
+        Comparator<Persona> c = Comparator.comparing(Persona::getName);
+        Comparator<Persona> cc = Comparator.comparing(Persona::getName).reversed();
+        // Chaining!
+        Comparator<Persona> ccc = Comparator.comparing(Persona::getName).thenComparing(Persona::getAge);
     }
 }
