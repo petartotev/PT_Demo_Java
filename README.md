@@ -27,34 +27,35 @@
 2. Install IntelliJ IDEA Community (ideaIC-2024.2.4.exe) from https://www.jetbrains.com/idea/download/other.html
 
 ## C# vs. Java
-| Feature                               | C#                             | Java                        |
-|---------------------------------------|--------------------------------|-----------------------------|
-| Variable Naming                       | energyField // camelCase       | energyField // camelCase    |
-| Constant Naming                       | EnergyField // PascalCase      | ENERGY_FIELD // SNAKE_CASE  |
-| Class, Interface, Enum Naming         | class Student // PascalCase    | class Student // PascalCase |
-| Identifier Variable / Property Naming | Id { get; set; } // PascalCase | getId() // camelCase        |
-| Method Naming                         | GetStudents() // PascalCase    | getStudents() // camelCase  |
-|                                       |                                |                             |
-| Importing Libraries                   | using System;                  | import java.util.Random;    |
-| Documentation Comments                | `///`                          | `/** * * @author */`        |
-| Print to Console                      | `Console.WriteLine("abc")`     | `System.out.println("abc")` |
-| Random Number Generation              | `new Random().Next(0, 101)`    | `new Random().nextInt(101)` |
-| Constants                             | const string MyTest            | final String MY_TEST        |
-| Foreach Loops                         | foreach (var car in Cars) { }  | for (String car : cars) { } |
-| Base keyword                          | base.name                      | super.name                  |
+| Feature                               | C#                             | Java                                 |  |
+|---------------------------------------|--------------------------------|--------------------------------------|--|
+| Variable Naming                       | energyField // camelCase       | energyField // camelCase             |  |
+| Constant Naming                       | EnergyField // PascalCase      | ENERGY_FIELD // SNAKE_CASE           |  |
+| Class, Interface, Enum Naming         | class Student // PascalCase    | class Student // PascalCase          |  |
+| Identifier Variable / Property Naming | Id { get; set; } // PascalCase | getId() // camelCase                 |  |
+| Method Naming                         | GetStudents() // PascalCase    | getStudents() // camelCase           |  |
+|                                       |                                |                                      |  |
+| Importing Libraries                   | using System;                  | import java.util.Random;             |  |
+| Documentation Comments                | `///`                          | `/** * * @author */`                 |  |
+| Print to Console                      | `Console.WriteLine("abc")`     | `System.out.println("abc")`          |  |
+| Random Number Generation              | `new Random().Next(0, 101)`    | `new Random().nextInt(101)`          |  |
+| Constants                             | const string MyTest            | final String MY_TEST                 |  |
+| Foreach Loops                         | foreach (var car in Cars) { }  | for (String car : cars) { }          |  |
+| Base keyword                          | base.name                      | super.name                           |  |
+| Region                                | #region //smth #endregion      | // <editor-fold desc="Section Name"> |🙁|
 
 ## Data Types
 
-| Keyword | Type                  | Min           | Max             | Default | Example   |
-|---------|-----------------------|---------------|-----------------|---------|-----------|
-| boolean | true or false         | -             | -               | false   | true      |
-| byte    | 8-bit integral value  | -128          | 127             | 0       | 118       |
-| short   | 16-bit integral value | -32,768       | 32,767          | 0       | -202      |
-| int     | 32-bit integral value | -2,147,483,648 | 2,147,483,647   | 0       | 5106      |
-| long    | 64-bit integral value | -2^63         | 2^63 - 1        | 0L      | 5106L     |
-| float   | 32-bit floating value | -             | -               | 0.0f    | 511.183f  |
-| double  | 64-bit floating value | -             | -               | 0.0f    | 511.183   |
-| char    | 16-bit Unicode value  | 0             | 65,535          | \u0000  | 'c'       |
+| Keyword | Interface         | Type                  | Min           | Max             | Default | Example   |
+|---------|-------------------|-----------------------|---------------|-----------------|---------|-----------|
+| boolean | `BooleanSupplier` | true or false         | -             | -               | false   | true      |
+| byte    | `Byte`            | 8-bit integral value  | -128          | 127             | 0       | 118       |
+| short   | `Short`           | 16-bit integral value | -32,768       | 32,767          | 0       | -202      |
+| int     | `IntSupplier`     | 32-bit integral value | -2,147,483,648 | 2,147,483,647  | 0       | 5106      |
+| long    | `LongSupplier`    | 64-bit integral value | -2^63         | 2^63 - 1        | 0L      | 5106L     |
+| float   | `Float`           | 32-bit floating value | -             | -               | 0.0f    | 511.183f  |
+| double  | `DoubleSupplier`  | 64-bit floating value | -             | -               | 0.0f    | 511.183   |
+| char    | `Character`       | 16-bit Unicode value  | 0             | 65,535          | \u0000  | 'c'       |
 
 ## Wrapper Classes
 
@@ -83,13 +84,13 @@
 | return     | short        | static    | strictfp   | super  |
 | switch     | synchronized | this      | throw      | throws |
 | transient  | try          | void      | volatile   | while  |
-* **var** is not a special word due to legacy reasons, first appeared in Java 10.
-* **var** a.k.a. LVTI
+
+* **var** a.k.a. LVTI (Local Variable Type Inference) is not a special word due to legacy reasons, first appeared in Java 10.
 
 ## Operators
 
 | Operator                        | Example(s)                                                           | Order Of         |
-|---------------------------------|----------------------------------------------------------------------|-------------------|
+|---------------------------------|----------------------------------------------------------------------|------------------|
 | Post-unary operator             | `a++`, `a--`                                                         | Left-to-Right    |
 | Pre-unary operator              | `++a`, `--a`                                                         | Left-to-Right    |
 | Other unary operators           | `-`, `!`, `~`, `+`, `(type)`                                         | Right-to-Left    |
@@ -105,7 +106,7 @@
 | Conditional AND                 | `&&`                                                                 | Left-to-Right    |
 | Conditional OR                  | `\|\|`                                                               | Left-to-Right    |
 | Ternary operator                | `expr ? a : b`                                                       | Right-to-Left    |
-| Assignment operators            | `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `\|=`, `<<=`, `>>=`, `>>>=` | Right-to-Left |
+| Assignment operators            | `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `\|=`, `<<=`, `>>=`, `>>>=` | Right-to-Left    |
 | Arrow operator                  | `->`                                                                 | Right-to-Left    |
 
 ### Unary Operators
@@ -117,13 +118,13 @@
 
 ### Method References
 
-| Lambda Expression                   | Method Reference          |
-|-------------------------------------|---------------------------|
-| `s -> System.out.println(s)`        | `System.out::println`     |
-| `(a, b) -> Math.min(a, b)`          | `Math::min`               |
-| `t -> Gravity.freeFall(t)`          | `Gravity::freeFall`       |
-| `() -> s.isEmpty()`                 | `s::isEmpty`              |
-| `s -> s.isBlank()`                  | `String::isEmpty`         |
+| Lambda Expression               | Method Reference      |
+|---------------------------------|-----------------------|
+| `s -> System.out.println(s)`    | `System.out::println` |
+| `(a, b) -> Math.min(a, b)`      | `Math::min`           |
+| `t -> Gravity.freeFall(t)`      | `Gravity::freeFall`   |
+| `() -> s.isEmpty()`             | `s::isEmpty`          |
+| `s -> s.isBlank()`              | `String::isEmpty`     |
 
 ### Functional References
 
@@ -141,27 +142,27 @@
 
 ### Common Functional Interfaces for Primitives
 
-| Functional Interface       | Return Type | Abstract Method Signature                  |
-|----------------------------|-------------|--------------------------------------------|
-| BoolSupplier               | boolean     | `getAsBoolean()`                           |
-| DoubleSupplier             | double      | `getAsDouble()`                            |
-| IntSupplier                | int         | `getAsInt()`                               |
-| LongSupplier               | long        | `getAsLong()`                              |
-| DoubleConsumer             | void        | `accept(double a)`                         |
-| IntConsumer                | void        | `accept(int a)`                            |
-| LongConsumer               | void        | `accept(long a)`                           |
-| DoublePredicate            | boolean     | `test(double a)`                           |
-| IntPredicate               | boolean     | `test(int a)`                              |
-| LongPredicate              | boolean     | `test(long v)`                             |
-| DoubleFunction<R>          | R           | `apply(double value)`                      |
-| IntFunction<R>             | R           | `apply(int value)`                         |
-| LongFunction<R>            | R           | `apply(long value)`                        |
-| DoubleUnaryOperator        | double      | `applyAsDouble(double value)`              |
-| IntUnaryOperator           | int         | `applyAsInt(int value)`                    |
-| LongUnaryOperator          | long        | `applyAsLong(long value)`                  |
-| DoubleBinaryOperator       | double      | `applyAsDouble(double v, double w)`        |
-| IntBinaryOperator          | int         | `applyAsInt(int v, int w)`                 |
-| LongBinaryOperator         | long        | `applyAsLong(long v, long w)`              |
+| Functional Interface   | Return Type | Abstract Method Signature              |
+|------------------------|-------------|----------------------------------------|
+| BoolSupplier           | boolean     | `getAsBoolean()`                       |
+| DoubleSupplier         | double      | `getAsDouble()`                        |
+| IntSupplier            | int         | `getAsInt()`                           |
+| LongSupplier           | long        | `getAsLong()`                          |
+| DoubleConsumer         | void        | `accept(double a)`                     |
+| IntConsumer            | void        | `accept(int a)`                        |
+| LongConsumer           | void        | `accept(long a)`                       |
+| DoublePredicate        | boolean     | `test(double a)`                       |
+| IntPredicate           | boolean     | `test(int a)`                          |
+| LongPredicate          | boolean     | `test(long v)`                         |
+| DoubleFunction<R>      | R           | `apply(double value)`                  |
+| IntFunction<R>         | R           | `apply(int value)`                     |
+| LongFunction<R>        | R           | `apply(long value)`                    |
+| DoubleUnaryOperator    | double      | `applyAsDouble(double value)`          |
+| IntUnaryOperator       | int         | `applyAsInt(int value)`                |
+| LongUnaryOperator      | long        | `applyAsLong(long value)`              |
+| DoubleBinaryOperator   | double      | `applyAsDouble(double v, double w)`    |
+| IntBinaryOperator      | int         | `applyAsInt(int v, int w)`             |
+| LongBinaryOperator     | long        | `applyAsLong(long v, long w)`          |
 
 ### Primitive Specific Functional Interfaces
 
@@ -217,18 +218,18 @@
 
 ## Compare Compares
 
-| Difference                         | `Comparable`          | `Comparator`      |
-|------------------------------------|-----------------------|-------------------|
-| Package name                       | `java.lang`           | `java.util`       |
-| Must be implemented by a class     | YES                   | NO                |
-| Method name                        | `compareTo()`         | `compare()`       |
-| Number of method parameters        | 1                     | 2                 |
-| Used with lambda                   | NO                    | YES               |
+| Difference                     | `Comparable`      | `Comparator`  |
+|--------------------------------|-------------------|---------------|
+| Package name                   | `java.lang`       | `java.util`   |
+| Must be implemented by a class | YES               | NO            |
+| Method name                    | `compareTo()`     | `compare()`   |
+| Number of method parameters    | 1                 | 2             |
+| Used with lambda               | NO                | YES           |
 
 ## Notes
 - float x = 2.7 // does not compile! needs 'f' at the end
 - bit size of boolean is not specified, depends on the machine
-- LVTI
+- LVTI (Local Variable Type Inference)
 
 ## Shortcuts
 - Ctrl + Shift + / => Comment out multiple lines
@@ -236,12 +237,12 @@
 - Ctrl + Shift + R => Replace
 - Alt + Shift + Up/Down Arrow => Move line up / down
 - Hold Alt and drag down/up => Write on multiple lines
+- Ctrl + Shift + [+] / Ctrl + Shift + [-] => Expand / Collapse methods in a class
+- Ctrl + Alt + L => Format a file
 
 ## Questions
-- Shortcut for formatting a file
-- Shortcut for opening and closing methods
-- Is there something like section in C#?
 
 ## Links
 - https://www.jetbrains.com/idea/download/other.html
 - https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+- https://docs.oracle.com/en/java/javase/17/
