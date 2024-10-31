@@ -16,6 +16,8 @@
   - [Functional References](#functional-references)
   - [Common Functional Interfaces for Primitives](#common-functional-interfaces-for-primitives)
   - [Primitive Specific Functional Interfaces](#primitive-specific-functional-interfaces)
+- [Collections](#collections)
+  - [Map Methods](#map-methods)
 - [Notes](#notes)
 - [Links](#links)
 
@@ -179,6 +181,39 @@
 | ObjDoubleConsumer<T>       | void        | `accept(T t, double v)`                      |
 | ObjIntConsumer<T>          | void        | `accept(T t, int v)`                         |
 | ObjLongConsumer<T>         | void        | `accept(T t, long v)`                        |
+
+## Collections
+
+| Collection Interface  | Sub-Interface    | Implementing Classes                    | Notes                                                        |
+|-----------------------|------------------|-----------------------------------------|--------------------------------------------------------------|
+| `Collection`          | `List`           | `ArrayList`, `LinkedList`               | `List` maintains order and allows duplicates                 |
+|                       | `Set`            | `HashSet`, `TreeSet`                    | `Set` enforces unique elements                               |
+|                       | `Queue`          | `LinkedList`, `PriorityQueue`           | `Queue` typically follows FIFO                               |
+|                       | `Deque`          | `ArrayDeque`, `LinkedList`              | `Deque` supports FIFO and LIFO operations                    |
+| `Map`                 | -                | `HashMap`, `TreeMap`, `LinkedHashMap`   | `Map` stores key-value pairs, doesn’t implement `Collection` |
+
+### Map Methods
+
+| Method                                          | Explanation                                                                       |
+|-------------------------------------------------|-----------------------------------------------------------------------------------|
+| `clear()`                                       | Clears the map                                                                    |
+| `containsKey(Object key)`                       | Checks if the key is in the map                                                   |
+| `containsValue(Object value)`                   | Checks if the value is in the map                                                 |
+| `entrySet()`                                    | Returns `Set` of key/value pairs                                                  |
+| `forEach()`                                     | Loops through key/value pairs                                                     |
+| `get(Object key)`                               | Returns value mapped with key, or `null` if none exists                           |
+| `getOrDefault(Object key, V defaultValue)`      | Same as `get`, but returns `defaultValue` if key doesn't exist                    |
+| `isEmpty()`                                     | Checks if map is empty                                                            |
+| `keySet()`                                      | Returns `Set` of all keys                                                         |
+| `merge(K key, V value, BiFunction<V,V,V> func)` | Sets value if key doesn't exist, or applies `func` to existing value              |
+| `put(K key, V value)`                           | Adds or replaces key/value pair, returns previous value or `null`                 |
+| `putIfAbsent(K key, V value)`                   | Adds value if key is not present, returns `null` if added                         |
+| `remove(Object key)`                            | Removes and returns value mapped to key, or `null` if none exists                 |
+| `replace(K key, V value)`                       | Replaces value for given key if key is set, returns original value or `null`      |
+| `replaceAll(BiFunction<K,V,V> func)`            | Replaces each value with results of function                                      |
+| `size()`                                        | Returns number of key/value pairs in the map                                      |
+| `values()`                                      | Returns collection of values                                                      |
+
 
 ## Notes
 - float x = 2.7 // does not compile! needs 'f' at the end

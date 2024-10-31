@@ -2,6 +2,7 @@
 // import java.util.*       /* OK */
 // import java.util.*.*     /* ⚠️ NOK - Does not compile like this with 2 wildcards */
 import ClassDesign.*;       /* .* is 'wildcard' */
+import Collections.ElCollectore;
 import DataTypes.*;
 import FlowControl.FlowController;
 import FunctionalProgramming.ElPredicatore;
@@ -500,7 +501,35 @@ public class JavaApp {
 
         System.out.println("========== S11: Functional Interfaces for Primitives [OCP]  ==========");
 
+        /*
+        List implements Collection
+            ArrayList implements List
+        Set implements Collection
+            HashSet and TreeSet implement Set
+        Queue (Deque) implements Collection
+            Deque implements Queue
+            LinkedList implements Queue and List
+        Map DOES NOT implement Collection
+            HashMap and TreeMap implement Map interface
+         */
 
+        ElCollectore myCollectore = new ElCollectore();
+
+        myCollectore.playWithCommonCollectionMethods();
+
+        myCollectore.playWithLists();
+        myCollectore.playWithListMethods();
+        myCollectore.playWithRemovingFromIntegersList();
+
+        myCollectore.playWithSets();
+
+        myCollectore.playWithQueues();
+        myCollectore.playWithDequeuesAsStack();
+        myCollectore.playWithDequeuesAsDoubleEndedQueues();
+
+        myCollectore.playWithMaps();
+
+        myCollectore.playWithSorting();
 
         System.out.println("=============== S12: Collections [OCA, OCP] ===============");
 

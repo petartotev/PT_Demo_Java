@@ -10,8 +10,8 @@ public class ArrayCharles {
         int[] nums3 = new int[] { 3, -1 ,17 };
 
         // print array
-        System.out.println(nums3);
-        System.out.println(Arrays.toString(nums3));
+        System.out.println(nums3); /* [I@20ad9418 */
+        System.out.println(Arrays.toString(nums3)); /* [3, -1, 17] */
         // length of array
         System.out.println(nums3.length);
 
