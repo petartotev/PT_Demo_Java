@@ -19,6 +19,8 @@
 - [Collections](#collections)
   - [Map Methods](#map-methods)
   - [Compare Compares](#compare-compares)
+- [Exceptions](#exceptions]
+  - [Unchecked Exceptions](#unchecked-exceptions)
 - [Notes](#notes)
 - [Links](#links)
 
@@ -225,6 +227,19 @@
 | Method name                    | `compareTo()`     | `compare()`   |
 | Number of method parameters    | 1                 | 2             |
 | Used with lambda               | NO                | YES           |
+
+## Exceptions
+
+### Unchecked Exceptions
+
+| Type                           | Description                                                                                                  |
+|--------------------------------|--------------------------------------------------------------------------------------------------------------|
+| ArithmeticException            | Thrown when code tries to divide by 0.                                                                       |
+| ArrayIndexOutOfBoundsException | Thrown when code uses an illegal index to access an array element.                                          |
+| ClassCastException             | Thrown when code tries to cast an object to a class of which it is not an instance.                         |
+| NullPointerException           | Thrown when there is a null reference where an object is required.                                          |
+| IllegalArgumentException       | Thrown by a programmer to indicate that an illegal or inappropriate argument has been passed to a method.   |
+| NumberFormatException          | A subclass of IllegalArgumentException, thrown when a String is converted to a numeric type but is in an inappropriate format. |
 
 ## Notes
 - float x = 2.7 // does not compile! needs 'f' at the end
