@@ -4,16 +4,21 @@
 import ClassDesign.*;       /* .* is 'wildcard' */
 import Collections.ElCollectore;
 import DataTypes.*;
+import Exceptional.Door;
+import Exceptional.Exceptionalissimo;
+import Exceptional.MyFileClass;
 import FlowControl.FlowController;
 import FunctionalProgramming.ElPredicatore;
 import Operators.SmoothOperator;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.*;
 import java.util.function.*;
 
 // 💡 Class JavaApp is initialized automatically, as main() method is inside the class.
 public class JavaApp {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("=============== UDEMY.COM Java Certificate Prep: OCA (1Z0-808) & OCP (1Z0-829, 1Z0-830) by Luka Popov ===============");
 
         System.out.println("==================== S1: Introduction ===============");
@@ -501,6 +506,8 @@ public class JavaApp {
 
         System.out.println("========== S11: Functional Interfaces for Primitives [OCP]  ==========");
 
+        System.out.println("=============== S12: Collections [OCA, OCP] ===============");
+
         /*
         List implements Collection
             ArrayList implements List
@@ -531,14 +538,128 @@ public class JavaApp {
 
         myCollectore.playWithSorting();
 
-        System.out.println("=============== S12: Collections [OCA, OCP] ===============");
-
-
         System.out.println("=============== S13: Exceptions [OCA, OCP] ===============");
 
+        /*
+        Exceptions occur when something goes wrong during runtime:
+        - divide by 0
+        - fetch non-existing index
+        - open non-existing file
+         */
+
+        /*
+        java.lang.Throwable
+        - java.lang.Error (unchecked ⚠️)
+        - java.lang.Exception
+            - java.lang.RuntimeException (unchecked ⚠️) - does not inherit from Exception!
+                - java.lang.ArithmeticException
+                - java.lang.ArrayIndexOutOfBoundsException
+                - java.lang.NullPointerException
+                - java.lang.ClassCastException
+                - java.lang.NumberFormatException
+            - java.lang.
+            IOException
+                - java.io.IOException
+                - java.io.FileNotFoundException
+            - other exceptions
+        */
+
+        Exceptionalissimo ex = new Exceptionalissimo();
+        //ex.readFirstByteFromFileDoesNotCompile(new File("file.txt")); // IOException
+        //ex.readFirstByteFromFileWithThrows(new File("file.txt")); // IOException
+        //ex.readFirstByteFromFileHandleException(new File("file.txt")); // IOException
+
+        int[] a = {1, 2, 3};
+        //ex.printFourthElementNotHandled(a); // ArrayIndexOutOfBoundsException
+        //ex.printFourthElementHandled(a);
+
+        //ex.manuallyThrowExceptionIfGreaterThanEight(9); // IllegalArgumentException
+
+        /*
+        Unchecked Exceptions
+        */
+
+        //ex.catchMultipleExceptionsSubclasses(new File("file.txt")); // IOException
+        //ex.catchMultipleExceptionsNotSubclasses(new File("file.txt")); // IOException
+        //ex.catchMultipleExceptionsNotSubclassesCoolerWay(new File("file.txt")); // IOException
+
+       /*
+       Resource Management
+       - any external data sources (file, database etc.) referred to resource
+       - dealing with resource requires 3 steps:
+       1. opening resource
+       2. using resource
+       3. closing resource
+       */
+
+        //ex.useResourceManagementManual("file.txt");
+        //ex.useResourceManagementAutomatic("file.txt");
+
+        try (MyFileClass bookReader = new MyFileClass(1);
+             MyFileClass movieReader = new MyFileClass(2)) {
+            System.out.println("try block");
+            throw new RuntimeException();
+        } catch (Exception e) {
+            System.out.println("catch block");
+        } finally {
+            System.out.println("finally block");
+        }
+
+        /*
+        Output:
+        try block
+        closing MyFileClass #2
+        closing MyFileClass #1
+        catch block
+        finally block
+         */
+
+        try (Door d = new Door()) {
+            throw new IllegalStateException("Something is wrong!");
+        } catch (IllegalStateException e) {
+            System.out.println("Caught: " + e.getMessage());
+            for (Throwable t : e.getSuppressed())
+                System.out.println("Suppressed: " + t.getMessage());
+        }
+
+        /*
+        Output:
+        Caught: Something is wrong
+        Suppressed: Door does not close
+         */
 
         System.out.println("=============== S14: Math APIs [OCP] ===============");
 
+        // min(), max()
+        int aaa = Math.max(3, 11);
+        int bbb = Math.min(2, -4);
+
+        long aaaa = 5;
+        int bbbb = 3;
+        // int cccc = Math.max(aaaa, bbbb); DOES NOT COMPILE
+        int dddd = (int) Math.max(aaaa, bbbb);
+
+        // round()
+        // if parameter is float, returns int
+        // if parameter is double, returns long
+        double ddddd = 2.56;
+        long aaaaa = Math.round(ddddd);
+        //int bbbbb = Math.round(ddddd); /* DOES NOT COMPILE */
+        int c = (int) Math.round(ddddd);
+
+        // ceil(), floor()
+        // take any number, returns double
+        double r = Math.ceil(2.45); // 3.0
+        double p = Math.floor(2.45); // 2.0
+        double q = Math.floor(2.99); // 2.0
+
+        // exponents: pow()
+        // take any number, returns double
+        double pp = Math.pow(2, 5); // 32
+        double qq = Math.pow(25, 0.5); // 5
+
+        // random numbers
+        double ran = Math.random(); // between 0 and 1, not included
 
         System.out.println("=============== S15: Beyond Classes [OCP] ===============");
 
