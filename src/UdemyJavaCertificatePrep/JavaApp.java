@@ -1,6 +1,7 @@
 // import java.util.Random; /* OK */
 // import java.util.*       /* OK */
 // import java.util.*.*     /* ⚠️ NOK - Does not compile like this with 2 wildcards */
+import BeyondClasses.*;
 import ClassDesign.*;       /* .* is 'wildcard' */
 import Collections.ElCollectore;
 import DataTypes.*;
@@ -129,7 +130,7 @@ public class JavaApp {
 
         System.out.println("=============== S9: Class Design [OCA, OCP] ===============");
 
-        Classy myCLassy = new Classy();
+        Classy myClassy = new Classy();
 
         /*
         Class Modifiers:
@@ -663,6 +664,213 @@ public class JavaApp {
 
         System.out.println("=============== S15: Beyond Classes [OCP] ===============");
 
+        System.out.println("========== S15: Enums ==========");
+        /*
+        Enum (enumeration) is a fixed set of constants.
+        Enum provides type-safe checking - impossible to create an invalid enum value.
+        Enums - seasons, compass directions, days of the week, deck of cards
+         */
+
+        // Simple Enums (no constructors, methods etc.)
+        Compass N = Compass.NORTH;
+        Compass S = Compass.valueOf("SOUTH"); /* alternative, but not usual */
+        System.out.println(N);
+        System.out.println(S);
+        System.out.println(N == S);
+        System.out.println(N == Compass.NORTH);
+
+        // Compass.values() - returns array of values
+        // direction.ordinal() - ordinal number of value
+        // direction.name() - name of a value
+        for (var direction : Compass.values()) {
+            System.out.println(direction.ordinal() + " : " + direction.name());
+        }
+
+        // Enums used in a switch:
+        Compass NO = Compass.NORTH;
+        switch (NO) {
+            //case Compass.NORTH -> ... /* ⚠️ wrong syntax! */
+            //case 1 -> ...             /* ⚠️ wrong syntax! */
+            case NORTH -> System.out.println("Heading North!");
+            case SOUTH -> System.out.println("Heading South!");
+            default -> System.out.println("Get back!");
+        }
+
+        // Enums can have Constructor and Instance Method(s):
+        CompassWithCtor.NORTH.printInstruction();
+        // 1. 💡 Constructors are called for each enum - 4 invocations, only once!
+        // 2. Instruction "Up" is printed using printInstruction().
+
+        // Enums can implement Abstract Methods:
+        System.out.println(CompassAbstract.SOUTH.getDirection());
+        System.out.println(CompassNotAbstract.SOUTH.getDirection());
+        System.out.println(CompassNotAbstract.SOUTH.getDirection());
+
+        // Enums can implement Interfaces
+        System.out.println(CompassWithInterface.NORTH.getPlanetName()); /* Earth */
+
+        System.out.println("========== S15: Sealed Classes ==========");
+
+        /*
+        Used to restrict other classes to directly extend your class.
+        New keywords: sealed, non-sealed, permits
+        Sealed classes must be declared in the same package as its direct subclasses.
+        Every listed subclass must extend the sealed class:
+        - final, sealed, non-sealed
+
+        Automobile
+
+         */
+
+        /*
+        Interfaces can also be made sealed!
+        Fish
+            Eats
+            ClownFish
+            Shark
+         */
+
+        System.out.println("========== S15: Records ==========");
+
+        /*
+        Encapsulated classes, but without boilerplate code.
+        Encapsulation is secured.
+        Constructor, getters, toString(), equals(), hashCode() are generated automatically.
+        Records cannot have explicit instance fields.
+        Records can have static fields and methods.
+        Records can have instance methods.
+         */
+
+        PupilEncapsulated pe = new PupilEncapsulated("Petar", "Totev", 1);
+        System.out.println(pe.getFirstName() + " " + pe.getLastName() + "; id: " + pe.getId());
+        System.out.println(pe);
+
+        PupilRecord pr = new PupilRecord("Petar", "Totev", 2);
+        System.out.println(pr);
+
+        // ❓ Canonical constructor
+        // ❓ Compact constructor - without initializing field:
+        // public Student { if (id < 10 || id > 1_000_000) throw new IllegalArgumentException(); }
+        // TODO
+
+        System.out.println("========== S15: Nested Classes ==========");
+
+        /*
+        ☁ Nested Class = class defined within another class.
+        1. INNER CLASS - non-static, defined at the member level of class.
+        - can have access modifier (private, protected...)
+        - can extend another class or implement interfaces
+        - can be marked abstract or final
+        - can access all members of the enclosing class (including private members!)
+        2. STATIC NESTED CLASS - static type, defined at the member level of a class.
+        3. LOCAL CLASS - a class defined within a method body.
+        4. ANONYMOUS CLASS - local class which doesn't have a name.
+         */
+
+        System.out.println("===== S15: Inner Class =====");
+
+        // Inner class:
+        Classifier myClassifier = new Classifier();
+        myClassifier.printTwice();
+
+        A myA = new A();
+        // Execute myA.main()!
+
+        System.out.println("===== S15: Static Nested Class =====");
+
+        /*
+        Can't access instance variables or methods declared in the outer class.
+        Don't need an instance of the wider class to access it.
+        Can be marked private or protected.
+         */
+        State myState = new State();
+
+        System.out.println("===== S15: Local Class =====");
+
+        /*
+        Nested class defined within the method.
+        Don't have access modifiers.
+        Can be declared abstract or final.
+        Can access all members of the enclosing class.
+        Can access final and effectively final local variables.
+         */
+        PrintArea myArea = new PrintArea();
+        myArea.calculateArea();
+
+        System.out.println("===== S15: Anonymous Class =====");
+
+        /*
+        Special type of local class, but without a name.
+        Cannot exist by itself, but must extend an existing class or implement an existing interface.
+         */
+        Store myStore = new Store();
+        myStore.newPrice(123);
+
+        ExamTrick myExamTrick = new ExamTrick();
+
+        System.out.println("========== S15: Polymorphism ==========");
+
+        /*
+        Property of the object to take many different forms (poly = many, morph = form)
+        To access a Java object, we have to have a reference pointing to that object.
+        There are 3 ways to access the Java object:
+        - using reference with the same type as the object
+        - using reference that is superclass of the object
+        - using interface reference
+         */
+
+        PolyShihTzu myShihTzu = new PolyShihTzu(); /* create a reference using the same type as object */
+        System.out.println(myShihTzu.weight); /* 6 */
+
+        PolyDog myDog = myShihTzu; /* create a second reference using superclass type */
+        System.out.println(myDog.canRun()); /* true */
+
+        PolyCanRun myPolyCanRun = myShihTzu; /* creating a reference using interface type */
+        System.out.println(myPolyCanRun.canRunFast()); /* false */
+
+        // NOTE: Only one object is created here (ShihTzu)!
+
+        // Once you create a new reference, only the members of that reference type are accessible via that reference (!!)
+
+        PolyCanRun canRun = new PolyShihTzu(); // reference canRun points to ShihTzu object -> OK
+        // System.out.println(canRun.weight); // does not compile!
+
+        PolyDog doggy = new PolyShihTzu(); // reference dog points to ShihTzu object -> OK
+        // System.out.println(doggy.weight); // does not compile!
+        // System.out.println(doggy.canRunFast()); // does not compile!
+
+        PolyShihTzu shihTzuu = new PolyShihTzu();
+        System.out.println(shihTzuu.weight);
+        System.out.println(shihTzuu.canRunFast());
+
+        /*
+        Object vs. Reference
+        1. The type of the object determines which properties exist within the object in memory.
+        2. The type of the reference to the object determines which methods and variables are accessible to the Java program.
+
+        Reference                   Object in memory (ShihTzu)
+        [ shihTzu ] --------------> | weight = 6            |
+        [   dog   ] --------------> | canRun()              |
+        [ canRun  ] --------------> | canRunFast()          |
+         */
+
+        System.out.println("===== S15: Casting =====");
+
+        PolyShihTzu shihTzu3 = new PolyShihTzu();
+        PolyDog polyDog3 = shihTzu3; /* implicit casting to a supertype, OK */
+
+        PolyShihTzu shihTzu4 = (PolyShihTzu) polyDog3; /* explicit cast to subtype, OK */
+
+        // PolyShihTzu shihTzu5 = polyDog3; /* ClassCastException - you cannot put larger in smaller without the explicit cast */
+
+        PolyDog myPolyDog6 = new PolyDog();
+        //Ford myFord = (Ford) myPolyDog6; /* DOES NOT COMPILE! */
+
+        // TODO: Overriding methods...
+
+        // You can always limit polymorphism by making methods final, in which case they can't be overridden in a subclass.
+        // Static methods cannot be overridden...
+        // Final/static methods only hide the methods.
 
         System.out.println("=============== S16: Streams [OCP] ===============");
 
