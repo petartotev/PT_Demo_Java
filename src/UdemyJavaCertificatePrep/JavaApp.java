@@ -4,6 +4,8 @@
 import BeyondClasses.*;
 import ClassDesign.*;       /* .* is 'wildcard' */
 import Collections.ElCollectore;
+import Concurrancies.MyRunnableClass;
+import Concurrancies.MyThreadClass;
 import DataTypes.*;
 import Exceptional.Door;
 import Exceptional.Exceptionalissimo;
@@ -11,11 +13,19 @@ import Exceptional.MyFileClass;
 import FlowControl.FlowController;
 import FunctionalProgramming.ElPredicatore;
 import Operators.SmoothOperator;
+import Streams.Optionalles;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.function.*;
+import java.util.stream.Stream;
 
 // 💡 Class JavaApp is initialized automatically, as main() method is inside the class.
 public class JavaApp {
@@ -874,15 +884,431 @@ public class JavaApp {
 
         System.out.println("=============== S16: Streams [OCP] ===============");
 
+        System.out.println("========== S16: Optionals ==========");
+
+        /*
+        Optional - container object that is used to contain values.
+        Like a box - either empty or containing objects.
+        Optional object itself (box itself) is never null.
+        There are methods to deal with the optional values without explicit null checks.
+        Otherwise => NullPointerException.
+         */
+
+        Optional<Double> optional1 = Optionalles.average(10, 20, 30);
+        System.out.println(optional1); /* Optional[20.0] */
+        System.out.println(optional1.isPresent());
+
+        Optional<Double> optional2 = Optionalles.average();
+        System.out.println(optional2); /* Optional.empty */
+        System.out.println(optional2.isPresent());
+        //System.out.println(optional2.get()); /* 'Optional.get()' without 'isPresent()' check! => ⚠️⚠️⚠️ NoSuchElementException: No value present */
+
+        // Good practice:
+        // Optional myOptional = (value == null) ? Optional.empty() : Optional.of(value)
+        //Double vals = LocalTime.now().getMinute() % 2 == 0 ? Double.valueOf(24) : Double.valueOf(null);
+        Double vals = Double.valueOf(24);
+        Optional myNullableOptional = Optional.ofNullable(vals);
+        System.out.println("myNullableOptional: " + myNullableOptional);
+
+        Optional<Double> optional3 = Optionalles.average(15);
+        if (optional3.isPresent()) {
+            System.out.println(optional3.get());
+        }
+        /* or */
+        optional3.ifPresent(System.out::println);
+
+        Optional<Double> myOptional = Optionalles.average();
+        System.out.println(myOptional.orElse(Double.NaN)); /* NaN */
+        System.out.println(myOptional.orElseGet(() -> Math.random())); /* must provide a Double (same type as Optional */
+
+        //System.out.println(myOptional.orElseThrow()); // NoSuchElementException
+        //System.out.println(myOptional.orElseThrow(() -> new IllegalStateException()));
+
+        System.out.println("========== S16: Pipelines ==========");
+
+        /*
+        Stream in Java is a sequence of data
+        Stream Pipeline is set of operations that run on the Stream
+        Pipeline ~ an assembly line in a factory.
+        - every line has a beginning (source)
+        - after that one by one element in the line is processed (intermediate operations)
+        - finally, we get the result (terminal operation)
+        Date in the stream is not generated up front
+        - rather, each element is created when needed -> lazy evaluation
+         */
+
+        /*
+        Stream Pipeline
+        1. Source - where the stream comes from (array of data)
+        2. Intermediate operations - transform the stream into another stream
+        - there can be many of these operations
+        - don't run until terminal operation runs (lazy evaluation)
+        3. Terminal Operation - produces a result, can be used once
+        - after terminal operation, stream is no longer valid
+
+         YOU CANNOT USE THE SAME STREAM TWICE
+         */
+
+        /*
+        Stream Pipeline Schema
+
+        [ Source ] -> [ Intermediate operations ] -> [ Terminal operation ]
+                      [   ][   ][     ][   ][   ]
+                              (optional)
+         */
+
+        System.out.println("========== S16: Creating Stream Source ==========");
+
+        // Creating finite streams
+        Stream<String> empty = Stream.empty();
+        Stream<Integer> singleElement = Stream.of(1);
+        Stream<Integer> fromArray = Stream.of(1, 2, 3);
+
+        // Converting Collection to Stream
+        var list = List.of("a", "b", "c");
+        Stream<String> fromList = list.stream();
+
+        // Parallel Stream (operations are done in parallel rather than in sequence
+        Stream<String> fromListParallel = list.parallelStream();
+
+        // Create infinite streams
+        Stream<Double> randoms = Stream.generate(Math::random);
+        Stream<Integer> oddNums = Stream.iterate(1, n -> n + 2);
+
+        // These streams are infinite, they generate values infinitely:
+        //randoms.forEach(System.out::println); /* will print until killed */
+
+        // Operations like limit() can turn infinite stream to finite one
+
+        // Create odd numbers, less than 50
+        Stream<Integer> oddNumsUnder50 = Stream.iterate(1, n -> n < 50, n -> n + 2);
+        oddNumsUnder50.forEach(System.out::println);
+
+        System.out.println("========== S16: Terminating Stream Source ==========");
+
+        // Counting
+        Stream<String> names = Stream.of("John", "George", "Ben");
+        System.out.println(names.count()); // 3
+
+        // For infinite streams, count() never terminates.
+
+        // If you invoke stream after being terminated:
+        // Exception in thread "main" java.lang.IllegalStateException: stream has already been operated upon or closed
+        //	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:229)
+        //	at java.base/java.util.stream.ReferencePipeline.reduce(ReferencePipeline.java:662)
+        //	at java.base/java.util.stream.ReferencePipeline.min(ReferencePipeline.java:703)
+
+        // Minimum / Maximum
+        Stream<String> names2 = Stream.of("John", "George", "Ben");
+        Optional<String> min = names2.min((s1, s2) -> s1.length() - s2.length());
+        min.ifPresent(System.out::println);
+
+        // Using with empty stream:
+        Optional<?> minEmpty = Stream.empty().min((s1, s2) -> 0);
+        System.out.println(minEmpty.isPresent()); /* false */
+
+        // These methods hang if applied to infinite stream.
+
+        // Find Value from Stream:
+        Stream<String> names3 = Stream.of("John", "George", "Ben");
+        Stream<String> inf = Stream.generate(() -> "Luke");
+
+        names3.findAny().ifPresent(System.out::println);
+        inf.findAny().ifPresent(System.out::println); /* Luke */ /* Terminates infinite stream */
+
+        // findFirst() always returns the first element
+
+        // matching
+        var myList = List.of("George", "21", "Ben");
+        Stream<String> inf2 = Stream.generate(() -> "Luke");
+        Predicate<String> ppp = s -> Character.isLetter(s.charAt(0));
+
+        System.out.println(myList.stream().anyMatch((ppp))); /* true */
+        System.out.println(myList.stream().allMatch((ppp))); /* false */
+        System.out.println(myList.stream().noneMatch((ppp))); /* false */
+        // Exception in thread "main" java.lang.IllegalStateException: stream has already been operated upon or closed
+        //	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:229)
+        //	at java.base/java.util.stream.ReferencePipeline.anyMatch(ReferencePipeline.java:632)
+        //	at JavaApp.main(JavaApp.java:1025)
+        // System.out.println(inf.anyMatch(ppp)); /* true */ /* Matching methods terminate infinite streams */
+
+        // iterating
+        Stream<String> names5 = Stream.of("John", "George", "Ben");
+        names5.forEach(System.out::println); /* JohnGeorgeBen */
+
+        // You cannot use traditional for loop on the Stream:
+        Stream<Integer> s = Stream.of(1,2,3);
+        //for (Integer i : s) { // DOES NOT COMPILE
+        //    // do something
+        //}
+        // Instead, use forEach() - not a loop, but rather a terminal operator for streams
+
+        // Reducing
+        // Usually starts with initial value and merge to the next value
+        var myArrayy = new String[] { "L", "u", "k", "e" };
+        var result = "";
+        for (var sss : myArrayy) result = result + sss; /* accumulator */
+        System.out.println(result); /* Luke */
+
+        // Same thing using Streams
+        Stream<String> myStreamy = Stream.of("L", "u", "k", "e");
+        String myName = myStreamy.reduce("", (sc, cs) -> sc + cs);
+        System.out.println(myName); /* Luke */
+
+        /* TODO */
+
+        System.out.println("========== S16: Using Intermediate Operations ==========");
+
+        /* TODO */
 
         System.out.println("=============== S17: Localization [OCP] ===============");
 
+        System.out.println("========== S17: Formatting Values ==========");
+
+        /*
+        Formatting Numbers
+        NumberFormat interface
+        public final String format(double number)
+        public final String format(long number)
+         */
+
+        double nummy = 12345.6789;
+        NumberFormat form1 = new DecimalFormat("###,###,###.0");
+        System.out.println(form1.format(nummy));
+        NumberFormat form2 = new DecimalFormat("000,000.000000");
+        System.out.println(form2.format(nummy));
+        NumberFormat form3 = new DecimalFormat("My Balance: $#,###,###.##");
+        System.out.println(form3.format(nummy));
+
+        // Formatting Dates and Times
+        /*
+        You can use predefined formats (ISO_LOCAL_DATE)
+         */
+
+        LocalDate date = LocalDate.of(2023, Month.SEPTEMBER, 14);
+        System.out.println(date.getDayOfWeek());
+        System.out.println(date.getMonth());
+        System.out.println(date.getYear());
+        System.out.println(date.getDayOfYear());
+
+        // Display standard formats
+        LocalDate datey = LocalDate.of(2023, Month.SEPTEMBER, 14);
+        LocalTime timey = LocalTime.of(9, 6, 24);
+        LocalDateTime dateTimey = LocalDateTime.of(datey, timey);
+
+        System.out.println(datey.format(DateTimeFormatter.ISO_LOCAL_DATE));             /* 2023-09-14 */
+        System.out.println(timey.format(DateTimeFormatter.ISO_LOCAL_TIME));             /* 09:06:24 */
+        System.out.println(dateTimey.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));    /* 2023-09-14T09:06:24 */
+
+        // Creating Custom Formats
+        var dtt = LocalDateTime.of(2022, Month.SEPTEMBER, 14, 19, 6, 14);
+
+        var f11 = DateTimeFormatter.ofPattern("dd.MM.yyyy.hh:mm:ss");
+        System.out.println(dtt.format(f11)); /* 14.09.2022.07:06:14 */
+
+        var f22 = DateTimeFormatter.ofPattern("MMM-dd-yy HH:mm:ss");
+        System.out.println(dtt.format(f22)); /* сеп-14-22 19:06:14 */
+
+        var f33 = DateTimeFormatter.ofPattern("MMMM-dd-yy hh:mm:ss a"); /* a = AM */
+        System.out.println(dtt.format(f33)); /* септември-14-22 07:06:14 сл.об. */
+        /* Alternative syntax! */
+        System.out.println(f33.format(dtt)); /* септември-14-22 07:06:14 сл.об. */
+
+        // Insert text values using single quotes:
+        var f44 = DateTimeFormatter.ofPattern("'Date:' dd.MM.yy 'Time:' hh:mm:ss");
+        System.out.println(f44.format(dtt)); /* Date: 14.09.22 Time: 07:06:14 */
+
+        var f55 = DateTimeFormatter.ofPattern("MMM-dd-yyyy 'at' hh'h'mm'm'ss's'");
+        System.out.println(f55.format(dtt)); /* сеп-14-2022 at 07h06m14s */
+
+        System.out.println("========== S17: Internationalization ==========");
+
+        System.out.println("===== S17: Locales =====");
+
+        /*
+        Localization - make program adaptable to multiple locations.
+        - translating string to different languages
+        - output dates in correct format
+        - output numbers in correct format
+         */
+
+        Locale myLocale = Locale.getDefault();
+        System.out.println(myLocale); /* en_GB = language_country */
+
+        /* language - mandatory, country - optional */
+        System.out.println(Locale.ITALIAN); /* it */
+        System.out.println(Locale.ITALY); /* it_IT */
+        System.out.println(new Locale("hi", "OK")); /* hi_OK */
+
+        // Create Local
+        Locale myLocaley = new Locale.Builder()
+                .setLanguage("en")
+                .setRegion("US") /* could be in any order */
+                .build();
+
+        Locale localeFrench = new Locale("fr");
+        Locale.setDefault(localeFrench);
+        System.out.println(Locale.getDefault());
+
+        System.out.println("===== S17: Localizing Numbers =====");
+
+        /*
+        Different countries have different conventions when it comes to numbers.
+        Localization can help to display the number in the appropriate locale format.
+        For this purpose, we use NumberFormat factory method.
+         */
+
+        // Formatting Numbers
+        double myNummy = 1234.568;
+
+        var us = NumberFormat.getInstance(Locale.US);
+        System.out.println(us.format(myNummy)); /* 1,234.568 */
+        var it = NumberFormat.getInstance(Locale.ITALY);
+        System.out.println(it.format(myNummy)); /* 1.234,568 */
+        var ca = NumberFormat.getInstance(Locale.CANADA_FRENCH);
+        System.out.println(ca.format(myNummy)); /* 1 234,568 */
+
+        // Formatting Currencies
+        double price = 12.3;
+
+        var ussy = NumberFormat.getCurrencyInstance(Locale.US);
+        System.out.println(ussy.format(price));
+        var uk = NumberFormat.getCurrencyInstance(Locale.UK);
+        System.out.println(uk.format(price));
+
+        // Formatting Percentages
+        double discount = 0.151;
+
+        var uspercent = NumberFormat.getPercentInstance(Locale.US);
+        System.out.println(uspercent.format(discount)); /* 15% */
+        var gerpercent = NumberFormat.getPercentInstance(Locale.GERMANY);
+        System.out.println(gerpercent.format(discount)); /* 15 % */
+
+        // Parsing Numbers
+        String myNumStr = "15.72";
+        var usns = NumberFormat.getInstance(Locale.US);
+        // System.out.println(usns.parse(myNumStr)); /* Java.Text.ParseException */
+
+        // Parsing Numbers with Currency
+
+        // using CompactNumberFormat (new in Java 17!)
+        int myNum = 8_765_432;
+        var us1 = NumberFormat.getCompactNumberInstance();
+
+        /* TODO */
+
+        var hr = new Locale("hr", "HR");
+        var priceHr = 4.32;
+
+        System.out.println(hr.getDisplayLanguage()); /* Croatian */
+        System.out.println(hr.getDisplayCountry()); /* Croatia */
+        System.out.println(NumberFormat.getCurrencyInstance(hr).format(priceHr));
+
+        System.out.println("========== S17: Resource Bundle ==========");
+
+        /*
+        Properties file which contains the locale-specific objects for the program.
+        Basically a map with keys and values.
+
+         */
+
+        /* TODO */
 
         System.out.println("=============== S18: Modules [OCP] ===============");
 
+        System.out.println("========== S18: Introduction to Modules ==========");
+
+        /*
+        Java Platform Module System (JPMS)
+        JAR Files
+        Make sure you have compatible versions of all libraries at runtime.
+
+        Benefits:
+        Better access control
+        Clearer dependency manager
+        Custom Java builds - choose which parts of JDK you need
+        Improved security
+        Improved performance
+
+        Module = folder on your computer which contains:
+        - a group of packages
+        - module-info.java file
+            - contents is called module declaration - defines dependencies
+         */
+
+        System.out.println("========== S18: Modular App ==========");
+
+        /* TODO */
+
+        System.out.println("========== S18: Compiling and Running Modules ==========");
+
+        /*
+        Compiling with javac:
+        Directory for class files   -d <dir>    n/a
+        Module path                 -p <path>   --module-path <path>
+
+        Running with java:
+        Module name                 -m <name>   --module <name>
+        Module path                 -p <path>   --module-path <path>
+         */
 
         System.out.println("=============== S19: Concurrency [OCP] ===============");
 
+        System.out.println("========== S19: Thread Concurrency ==========");
+
+        /*
+        Basic Terminology
+        - thread -
+        - process -
+        - shared environment -
+        - task - single unit of work performed by the thread
+            - implemented as a lambda expression in Java
+            - can complete multiple independent tasks
+        - shared memory
+        - thread concurrency
+        - content switch
+        - thread priority
+
+        Thread Concurrency
+        - property of executing multiple threads and processes at the same time
+        - number of threads CAN exceed number of CPUs - OS uses thread scheduler to determine which threads to execute.
+
+        Thread's Life Cycle
+        - after a thread is created it exists in 1 of 6 states:
+        NEW - created, but not started
+        RUNNABLE - running or able to be run
+        TERMINATED - task completed
+        BLOCKED - waiting to enter synchronized block
+        WAITING - waiting indefinitely until notified
+        TIMED_WAITING - waiting a specified time
+         */
+
+        /*
+        Concurrency
+        Create a thread
+        1. Extend Thread class
+        2. Implement Runnable interface
+        3. Implement Callable interface (requires ExecutedService)
+
+         */
+
+        MyThreadClass myThreadClass = new MyThreadClass();
+        // !!! Executed after printing the other chapters below (S20, S21, S22)
+        // We have implemented run() method, but we run start()
+        myThreadClass.start();
+        /* Thread 'Thread-0' is being executed... */
+
+        new Thread(new MyRunnableClass()).start();
+        /* Thread 'Thread-1' is being executed from MyRunnableClass. */
+
+        System.out.println("Thread '" + Thread.currentThread().getName() + "' is being executed");
+        /* Thread 'main' is being executed */
+
+        new Thread(() -> System.out.println("Thread '" + Thread.currentThread().getName() + "' is being executed using Lambda expression")).start();
+        /* Thread 'Thread-2' is being executed using Lambda expression */
+
+        // ACTION: Check SleepExample class!
+        // ACTION: Check SleepInterruptedExample class!
 
         System.out.println("=============== S20: I/O [OCP] ===============");
 

@@ -19,8 +19,17 @@
 - [Collections](#collections)
   - [Map Methods](#map-methods)
   - [Compare Compares](#compare-compares)
-- [Exceptions](#exceptions)
+- [S13 Exceptions](#exceptions)
   - [Unchecked Exceptions](#unchecked-exceptions)
+- [S16 Streams](#streams)
+  - [Optional](#optional)
+    - [Common Optional Instance Methods](#common-optional-instance-methods)
+  - [Stream Creation Methods](#stream-creation-methods)
+  - [Terminal Stream Operations](#stream-creation-methods)
+- [S17 Localization](#localization)
+  - [Commond Date Time Symbols](#common-date-time-symbols)
+- [S18 Modules](#modules)
+  - [module-info.java keywords](#module-infojava-keywords)
 - [Notes](#notes)
 - [Links](#links)
 
@@ -247,6 +256,87 @@
 | NullPointerException           | Thrown when there is a null reference where an object is required.                                          |
 | IllegalArgumentException       | Thrown by a programmer to indicate that an illegal or inappropriate argument has been passed to a method.   |
 | NumberFormatException          | A subclass of IllegalArgumentException, thrown when a String is converted to a numeric type but is in an inappropriate format. |
+
+## Streams
+
+### Optional
+
+#### Common Optional Instance Methods
+
+| Method                    | When Optional is empty               | When Optional Contains a value  |
+|---------------------------|--------------------------------------|---------------------------------|
+| `get()`                   | Throws exception                     | Returns value                   |
+| `ifPresent(Consumer c)`   | Does nothing                         | Calls Consumer with value       |
+| `isPresent()`             | Returns false                        | Returns true                    |
+| `orElse(T other)`         | Returns other                        | Returns value                   |
+| `orElseGet(Supplier s)`   | Returns result of Supplier           | Returns value                   |
+| `orElseThrow()`           | Throws NoSuchElementException        | Returns value                   |
+| `orElseThrow(Supplier s)` | Throws exception in Supplier         | Returns value                   |
+
+### Stream Creation Methods
+
+| Method                                      | Finite? | Description                                                                 |
+|---------------------------------------------|---------|-----------------------------------------------------------------------------|
+| `Stream.empty()`                            | Yes     | Creates a Stream with zero elements                                         |
+| `Stream.of(varargs)`                        | Yes     | Creates a Stream with elements listed in varargs                            |
+| `coll.stream()`                             | Yes     | Creates a Stream from a Collection                                          |
+| `coll.parallelStream()`                     | Yes     | Creates a parallel Stream from a Collection                                 |
+| `Stream.generate(supplier)`                 | No      | Creates a Stream by calling the Supplier for each element upon request      |
+| `Stream.iterate(seed, unaryOperator)`       | No      | Creates a Stream using a seed for the first element, then applies the UnaryOperator for subsequent elements |
+| `Stream.iterate(seed, predicate, unaryOperator)` | Depends | Same as before, but stops if the Predicate returns false                    |
+
+### Terminal Stream Operations
+
+| Method                                      | When Applied on Infinite Stream | Return Value   | Reduction |
+|---------------------------------------------|---------------------------------|----------------|-----------|
+| `count()`                                   | Does not terminate              | `long`         | Yes       |
+| `min()` / `max()`                           | Does not terminate              | `Optional<T>`  | Yes       |
+| `findAny()` / `findFirst()`                 | Terminates                      | `Optional<T>`  | No        |
+| `allMatch()` / `anyMatch()` / `noneMatch()` | Sometimes terminates            | `boolean`      | No        |
+| `forEach()`                                 | Does not terminate              | `void`         | No        |
+| `reduce()`                                  | Does not terminate              | values         | Yes       |
+| `collect()`                                 | Does not terminate              | varies         | Yes       |
+
+## Localization
+
+### Common Date Time Symbols
+
+| Symbols | Meaning             | Example                                |
+|---------|---------------------|----------------------------------------|
+| y       | Year                | 23, 2023                               |
+| M       | Month               | 2, 02, Feb, February                   |
+| d       | Day                 | 7, 07                                  |
+| h       | Hour                | 8, 08                                  |
+| m       | Minute              | 25                                     |
+| S       | Second              | 17                                     |
+| a       | a.m. / p.m.         | AM, PM                                 |
+| z       | Time zone name      | Central European Time, CET             |
+| Z       | Time zone offset    | -600                                   |
+
+### NumberFormat Factory Methods
+
+| Method                                                     | Description                                 |
+|------------------------------------------------------------|---------------------------------------------|
+| getInstance(), getInstance(Locale locale)                  | General Purpose Formatter                   |
+| getNumberInstance(), getNumberInstance(Locale locale)      | Same as getInstance                         |
+| getCurrencyInstance(), getCurrencyInstance(Locale locale)  | For formatting monetary amounts             |
+| getPercentInstance(), getPercentInstance(Locale locale)    | For formatting percentages                  |
+| getIntegerInstance(), getIntegerInstance(Locale locale)    | Rounds decimal numbers before displaying    |
+| getCompactNumberInstance(), getInstance(Locale l, Style s) | Returns compact number formatter            |
+
+## Modules
+
+### module-info.java keywords
+
+| Keyword                                  | Description                                                                                       |
+|------------------------------------------|---------------------------------------------------------------------------------------------------|
+| requires <module>                        | Module depends on the code in another module.                                                     |
+| requires transitive <module>             | If module A requires transitive module B, and module C requires module A, then C has access to B. |
+| opens <package> to <module>              | Makes named package accessible to the named module at runtime.                                    |
+| exports <package>                        | Public members of the named package are accessible to other modules.                              |
+| uses <service>                           | The module uses a service (interface) which can be implemented elsewhere.                         |
+| provides <service> with <implementation> | Module provides a concrete implementation of a service (interface).                               |
+
 
 ## Notes
 - float x = 2.7 // does not compile! needs 'f' at the end
