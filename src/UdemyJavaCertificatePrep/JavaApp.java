@@ -15,7 +15,6 @@ import FunctionalProgramming.ElPredicatore;
 import Operators.SmoothOperator;
 import Streams.Optionalles;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -24,6 +23,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
 import java.util.stream.Stream;
 
@@ -1236,7 +1237,7 @@ public class JavaApp {
             - contents is called module declaration - defines dependencies
          */
 
-        System.out.println("========== S18: Modular App ==========");
+        System.out.println("========== S18: Designing Modular App ==========");
 
         /* TODO */
 
@@ -1251,6 +1252,14 @@ public class JavaApp {
         Module name                 -m <name>   --module <name>
         Module path                 -p <path>   --module-path <path>
          */
+
+        System.out.println("========== S18: Build-in Modules ==========");
+
+        System.out.println("========== S18: Command Line Operations ==========");
+
+        System.out.println("========== S18: Named, Automatic, Unnamed Modules ==========");
+
+        System.out.println("========== S18: Migration Strategies ==========");
 
         System.out.println("=============== S19: Concurrency [OCP] ===============");
 
@@ -1310,12 +1319,93 @@ public class JavaApp {
         // ACTION: Check SleepExample class!
         // ACTION: Check SleepInterruptedExample class!
 
+        System.out.println("========== S19: Creating a Thread (intro + examples) ==========");
+
+        System.out.println("========== S19: Using Concurrency API ==========");
+
+        /*
+        Concurrency API - import java.util.concurrent Package.
+        ExecutedService Interface:
+        - Defines services which create and manage threads.
+        - Includes features like pooling, thread scheduling etc.
+         */
+
+        // Single-thread executor
+        ExecutorService execService = Executors.newSingleThreadExecutor();
+        // Threads are executed one by one:
+        execService.execute(new Thread(() -> System.out.println("execService executes 1st thread!")));
+        execService.execute(new Thread(() -> System.out.println("execService executes 2nd thread!")));
+        execService.execute(new Thread(() -> System.out.println("execService executes 3rd thread!")));
+        execService.shutdown(); /* ⚠️ if omitted, program never ends! */
+
+        /*
+        Future<V> instance
+        There are 2 ways you can execute Runnable task
+        1. using execute(Runnable task) method
+        2. using submit(Runnable task) method - returns a value!
+        Value is instance of a special interface Future<V>.
+        Instance can be used to determine result of execution.
+         */
+
+        /*
+        TimeUnit.NANOSECONDS
+        TimeUnit.MICROSECONDS
+        TimeUnit.MILLISECONDS
+        TimeUnit.SECONDS
+        TimeUnit.MINUTES
+        TimeUnit.HOURS
+        TimeUnit.DAYS
+         */
+
+        ExecutorService execService2 = Executors.newSingleThreadExecutor();
+
+        AtomicInteger count = new AtomicInteger();
+        Future<?> resultFuture = execService2.submit(() -> {
+            for(int i = 0; i < 10_000_000; i++) count.getAndIncrement(); });
+
+        try {
+            var valuee = resultFuture.get(1, TimeUnit.MILLISECONDS);
+            if (valuee == null) System.out.println("Task completed.");
+        } catch (TimeoutException e) {
+            System.out.println("Task didn't complete in time.");
+        } catch ( InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        execService2.shutdown();
+
+        System.out.println("========== S19: Atomic Classes ==========");
+
+        System.out.println("========== S19: Synchronized Block ==========");
+
+        System.out.println("========== S19: Using CyclicBarrier ==========");
+
+        System.out.println("========== S19: Concurrent Collections ==========");
+
+        System.out.println("========== S19: Threading Problems ==========");
+
         System.out.println("=============== S20: I/O [OCP] ===============");
 
+        System.out.println("========== S20: Working with Files ==========");
+
+        System.out.println("========== S20: Console Class ==========");
+
+        System.out.println("========== S20: Serialization ==========");
 
         System.out.println("=============== S21: JBDC [OCP] ===============");
 
+        System.out.println("========== S21: Introduction to JDBC ==========");
+
+        System.out.println("========== S21: Connecting to a Database ==========");
+
+        System.out.println("========== S21: Using PreparedStatement ==========");
+
+        System.out.println("========== S21: Using CallableStatement ==========");
+
+        System.out.println("========== S21: Resource Leaks ==========");
 
         System.out.println("=============== S22: Java 21 (1Z0-830 exam) ===============");
+
+        System.out.println("========== S22: Get Certified for Java SE 21 ==========");
     }
 }
