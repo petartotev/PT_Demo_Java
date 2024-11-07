@@ -16,6 +16,7 @@ import Operators.SmoothOperator;
 import Streams.Optionalles;
 
 import java.io.IOException;
+import java.sql.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.*;
@@ -23,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
@@ -1396,16 +1398,243 @@ public class JavaApp {
 
         System.out.println("========== S21: Introduction to JDBC ==========");
 
+        /*
+        JDBC = Java DataBase Connectivity
+        - Access data from Relational Database.
+        - Relational Databases organize data into tables consisting of rows and columns.
+
+        SQL = Structured Query Language
+        - Dialects of SQL - Postgres, MySQL, SQLite, Oracle SQL, Apache Derby etc.
+
+        4 types of Interaction (CRUD):
+        - CREATE (CREATE)
+        - READ (SELECT)
+        - UPDATE (UPDATE)
+        - DELETE (DELETE)
+
+         Import Package: java.sql.*
+         */
+
         System.out.println("========== S21: Connecting to a Database ==========");
+
+        /*
+        Simple JDBC URL:
+        jdbc:postgresql://localhost:5432/phonebook_db
+        jdbc:postgresql://127.0.0.1:5432/phonebook_db
+        protocol:subprotocol://subname:port/database-name
+
+        Advanced JDBC URL:
+        Can contain username, password, enable ssl encryption etc.
+        jdbc:postgresql://localhost/phonebook_db?user=petar?password=123?ssl=true
+         */
+
+        /*
+        🔴 ERROR: No suitable driver found for jdbc:postgresql://localhost:5432/phonebook_db?user=postgres?password=test1234
+        1. Download driver (e.g. postgresql-42.7.3.jar) from https://jdbc.postgresql.org/download/.
+        2. Move downloaded file to project directory.
+        3. Right click, choose 'Add as Library', select OK with default settings.
+        4. ✅ SUCCESS!
+         */
+
+        var myCarRandom = new Random();
+
+        String[] brands = {
+                "Toyota", "Ford", "Chevrolet", "Honda", "Nissan", "BMW", "Mercedes-Benz", "Volkswagen", "Audi", "Hyundai",
+                "Kia", "Subaru", "Mazda", "Jeep", "Tesla", "Lexus", "Volvo", "Jaguar", "Porsche", "Ferrari"
+        };
+
+        String[] models = {
+                "Corolla", "Mustang", "Camaro", "Civic", "Altima", "3 Series", "C-Class", "Golf", "A4", "Elantra",
+                "Sorento", "Forester", "CX-5", "Wrangler", "Model S", "RX", "XC90", "F-Type", "911", "488"
+        };
+
+        String url = "jdbc:postgresql://localhost:5432/postgres?user=postgres&password=test1234";
+
+        try (Connection connection = DriverManager.getConnection(url)) {
+            if (connection != null) {
+                System.out.println("Connected!");
+
+                // Step 1: Create a new table "Cars" if it does not exist
+                String createTableSQL = "CREATE TABLE IF NOT EXISTS Cars (" +
+                        "Brand VARCHAR(255), " +
+                        "Model VARCHAR(255), " +
+                        "Year INT)";
+                try (Statement statement = connection.createStatement()) {
+                    statement.execute(createTableSQL);
+                    System.out.println("Table 'Cars' created successfully (if not already existing).");
+
+                    // Step 2: Insert a new row into the "Cars" table
+                    String insertSQL = String.format(
+                            "INSERT INTO Cars (Brand, Model, Year) VALUES ('%s', '%s', '%d')",
+                            brands[myCarRandom.nextInt(0, brands.length)],
+                            models[myCarRandom.nextInt(0, models.length)],
+                            myCarRandom.nextInt(2000,2025));
+                    statement.executeUpdate(insertSQL);
+                    System.out.println("Inserted a new row into the 'Cars' table.");
+
+                    // Step 3: Select all records from the "Cars" table
+                    String selectSQL = "SELECT * FROM Cars";
+                    ResultSet resultSet = statement.executeQuery(selectSQL);
+
+                    // Print the results
+                    System.out.println("Cars table records:");
+                    while (resultSet.next()) {
+                        String brand = resultSet.getString("Brand");
+                        String model = resultSet.getString("Model");
+                        int year = resultSet.getInt("Year");
+                        System.out.println("Brand: " + brand + ", Model: " + model + ", Year: " + year);
+                    }
+                }
+            } else {
+                System.out.println("Failed connection!");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
 
         System.out.println("========== S21: Using PreparedStatement ==========");
 
+        /*
+        To get PreparedStatement objet, we have to use Connection object.
+        1. DriverManager -> Connection (using getConnection() method)
+        2. Connection -> PreparedStatement (using prepareStatement() method)
+        3. PreparedStatement -> Execute SQL Query
+         */
+
+        String urlPrepared = "jdbc:postgresql://localhost:5432/postgres?user=postgres&password=test1234";
+
+        String queryPrepared1 = "SELECT * FROM cars";
+
+        try (Connection connectionPrepared = DriverManager.getConnection(urlPrepared);
+            PreparedStatement ps = connectionPrepared.prepareStatement(queryPrepared1);
+            ResultSet rs = ps.executeQuery();) {
+            while (rs.next()) {
+                int year = rs.getInt("year");
+                String brand = rs.getString("brand");
+                String model = rs.getString("model");
+                System.out.println(brand + ", " + model + ", " + year);
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        /*
+        PreparedStatement Methods (CRUD operations):
+        SELECT:
+        ResultSet rs = ps.executeQuery();
+        INSERT, UPDATE, DELETE:
+        int rowsAffected = ps.executeUpdate();
+        SELECT, INSERT, UPDATE, DELETE (when not sure what operation is about to be executed):
+        boolean isResultSet = ps.execute();
+        true => ResultSet exists => call ps.getResultSet();
+        false => no ResultSet => call ps.executeUpdate()
+         */
+
+        String urlPreparedExample = "jdbc:postgresql://localhost:5432/postgres?user=postgres&password=test1234";
+
+        String queryPreparedExample = "INSERT INTO cars (brand, model, year) VALUES (?, ?, ?)";
+
+        String exampleBrand = brands[myCarRandom.nextInt(0, brands.length)];
+        String exampleModel = models[myCarRandom.nextInt(0, models.length)];
+        int exampleYear = myCarRandom.nextInt(2000, 2025);
+
+        try (Connection connectionPreparedExample = DriverManager.getConnection(urlPreparedExample);
+             PreparedStatement psExample = connectionPreparedExample.prepareStatement(queryPreparedExample)) {
+            psExample.setString(1, exampleBrand);
+            psExample.setString(2, exampleModel);
+            psExample.setInt(3, exampleYear);
+            int affectedRows = psExample.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("A new record was inserted successfully!\n" + "Brand: " + exampleBrand + ", Model: " + exampleModel + ", Year: " + exampleYear);
+            } else {
+                System.out.println("No record was created!");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
         System.out.println("========== S21: Using CallableStatement ==========");
+
+        /*
+        Stored Procedures - written in SQL.
+        CallableStatement allows you to make use of Stored Procedures.
+
+        Stored Procedures:
+        - no parameters
+        - IN - input parameters
+        - OUT - output parameter
+        - INOUT - a parameter that server for both input and output
+         */
+
+        // Using stored procedure read_phone_by_name(first_name) (IN parameter)
+
+        /*
+        String urlCallable = "jdbc:postgresql://localhost/phonebook_db";
+        String procedureCall = "{call read_phone_by_name(?)}";
+
+        try (Connection connCallable = DriverManager.getConnection(urlCallable);
+             CallableStatement cs = connCallable.prepareCall(procedureCall)) {
+            cs.setString(1, "John");
+            boolean hasResults = cs.execute();
+            if (hasResults) {
+                ResultSet rsCallable = cs.getResultSet();
+                while (rsCallable.next()) {
+                    System.out.println(rsCallable.getString("firstName") + ": " + rsCallable.getString("phone"));
+                }
+            } else {
+                System.out.println("No results!");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+         */
+
+        // Using stored procedure read_phone_by_name(first_name, phone) (IN, OUT)
+
+        /*
+        String urlCallable = "jdbc:postgresql://localhost/phonebook_db";
+        String procedureCall = "{call read_phone_by_name(?, ?)}";
+
+        try (Connection connCallable = DriverManager.getConnection(urlCallable);
+             CallableStatement cs = connCallable.prepareCall(procedureCall)) {
+            cs.setString(1, "John");
+            cs.registerOutParameter(2, Types.VARCHAR);
+            cs.execute();
+            String phone = cs.getString(2);
+            System.out.println("Phone number for John: " + phone);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+         */
 
         System.out.println("========== S21: Resource Leaks ==========");
 
-        System.out.println("=============== S22: Java 21 (1Z0-830 exam) ===============");
+        /*
+        Database resources are expensive and easily multiplied.
+        Important to close resources after operation is done!
+        Order is important:
+        1. ResultSet => rs.close();
+        2. PreparedStatement / CallableStatement => stmt.close();
+        3. Connection, e.g. conn.close();
 
+        GOOD PRACTICE: Use try-with-resources, but keep the order (reverse order from which they are initialized!
+        Check examples above - they are how things should be done!
+         */
+
+        System.out.println("=============== S22: Java 21 (1Z0-830 exam) ===============");
         System.out.println("========== S22: Get Certified for Java SE 21 ==========");
+
+        /*
+        Get Certified for Java SE 21
+        Since the release of Java SE 21 Developer Professional Certificate I highly recommend that you take 1Z0-830 (Java SE 21) exam instead of 1Z0-829 (Java SE 17).
+        There are several reason why you should do that:
+        It's always better to be certified in latest technology.
+        The exam is easier, since pass threshold is the same, but you get 30 minutes more on the exam!
+        The preparation is almost identical, if you are ready for Java 17, you'll be able to pass Java 21 with same knowledge.
+        You can find more information about recently released exam at the official Oracle website.
+        One additional thing you need to learn regarding Java SE 21 is dealing with virtual threads.
+        If you understand how threads work in previous versions of Java, this should be an easy read: Virtual Threads.
+        ...and you are ready to go! Good luck!
+         */
     }
 }

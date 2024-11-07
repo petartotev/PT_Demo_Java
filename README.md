@@ -30,6 +30,8 @@
   - [Commond Date Time Symbols](#common-date-time-symbols)
 - [S18 Modules](#modules)
   - [module-info.java keywords](#module-infojava-keywords)
+- [S19 Concurrency](#concurrency)
+  - [Future\<V\> Interface Methods](#futurev-interface-methods)
 - [Notes](#notes)
 - [Links](#links)
 
@@ -336,6 +338,18 @@
 | exports <package>                        | Public members of the named package are accessible to other modules.                              |
 | uses <service>                           | The module uses a service (interface) which can be implemented elsewhere.                         |
 | provides <service> with <implementation> | Module provides a concrete implementation of a service (interface).                               |
+
+## Concurrency
+
+### Future\<V\> Interface Methods
+
+| Method                                           | Description                                                                                      |
+|--------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| `boolean isDone()`                               | Returns `true` if the task was completed, threw an exception, or was canceled.                   |
+| `boolean isCanceled()`                           | Returns `true` if the task was canceled before completing normally.                              |
+| `boolean cancel(boolean mayInterruptIfRunning)`  | Attempts to cancel the task execution. Returns `true` if the task was successfully canceled.     |
+| `V get()`                                        | Retrieves the result of the task.                                                               |
+| `V get(long timeout, TimeUnit unit)`             | Retrieves the task result, waiting up to the specified time. Throws `TimeoutException` if not ready. |
 
 
 ## Notes
