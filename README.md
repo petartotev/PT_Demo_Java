@@ -41,7 +41,7 @@
 
 # Setup
 1. Install IntelliJ IDEA Community (ideaIC-2024.2.4.exe) from https://www.jetbrains.com/idea/download/other.html
-2. Open Existing Project (⚠️ Does not compile! Java JDK missing!)
+2. Open Existing Project (🔴 ERROR: Does not compile! Java JDK missing!)
 3. Install JDK 17 Java Development Kit (jdk-17.0.12_windows-x64_bin) from https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
 4. Go to Project > Structure > Choose Java 17 JDK:
 ![Project Structure](./res/Project-Structure_SDK-Java-17.png)
