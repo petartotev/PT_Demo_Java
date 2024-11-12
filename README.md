@@ -94,7 +94,7 @@
 # Course Contents
 
 S01: Introduction  
-\1. Introduction  
+.1. Introduction  
 
 S02: Building Blocks [OCA, OCP]  
 2. The Environment [OCA]  
