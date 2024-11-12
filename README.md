@@ -93,154 +93,154 @@
 
 # Course Contents
 
-S01: Introduction
-1. Introduction
+S01: Introduction  
+1. Introduction  
 
-S02: Building Blocks [OCA, OCP]
-2. The Environment [OCA]
-3. Class Structure [OCA]
-4. The main() method [OCA]
-5. Packages [OCA]
-6. Compile, Run and Archive [OCA]
-7. Objects [OCA]
-8. Data Types [OCA]
-9. Text Blocks [OCP]
-10. Variables [OCA]
-11. Local Variable Type Inference (LVTI) [OCP]
-12. Garbage Collector [OCA]
+S02: Building Blocks [OCA, OCP]  
+2. The Environment [OCA]  
+3. Class Structure [OCA]  
+4. The main() method [OCA]  
+5. Packages [OCA]  
+6. Compile, Run and Archive [OCA]  
+7. Objects [OCA]  
+8. Data Types [OCA]  
+9. Text Blocks [OCP]  
+10. Variables [OCA]  
+11. Local Variable Type Inference (LVTI) [OCP]  
+12. Garbage Collector [OCA]  
 
-S03: Operators [OCA, OCP]
-13. Operators in Java [OCA]
-14. Unary Operators [OCA]
-15. Binary Operators [OCA]
-16. Assignment Operator [OCA]
-17. Comparison Operators [OCA]
+S03: Operators [OCA, OCP]  
+13. Operators in Java [OCA]  
+14. Unary Operators [OCA]  
+15. Binary Operators [OCA]  
+16. Assignment Operator [OCA]  
+17. Comparison Operators [OCA]  
 
-S04: Flow Control [OCA, OCP]
-18. If-Else Statement [OCA]
-19. Switch Statement [OCA]
-20. Switch Expression [OCP]
-21. While Loop [OCA]
-22. Do/While Loop [OCA]
-23. For Loop [OCA]
-24. For-Each Loop [OCA]
+S04: Flow Control [OCA, OCP]  
+18. If-Else Statement [OCA]  
+19. Switch Statement [OCA]  
+20. Switch Expression [OCP]  
+21. While Loop [OCA]  
+22. Do/While Loop [OCA]  
+23. For Loop [OCA]  
+24. For-Each Loop [OCA]  
 
-S05: Strings [OCA, OCP]
-25. String Methods [OCA]
-26. StringBuilder [OCA]
-27. String Pool [OCA]
+S05: Strings [OCA, OCP]  
+25. String Methods [OCA]  
+26. StringBuilder [OCA]  
+27. String Pool [OCA]  
 
-S06: Arrays [OCA, OCP]
-28. Creating an Array [OCA]
-29. Sorting, Searching & Comparing Arrays [OCA]
-30. Multidimensional Arrays [OCA]
+S06: Arrays [OCA, OCP]  
+28. Creating an Array [OCA]  
+29. Sorting, Searching & Comparing Arrays [OCA]  
+30. Multidimensional Arrays [OCA]  
 
-S07: Date and Time [OCA, OCP]
-31. Creating Dates and Times [OCA]
-32. Methods on Dates and Times [OCA]
-33. Period, Duration, Instant [OCA]
+S07: Date and Time [OCA, OCP]  
+31. Creating Dates and Times [OCA]  
+32. Methods on Dates and Times [OCA]  
+33. Period, Duration, Instant [OCA]  
 
-S08: Methods [OCA, OCP]
-34. Defining Methods [OCA]
-35. Local and Instance Variables [OCA]
-36. Variable Arguments (Varargs) [OCA]
-37. Access Modifiers [OCA]
-38. Static Members [OCA]
-39. Boxing and Unboxing [OCA]
-40. Overloading Methods [OCA]
+S08: Methods [OCA, OCP]  
+34. Defining Methods [OCA]  
+35. Local and Instance Variables [OCA]  
+36. Variable Arguments (Varargs) [OCA]  
+37. Access Modifiers [OCA]  
+38. Static Members [OCA]  
+39. Boxing and Unboxing [OCA]  
+40. Overloading Methods [OCA]  
 
-S09: Class Design [OCA, OCP]
-41. Inheritance [OCA]
-42. Creating Classes [OCA]
-43. Creating Constructors [OCA]
-44. Using this() and super() [OCA]
-45. Initializing Objects [OCA]
-46. Inheriting Members [OCA]
+S09: Class Design [OCA, OCP]  
+41. Inheritance [OCA]  
+42. Creating Classes [OCA]  
+43. Creating Constructors [OCA]  
+44. Using this() and super() [OCA]  
+45. Initializing Objects [OCA]  
+46. Inheriting Members [OCA]  
 
-S10: Abstract Classes & Interfaces [OCA, OCP]
-47. Abstract Classes [OCA]
-48. Interfaces [OCA]
+S10: Abstract Classes & Interfaces [OCA, OCP]  
+47. Abstract Classes [OCA]  
+48. Interfaces [OCA]  
 
-S11: Lambdas & Functional Programming [OCA, OCP]
-49. Functional Interfaces and Lambdas [OCA]
-50. Using Predicate with Lambda [OCA]
-51. Method References [OCP]
-52. Built-in Functional Interfaces [OCP]
-53. Combining Implementations [OCP]
-54. Functional Interfaces for Primitives [OCP]
+S11: Lambdas & Functional Programming [OCA, OCP]  
+49. Functional Interfaces and Lambdas [OCA]  
+50. Using Predicate with Lambda [OCA]  
+51. Method References [OCP]  
+52. Built-in Functional Interfaces [OCP]  
+53. Combining Implementations [OCP]  
+54. Functional Interfaces for Primitives [OCP]  
 
-S12: Collections [OCA, OCP]
-55. Common Collection Methods [OCA]
-56. List Interface [OCA]
-57. Set Interface [OCP]
-58. Queue Interface [OCP]
-59. Deque Interface [OCP]
-60. Map Interface [OCP]
-61. Sorting Data [OCP]
+S12: Collections [OCA, OCP]  
+55. Common Collection Methods [OCA]  
+56. List Interface [OCA]  
+57. Set Interface [OCP]  
+58. Queue Interface [OCP]  
+59. Deque Interface [OCP]  
+60. Map Interface [OCP]  
+61. Sorting Data [OCP]  
 
-S13: Exceptions [OCA, OCP]
-62. Understanding and Handling Exceptions [OCA]
-63. Try-with-resources [OCP]
+S13: Exceptions [OCA, OCP]  
+62. Understanding and Handling Exceptions [OCA]  
+63. Try-with-resources [OCP]  
 
-S14: Math APIs [OCP]
-64. Math API Methods
+S14: Math APIs [OCP]  
+64. Math API Methods  
 
-S15: Beyond Classes [OCP]
-65. Enums
-66. Sealed Classes
-67. Records
-68. Nested Classes
-69. Polymorphism
+S15: Beyond Classes [OCP]  
+65. Enums  
+66. Sealed Classes  
+67. Records  
+68. Nested Classes  
+69. Polymorphism  
 
-S16: Streams [OCP]
-70. Using Optional
-71. Understanding Pipeline
-72. Creating Stream Source
-73. Terminating the Stream
-74. Using Intermediate Operations
-75. Putting The Pipeline Together
-76. Primitive Streams
-77. Spliterator
-78. Collecting results
+S16: Streams [OCP]  
+70. Using Optional  
+71. Understanding Pipeline  
+72. Creating Stream Source  
+73. Terminating the Stream  
+74. Using Intermediate Operations  
+75. Putting The Pipeline Together  
+76. Primitive Streams  
+77. Spliterator  
+78. Collecting results  
 
-S17: Localization [OCP]
-79. Formatting Values
-80. Internationalization
-81. Resource Bundles
+S17: Localization [OCP]  
+79. Formatting Values  
+80. Internationalization  
+81. Resource Bundles  
 
-S18: Modules [OCP]
-82. Introduction to Modules
-83. Designing Modular App
-84. Compiling and Running Modular App
-85. Build-in Modules
-86. Command Line Operations
-87. Named, Automatic and Unnamed Modules
-88. Migration Strategies
+S18: Modules [OCP]  
+82. Introduction to Modules  
+83. Designing Modular App  
+84. Compiling and Running Modular App  
+85. Build-in Modules  
+86. Command Line Operations  
+87. Named, Automatic and Unnamed Modules  
+88. Migration Strategies  
 
-S19: Concurrency [OCP]
-89. Thread Concurrency
-90. Creating a Thread (intro)
-91. Creating a Thread (examples)
-92. Using Concurrency API
-93. Atomic Classes
-94. Synchronized Block
-95. Using CyclicBarrier
-96. Concurrent Collections
-97. Threading Problems
+S19: Concurrency [OCP]  
+89. Thread Concurrency  
+90. Creating a Thread (intro)  
+91. Creating a Thread (examples)  
+92. Using Concurrency API  
+93. Atomic Classes  
+94. Synchronized Block  
+95. Using CyclicBarrier  
+96. Concurrent Collections  
+97. Threading Problems  
 
-S20: I/O [OCP]
-98. Working With Files
-99. Console Class
-100. Serialization
+S20: I/O [OCP]  
+98. Working With Files  
+99. Console Class  
+100. Serialization  
 
-S21: JDBC [OCP]
-101. Introduction to JDBC
-102. Connecting to a Database
-103. Using PreparedStatement
-104. Using CallableStatement
-105. Resource Leaks
-S22: Java 21 (1Z0-830 exam)
-106. Get Certified for Java SE 21
+S21: JDBC [OCP]  
+101. Introduction to JDBC  
+102. Connecting to a Database  
+103. Using PreparedStatement  
+104. Using CallableStatement  
+105. Resource Leaks  
+S22: Java 21 (1Z0-830 exam)  
+106. Get Certified for Java SE 21  
 
 ## Data Types
 
