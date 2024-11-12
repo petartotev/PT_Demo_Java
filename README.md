@@ -239,6 +239,7 @@ S21: JDBC [OCP]
 103. Using PreparedStatement  
 104. Using CallableStatement  
 105. Resource Leaks  
+
 S22: Java 21 (1Z0-830 exam)  
 106. Get Certified for Java SE 21  
 
