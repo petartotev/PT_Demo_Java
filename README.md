@@ -1,43 +1,45 @@
 # PT_Demo_Java
 
-## Contents
+# Contents
 - [Setup](#setup)
 - [C# vs. Java](#c-vs-java)
-- [Data Types](#data-types)
-- [Wrapper Classes](#wrapper-classes)
-- [Special Words](#special-words)
-- [Operators](#operators)
-  - [Unary Operators](#unary-operators)
-  - [Binary Operators](#binary-operators)
-  - [Assignment Operators](#assignment-operators)
-  - [Comparison Operators](#comparison-operators)
-- [Lambdas and Functional Programming](#lambdas-and-functional-programming)
-  - [Method References](#method-references)
-  - [Functional References](#functional-references)
-  - [Common Functional Interfaces for Primitives](#common-functional-interfaces-for-primitives)
-  - [Primitive Specific Functional Interfaces](#primitive-specific-functional-interfaces)
-- [Collections](#collections)
-  - [Map Methods](#map-methods)
-  - [Compare Compares](#compare-compares)
-- [S13 Exceptions](#exceptions)
-  - [Unchecked Exceptions](#unchecked-exceptions)
-- [S16 Streams](#streams)
-  - [Optional](#optional)
-    - [Common Optional Instance Methods](#common-optional-instance-methods)
-  - [Stream Creation Methods](#stream-creation-methods)
-  - [Terminal Stream Operations](#stream-creation-methods)
-- [S17 Localization](#localization)
-  - [Commond Date Time Symbols](#common-date-time-symbols)
-- [S18 Modules](#modules)
-  - [module-info.java keywords](#module-infojava-keywords)
-- [S19 Concurrency](#concurrency)
-  - [Future\<V\> Interface Methods](#futurev-interface-methods)
 - [Notes](#notes)
 - [Shortcuts](#shortcuts)
 - [Questions](#questions)
 - [Links](#links)
+- [Course Contents](#course-contents)
+  - [Data Types](#data-types)
+  - [Wrapper Classes](#wrapper-classes)
+  - [Special Words](#special-words)
+  - [Operators](#operators)
+    - [Unary Operators](#unary-operators)
+    - [Binary Operators](#binary-operators)
+    - [Assignment Operators](#assignment-operators)
+    - [Comparison Operators](#comparison-operators)
+  - [Lambdas and Functional Programming](#lambdas-and-functional-programming)
+    - [Method References](#method-references)
+    - [Functional References](#functional-references)
+    - [Common Functional Interfaces for Primitives](#common-functional-interfaces-for-primitives)
+    - [Primitive Specific Functional Interfaces](#primitive-specific-functional-interfaces)
+  - [Collections](#collections)
+    - [Map Methods](#map-methods)
+    - [Compare Compares](#compare-compares)
+  - [S13 Exceptions](#exceptions)
+    - [Unchecked Exceptions](#unchecked-exceptions)
+  - [S16 Streams](#streams)
+    - [Optional](#optional)
+      - [Common Optional Instance Methods](#common-optional-instance-methods)
+    - [Stream Creation Methods](#stream-creation-methods)
+    - [Terminal Stream Operations](#stream-creation-methods)
+  - [S17 Localization](#localization)
+    - [Commond Date Time Symbols](#common-date-time-symbols)
+    - [NumberFormat Factory Methods](#numberformat-factory-methods)
+  - [S18 Modules](#modules)
+    - [module-info.java keywords](#module-infojava-keywords)
+  - [S19 Concurrency](#concurrency)
+    - [Future\<V\> Interface Methods](#futurev-interface-methods)
 
-## Setup
+# Setup
 1. Install IntelliJ IDEA Community (ideaIC-2024.2.4.exe) from https://www.jetbrains.com/idea/download/other.html
 2. Open Existing Project (⚠️ Does not compile! Java JDK missing!)
 3. Install JDK 17 Java Development Kit (jdk-17.0.12_windows-x64_bin) from https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
@@ -48,7 +50,7 @@
 6. Right click on any directory > Mark Directory As > Sources Root:
 ![Sources Root](./res/Sources-Root.png)
 
- ## C# vs. Java
+# C# vs. Java
 | Feature                               | C#                             | Java                                 |  |
 |---------------------------------------|--------------------------------|--------------------------------------|--|
 | Variable Naming                       | energyField // camelCase       | energyField // camelCase             |  |
@@ -65,6 +67,159 @@
 | Foreach Loops                         | foreach (var car in Cars) { }  | for (String car : cars) { }          |  |
 | Base keyword                          | base.name                      | super.name                           |  |
 | Region                                | #region //smth #endregion      | // <editor-fold desc="Section Name"> |🙁|
+
+# Notes
+- float x = 2.7 // does not compile! needs 'f' at the end
+- bit size of boolean is not specified, depends on the machine
+- LVTI (Local Variable Type Inference)
+
+# Shortcuts
+| Shortcut                    | Description                               |
+|-----------------------------|-------------------------------------------|
+| Ctrl + Shift + /            | Comment out multiple lines                |
+| Ctrl + Shift + [+/-]        | Expand / Collapse methods in a class      |
+| Ctrl + D                    | Duplicate single line (Ctrl+C and Ctrl+V) |
+| Ctrl + Shift + R            | Replace                                   |
+| Ctrl + Alt + L              | Format a file                             |
+| Alt + Shift + Up/Down Arrow | Move line up / down                       |
+| Hold Alt and drag down/up   | Write on multiple lines                   |
+
+# Questions
+
+# Links
+- https://www.jetbrains.com/idea/download/other.html
+- https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+- https://docs.oracle.com/en/java/javase/17/
+
+# Course Contents
+S01: Introduction
+- 1. Introduction
+S02: Building Blocks [OCA, OCP]
+- 2. The Environment [OCA]
+- 3. Class Structure [OCA]
+- 4. The main() method [OCA]
+- 5. Packages [OCA]
+- 6. Compile, Run and Archive [OCA]
+- 7. Objects [OCA]
+- 8. Data Types [OCA]
+- 9. Text Blocks [OCP]
+- 10. Variables [OCA]
+- 11. Local Variable Type Inference (LVTI) [OCP]
+- 12. Garbage Collector [OCA]
+S03: Operators [OCA, OCP]
+- 13. Operators in Java [OCA]
+- 14. Unary Operators [OCA]
+- 15. Binary Operators [OCA]
+- 16. Assignment Operator [OCA]
+- 17. Comparison Operators [OCA]
+S04: Flow Control [OCA, OCP]
+- 18. If-Else Statement [OCA]
+- 19. Switch Statement [OCA]
+- 20. Switch Expression [OCP]
+- 21. While Loop [OCA]
+- 22. Do/While Loop [OCA]
+- 23. For Loop [OCA]
+- 24. For-Each Loop [OCA]
+S05: Strings [OCA, OCP]
+- 25. String Methods [OCA]
+- 26. StringBuilder [OCA]
+- 27. String Pool [OCA]
+S06: Arrays [OCA, OCP]
+- 28. Creating an Array [OCA]
+- 29. Sorting, Searching & Comparing Arrays [OCA]
+- 30. Multidimensional Arrays [OCA]
+S07: Date and Time [OCA, OCP]
+- 31. Creating Dates and Times [OCA]
+- 32. Methods on Dates and Times [OCA]
+- 33. Period, Duration, Instant [OCA]
+S08: Methods [OCA, OCP]
+- 34. Defining Methods [OCA]
+- 35. Local and Instance Variables [OCA]
+- 36. Variable Arguments (Varargs) [OCA]
+- 37. Access Modifiers [OCA]
+- 38. Static Members [OCA]
+- 39. Boxing and Unboxing [OCA]
+- 40. Overloading Methods [OCA]
+S09: Class Design [OCA, OCP]
+- 41. Inheritance [OCA]
+- 42. Creating Classes [OCA]
+- 43. Creating Constructors [OCA]
+- 44. Using this() and super() [OCA]
+- 45. Initializing Objects [OCA]
+- 46. Inheriting Members [OCA]
+S10: Abstract Classes & Interfaces [OCA, OCP]
+- 47. Abstract Classes [OCA]
+- 48. Interfaces [OCA]
+S11: Lambdas & Functional Programming [OCA, OCP]
+- 49. Functional Interfaces and Lambdas [OCA]
+- 50. Using Predicate with Lambda [OCA]
+- 51. Method References [OCP]
+- 52. Built-in Functional Interfaces [OCP]
+- 53. Combining Implementations [OCP]
+- 54. Functional Interfaces for Primitives [OCP]
+S12: Collections [OCA, OCP]
+- 55. Common Collection Methods [OCA]
+- 56. List Interface [OCA]
+- 57. Set Interface [OCP]
+- 58. Queue Interface [OCP]
+- 59. Deque Interface [OCP]
+- 60. Map Interface [OCP]
+- 61. Sorting Data [OCP]
+S13: Exceptions [OCA, OCP]
+- 62. Understanding and Handling Exceptions [OCA]
+- 63. Try-with-resources [OCP]
+S14: Math APIs [OCP]
+- 64. Math API Methods
+S15: Beyond Classes [OCP]
+- 65. Enums
+- 66. Sealed Classes
+- 67. Records
+- 68. Nested Classes
+- 69. Polymorphism
+S16: Streams [OCP]
+- 70. Using Optional
+- 71. Understanding Pipeline
+- 72. Creating Stream Source
+- 73. Terminating the Stream
+- 74. Using Intermediate Operations
+- 75. Putting The Pipeline Together
+- 76. Primitive Streams
+- 77. Spliterator
+- 78. Collecting results
+S17: Localization [OCP]
+- 79. Formatting Values
+- 80. Internationalization
+- 81. Resource Bundles
+S18: Modules [OCP]
+- 82. Introduction to Modules
+- 83. Designing Modular App
+- 84. Compiling and Running Modular App
+- 85. Build-in Modules
+- 86. Command Line Operations
+- 87. Named, Automatic and Unnamed Modules
+- 88. Migration Strategies
+S19: Concurrency [OCP]
+- 89. Thread Concurrency
+- 90. Creating a Thread (intro)
+- 91. Creating a Thread (examples)
+- 92. Using Concurrency API
+- 93. Atomic Classes
+- 94. Synchronized Block
+- 95. Using CyclicBarrier
+- 96. Concurrent Collections
+- 97. Threading Problems
+S20: I/O [OCP]
+- 98. Working With Files
+- 99. Console Class
+- 100. Serialization
+S21: JDBC [OCP]
+- 101. Introduction to JDBC
+- 102. Connecting to a Database
+- 103. Using PreparedStatement
+- 104. Using CallableStatement
+- 105. Resource Leaks
+S22: Java 21 (1Z0-830 exam)
+- 106. Get Certified for Java SE 21
 
 ## Data Types
 
@@ -238,7 +393,7 @@
 | `size()`                                        | Returns number of key/value pairs in the map                                      |
 | `values()`                                      | Returns collection of values                                                      |
 
-## Compare Compares
+### Compare Compares
 
 | Difference                     | `Comparable`      | `Comparator`  |
 |--------------------------------|-------------------|---------------|
@@ -353,26 +508,3 @@
 | `V get()`                                        | Retrieves the result of the task.                                                               |
 | `V get(long timeout, TimeUnit unit)`             | Retrieves the task result, waiting up to the specified time. Throws `TimeoutException` if not ready. |
 
-
-## Notes
-- float x = 2.7 // does not compile! needs 'f' at the end
-- bit size of boolean is not specified, depends on the machine
-- LVTI (Local Variable Type Inference)
-
-## Shortcuts
-| Shortcut                    | Description                               |
-|-----------------------------|-------------------------------------------|
-| Ctrl + Shift + /            | Comment out multiple lines                |
-| Ctrl + Shift + [+/-]        | Expand / Collapse methods in a class      |
-| Ctrl + D                    | Duplicate single line (Ctrl+C and Ctrl+V) |
-| Ctrl + Shift + R            | Replace                                   |
-| Ctrl + Alt + L              | Format a file                             |
-| Alt + Shift + Up/Down Arrow | Move line up / down                       |
-| Hold Alt and drag down/up   | Write on multiple lines                   |
-
-## Questions
-
-## Links
-- https://www.jetbrains.com/idea/download/other.html
-- https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
-- https://docs.oracle.com/en/java/javase/17/
