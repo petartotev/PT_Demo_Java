@@ -33,6 +33,8 @@
 - [S19 Concurrency](#concurrency)
   - [Future\<V\> Interface Methods](#futurev-interface-methods)
 - [Notes](#notes)
+- [Shortcuts](#shortcuts)
+- [Questions](#questions)
 - [Links](#links)
 
 ## Setup
