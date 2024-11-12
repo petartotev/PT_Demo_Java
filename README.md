@@ -8,35 +8,35 @@
 - [Questions](#questions)
 - [Links](#links)
 - [Course Contents](#course-contents)
-  - [Data Types](#data-types)
-  - [Wrapper Classes](#wrapper-classes)
-  - [Special Words](#special-words)
-  - [Operators](#operators)
+  - [S2: Data Types](#data-types)
+    - [Wrapper Classes](#wrapper-classes)
+    - [Special Words](#special-words)
+  - [S3: Operators](#operators)
     - [Unary Operators](#unary-operators)
     - [Binary Operators](#binary-operators)
     - [Assignment Operators](#assignment-operators)
     - [Comparison Operators](#comparison-operators)
-  - [Lambdas and Functional Programming](#lambdas-and-functional-programming)
+  - [S11: Lambdas and Functional Programming](#lambdas-and-functional-programming)
     - [Method References](#method-references)
     - [Functional References](#functional-references)
     - [Common Functional Interfaces for Primitives](#common-functional-interfaces-for-primitives)
     - [Primitive Specific Functional Interfaces](#primitive-specific-functional-interfaces)
-  - [Collections](#collections)
+  - [S12: Collections](#collections)
     - [Map Methods](#map-methods)
     - [Compare Compares](#compare-compares)
-  - [S13 Exceptions](#exceptions)
+  - [S13: Exceptions](#exceptions)
     - [Unchecked Exceptions](#unchecked-exceptions)
-  - [S16 Streams](#streams)
+  - [S16: Streams](#streams)
     - [Optional](#optional)
       - [Common Optional Instance Methods](#common-optional-instance-methods)
     - [Stream Creation Methods](#stream-creation-methods)
     - [Terminal Stream Operations](#terminal-stream-operations)
-  - [S17 Localization](#localization)
+  - [S17: Localization](#localization)
     - [Common Date Time Symbols](#common-date-time-symbols)
     - [NumberFormat Factory Methods](#numberformat-factory-methods)
-  - [S18 Modules](#modules)
+  - [S18: Modules](#modules)
     - [module-info.java keywords](#module-infojava-keywords)
-  - [S19 Concurrency](#concurrency)
+  - [S19: Concurrency](#concurrency)
     - [Future\<V\> Interface Methods](#futurev-interface-methods)
 
 # Setup
@@ -234,7 +234,7 @@ S22: Java 21 (1Z0-830 exam)
 | double  | `DoubleSupplier`  | 64-bit floating value | -             | -               | 0.0f    | 511.183   |
 | char    | `Character`       | 16-bit Unicode value  | 0             | 65,535          | \u0000  | 'c'       |
 
-## Wrapper Classes
+### Wrapper Classes
 
 | Primitive Type | Wrapper Class | Example                        |
 |----------------|---------------|--------------------------------|
@@ -247,7 +247,7 @@ S22: Java 21 (1Z0-830 exam)
 | double         | Double        | `Double.valueOf(12.0);`        |
 | char           | Character     | `Character.valueOf('c');`      |
 
-## Special Words
+### Special Words
 
 |            |              |           |            |        |
 |------------|--------------|-----------|------------|--------|
