@@ -358,13 +358,15 @@
 - LVTI (Local Variable Type Inference)
 
 ## Shortcuts
-- Ctrl + Shift + / => Comment out multiple lines
-- Ctrl + D => Duplicate a single line (Ctrl + C and Ctrl + V)
-- Ctrl + Shift + R => Replace
-- Alt + Shift + Up/Down Arrow => Move line up / down
-- Hold Alt and drag down/up => Write on multiple lines
-- Ctrl + Shift + [+] / Ctrl + Shift + [-] => Expand / Collapse methods in a class
-- Ctrl + Alt + L => Format a file
+| Shortcut                    | Description                               |
+|-----------------------------|-------------------------------------------|
+| Ctrl + Shift + /            | Comment out multiple lines                |
+| Ctrl + Shift + [+/-]        | Expand / Collapse methods in a class      |
+| Ctrl + D                    | Duplicate single line (Ctrl+C and Ctrl+V) |
+| Ctrl + Shift + R            | Replace                                   |
+| Ctrl + Alt + L              | Format a file                             |
+| Alt + Shift + Up/Down Arrow | Move line up / down                       |
+| Hold Alt and drag down/up   | Write on multiple lines                   |
 
 ## Questions
 
