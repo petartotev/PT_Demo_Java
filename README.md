@@ -309,6 +309,17 @@ S22: Java 21 (1Z0-830 exam)
 | Arrow operator                  | `->`                                                                 | Right-to-Left    |
 
 ### Unary Operators
+
+| Operator             | Example       | Description                                                   |
+|----------------------|---------------|---------------------------------------------------------------|
+| Logical complement   | `!b`          | Inverts the boolean value (`true` to `false` and vice versa). |
+| Bitwise complement   | `~a`          | Inverts all bits in the integer.                              |
+| Plus                 | `+a`          | Represents the unary plus (no effect on the value).           |
+| Negation (minus)     | `-a`          | Negates the value, changing its sign.                         |
+| Increment            | `++a; a++`    | Increments the value by 1 (prefix or postfix).                |
+| Decrement            | `--a; a--`    | Decrements the value by 1 (prefix or postfix).                |
+| Cast                 | `(int)a`      | Converts the value to a specified type.                       |
+
 ### Binary Operators
 ### Assignment Operators
 ### Comparison Operators
