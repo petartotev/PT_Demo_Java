@@ -40,6 +40,9 @@
   - [S19: Concurrency](#concurrency)
     - [Future\<V\> Interface Methods](#futurev-interface-methods)
 
+# TODO
+1. Change images in Testing section (JUnit_Tests_Add_To_Library.png and JUnit_Plugin_Installed.png)
+
 # Setup
 1. Install IntelliJ IDEA Community (ideaIC-2024.2.4.exe) from https://www.jetbrains.com/idea/download/other.html
 2. Open Existing Project (🔴 ERROR: Does not compile! Java JDK missing!)
@@ -52,20 +55,22 @@
 ![Sources Root](./res/Sources-Root.png)
 
 # Testing
-1. Create new `UdemyJavaCertificatePrepTests` directory.
-2. Right-click on `UdemyJavaCertificatePrepTests` > Mark Directory As > **Test Resources Root**.
-3. Create new `FlowControllerTests` Java Class.
-4. Download the following jar files from [Maven Central Repository](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-api/versions):  
+1. Make sure you have `JUnit` plugin installed:
+![Sources Root](./res/Sources-Root.png)
+2. Create new `UdemyJavaCertificatePrepTests` directory.
+3. Right-click on `UdemyJavaCertificatePrepTests` > Mark Directory As > **Test Resources Root**.
+4. Create new `FlowControllerTests` Java Class.
+5. Download the following jar files from **Maven Central Repository**:  
 [junit-jupiter-api@5.11.3](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-api/versions)  
 [junit-jupiter-engine@5.11.3](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-engine/versions)  
 [junit-platform-commons@1.11.3](https://central.sonatype.com/artifact/org.junit.platform/junit-platform-commons/versions)  
 [junit-platform-engine@1.11.3](https://central.sonatype.com/artifact/org.junit.platform/junit-platform-engine/versions)  
-5. Copy-paste the jar files into `UdemyJavaCertificatePrepTests` directory.
-6. Right-click on each of these and choose "Add to Library".
-7. Go to File > Project Structure > Libraries > you can check your added libraries:
+6. Copy-paste the jar files into `UdemyJavaCertificatePrepTests` directory.
+7. Right-click on each of these and choose "Add to Library".
+8. Go to File > Project Structure > Libraries > you can check your added libraries:
 ![Sources Root](./res/Sources-Root.png)
-8. Implement `FlowControllerTests` using JUnit `@Test` annotations
-9. Run `FlowControllerTests`
+9. Implement `FlowControllerTests` using JUnit `@Test` annotations.
+10. Run `FlowControllerTests`.
 
 # C# vs. Java
 | Feature                               | C#                             | Java                                 |  |
