@@ -2,6 +2,7 @@
 
 # Contents
 - [Setup](#setup)
+- [Testing](#testing)
 - [C# vs. Java](#c-vs-java)
 - [Notes](#notes)
 - [Shortcuts](#shortcuts)
@@ -47,8 +48,23 @@
 ![Project Structure](./res/Project-Structure_SDK-Java-17.png)
 5. Go to Run > More Actions > Configure > Choose Arguments args[0] and args[1], separated by comma:
 ![Run Arguments](./res/Build-and-Run_Arguments.png)
-6. Right click on any directory > Mark Directory As > Sources Root:
+6. Right click on any directory > Mark Directory As > **Sources Root**:
 ![Sources Root](./res/Sources-Root.png)
+
+# Testing
+1. Create new `UdemyJavaCertificatePrepTests` directory.
+2. Right-click on `UdemyJavaCertificatePrepTests` > Mark Directory As > **Test Resources Root**.
+3. Create new `FlowControllerTests` Java Class.
+4. Download the following jar files from [Maven Central Repository](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-api/versions):
+[junit-jupiter-api@5.11.3](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-api/versions)
+[junit-jupiter-engine@5.11.3](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-engine/versions)
+[junit-platform-commons@1.11.3](https://central.sonatype.com/artifact/org.junit.platform/junit-platform-commons/versions)
+[junit-platform-engine@1.11.3](https://central.sonatype.com/artifact/org.junit.platform/junit-platform-engine/versions)
+5. Copy-paste the jar files into `UdemyJavaCertificatePrepTests` directory.
+6. Right-click on each of these and choose "Add to Library".
+7. Go to File > Project Structure > Libraries > you can check your added libraries
+8. Implement `FlowControllerTests` using JUnit `@Test` annotations
+9. Run `FlowControllerTests`
 
 # C# vs. Java
 | Feature                               | C#                             | Java                                 |  |
@@ -84,7 +100,7 @@
 | Alt + Shift + Up/Down Arrow | Move line up / down                       |
 | Hold Alt and drag down/up   | Write on multiple lines                   |
 | fori + tab                  | Automatically writes for (i = 0; i...     |
-| sout + tab                  |                                           |
+| sout + tab                  | Prints System.out.println();              |
 | soutp + tab                 | Prints method parameters                  |
 | soutv + tab                 | Prints variable's name and value          |
 
