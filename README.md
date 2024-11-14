@@ -55,14 +55,15 @@
 1. Create new `UdemyJavaCertificatePrepTests` directory.
 2. Right-click on `UdemyJavaCertificatePrepTests` > Mark Directory As > **Test Resources Root**.
 3. Create new `FlowControllerTests` Java Class.
-4. Download the following jar files from [Maven Central Repository](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-api/versions):
-[junit-jupiter-api@5.11.3](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-api/versions)
-[junit-jupiter-engine@5.11.3](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-engine/versions)
-[junit-platform-commons@1.11.3](https://central.sonatype.com/artifact/org.junit.platform/junit-platform-commons/versions)
-[junit-platform-engine@1.11.3](https://central.sonatype.com/artifact/org.junit.platform/junit-platform-engine/versions)
+4. Download the following jar files from [Maven Central Repository](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-api/versions):  
+[junit-jupiter-api@5.11.3](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-api/versions)  
+[junit-jupiter-engine@5.11.3](https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-engine/versions)  
+[junit-platform-commons@1.11.3](https://central.sonatype.com/artifact/org.junit.platform/junit-platform-commons/versions)  
+[junit-platform-engine@1.11.3](https://central.sonatype.com/artifact/org.junit.platform/junit-platform-engine/versions)  
 5. Copy-paste the jar files into `UdemyJavaCertificatePrepTests` directory.
 6. Right-click on each of these and choose "Add to Library".
-7. Go to File > Project Structure > Libraries > you can check your added libraries
+7. Go to File > Project Structure > Libraries > you can check your added libraries:
+![Sources Root](./res/Sources-Root.png)
 8. Implement `FlowControllerTests` using JUnit `@Test` annotations
 9. Run `FlowControllerTests`
 
