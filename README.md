@@ -83,6 +83,10 @@
 | Ctrl + Alt + L              | Format a file                             |
 | Alt + Shift + Up/Down Arrow | Move line up / down                       |
 | Hold Alt and drag down/up   | Write on multiple lines                   |
+| fori + tab                  | Automatically writes for (i = 0; i...     |
+| sout + tab                  |                                           |
+| soutp + tab                 | Prints method parameters                  |
+| soutv + tab                 | Prints variable's name and value          |
 
 # Questions
 
