@@ -42,6 +42,7 @@
 
 # TODO
 1. Change images in Testing section (JUnit_Tests_Add_To_Library.png and JUnit_Plugin_Installed.png)
+2. Extract "Setup JDBC" and "Setup JUNit" sections and mention them in JavaApp.java
 
 # Setup
 1. Install IntelliJ IDEA Community (ideaIC-2024.2.4.exe) from https://www.jetbrains.com/idea/download/other.html
