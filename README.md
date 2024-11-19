@@ -55,6 +55,8 @@
 ![Run Arguments](./res/Build-and-Run_Arguments.png)
 6. Right click on any directory > Mark Directory As > **Sources Root**:
 ![Sources Root](./res/Sources-Root.png)
+7. Always select Opened File:
+![Project View Selected File](.res/Project_View_Selected_File.png)
 
 # Testing
 1. Make sure you have `JUnit` plugin installed:
