@@ -1,6 +1,6 @@
 package ClassDesign;
 
-// 💡 Inheritance is TRANSITIVE: Cat extends Mammal extends Animal.
+// 💡 FACT: Inheritance is TRANSITIVE: Cat extends Mammal extends Animal.
 public class Cat extends Mammal {
     public Cat() {
         // ⚠️ Compiler inserts super() automatically!

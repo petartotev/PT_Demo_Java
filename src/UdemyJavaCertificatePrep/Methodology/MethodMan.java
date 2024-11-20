@@ -1,9 +1,10 @@
+package Methodology;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.InvalidParameterException;
-// use pow(2,5) instead of Math.pow every time:
-import static java.lang.Math.pow;
-// static import java.lang.Math.pow; // does not compile!
+import static java.lang.Math.pow;       /* 💡 SUGGESTION: Use pow(2,5) instead of Math.pow(2,5) every time! */
+// static import java.lang.Math.pow;    /* 🔴 ERROR: Does not compile! */
 
 public class MethodMan {
     // Constants are usually marked static final and written in SNAKE_CASE:
@@ -11,6 +12,7 @@ public class MethodMan {
     // or
     public static final double TEST_CONST;
     // static blocks are useful when you need to calculate values.
+    // TODO: Get used to static blocks - used when you need to calculate values!
     static {
         TEST_CONST = 0.25;
     }
@@ -35,22 +37,42 @@ public class MethodMan {
         }
     }
 
-    public double getPrice(double inputPrice) {
-        double margin = 0.05;
-        return inputPrice * (1 + tax) * (1 + margin);
-    }
-
     public void printPowOfTwo(int num) {
+        // Can be used like this because of:
+        // import static java.lang.Math.pow;
         System.out.println(pow(2,num));
     }
 
     public void playWithBoxingAndUnboxing() {
+        // Explicit boxing:
+        int a = 3;
+        Integer b = Integer.valueOf(a); /* Boxing: int -> Integer */
+        int c = b.intValue();           /* Unboxing: Integer -> int */
+
+        // Implicit boxing:
+        int x = 3;
+        Integer y = x;                  /* Boxing: int -> Integer */
+        int z = y;                      /* Unboxing: Integer -> int */
+
+        // Java will also autocast a smaller primitive into the larger one.
+        // Java will not do both automatic operations at the same time!!
+
+        int m = 7;
+        int n = m; /* autocasting, OK */
+        //Long o = m; /* 🔴 ERROR: Does not compile! Autocasting and autoboxing cannot be done at once!!! */
+        Long o = Long.valueOf(m);           /* explicit boxing */
+        Long p = (long)m;                  /* explicit casting */
+        Long q = Long.valueOf((long)m);   /* explicit everything */
     }
 
     public void playWithOverloadedMethods() {
         // If passing argument doesn't match the parameter type, Java picks the most similar version of the method.
         // Java looks for the first larger primitive type.
-        short a = 2;
+        greet(5);
+        greet(3.14);
+        greet(7, -11);
+
+        short a = 2; /* short => larger type => int */
         greet(a); /* executes greet(int x) */
 
         execute(2.3); /* executes execute(Object o) */
@@ -74,7 +96,7 @@ public class MethodMan {
     private void testSupertypes(CharSequence a) { System.out.println("CharSequence"); }
     private void testSupertypes(Object o) { System.out.println("Object"); }
 
-    // ⚠️ Cannot overload array with varargs!
+    // ⚠️ WARNING: Cannot overload array with varargs!
     // private void doSmth(int[] numbers) { }
     // private void doSmth(int... numbers) { }
 

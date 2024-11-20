@@ -1,9 +1,9 @@
 // import java.util.Random; /* OK */
-// import java.util.*       /* OK */
-// import java.util.*.*     /* ⚠️ NOK - Does not compile like this with 2 wildcards */
+// import java.util.*       /* OK, '.*' is called 'wildcard' */
+// import java.util.*.*     /* 🔴 ERROR: Does not compile with 2 wildcards! */
 import BeyondClasses.*;
-import ClassDesign.*;       /* .* is 'wildcard' */
-import Collections.ElCollectore;
+import ClassDesign.*;
+import Collections.ElCollector;
 import Concurrancies.MyRunnableClass;
 import Concurrancies.MyThreadClass;
 import DataTypes.*;
@@ -11,7 +11,10 @@ import Exceptional.Door;
 import Exceptional.Exceptionalissimo;
 import Exceptional.MyFileClass;
 import FlowControl.FlowController;
-import FunctionalProgramming.ElPredicatore;
+import FunctionalProgramming.*;
+import Methodology.MethodItem;
+import Methodology.MethodMan;
+import Methodology.MethodStaticItem;
 import Operators.SmoothOperator;
 import Streams.Optionalles;
 
@@ -30,37 +33,374 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
 import java.util.stream.Stream;
 
-// 💡 Class JavaApp is initialized automatically, as main() method is inside the class.
+// 💡 FACT: Class JavaApp is initialized automatically, as main() method is inside the class.
 public class JavaApp {
     public static void main(String[] args) throws IOException {
         System.out.println("=============== UDEMY.COM Java Certificate Prep: OCA (1Z0-808) & OCP (1Z0-829, 1Z0-830) by Luka Popov ===============");
+        System.out.println("=============== S1: INTRODUCTION ===============");
 
-        System.out.println("==================== S1: Introduction ===============");
+        /*
+        💡 SUGGESTION: Practice with mock exams, e.g. https://enthuware.com/
+        (their questions are harder than the ones in the exam)
+        Recommended IDEs:
+        - IntelliJ
+        - Eclipse
+        - NetBeans
+        Download JDK: JDK 1.8 (OCA), JDK 17 (OCP) or use online compilers:
+        - https://www.jdoodle.com/online-java-compiler-ide
+        - https://onecompiler.com/jshell
+        Literature:
+        - "OCA..."
+        - "OCP Oracle Certified Professional Java SE 17 Developer Study Guide: Exam 1Z0-829" by Jeanne Boyarsky & Scott Selikoff
+         */
 
-        System.out.println("First name: " + args[0]);
-        System.out.println("Last name: " + args[1]);
+        System.out.println("=============== S2: BUILDING BLOCKS [OCA, OCP] ===============");
+        System.out.println("========== S2: The Environment [OCA]  ==========");
+
+        /*
+        Components of Java:
+        - JDK (Java Development Kit)
+        -- OpenJDK 1.8 (OCA) / 17 (OPA) - Oracle's JDK
+        - JDK Key Commands
+        -- javac: converts .java source files into .class bytecode
+        -- java: executes a program
+        -- jar: java archive (packaging files together)
+        -- javadoc: for documentation
+        - JRE (Java Runtime Environment)
+        Allows users to run Java apps.
+        After Java 8, one just uses full JDK to run Java apps (no separate JRE required).
+         */
+
+        System.out.println("========== S2: Class Structure [OCA]  ==========");
+
+        /*
+        Class - basic building block of Java programs.
+        Object (realization) - instance of Class (blueprint).
+        Reference - a variable that points to an object (the "name" of the Object instance).
+        Members = Fields + Methods.
+        Fields - hold information about the state of an object or a class.
+        Methods (functions) - describe action or operation on the state.
+         */
 
         Student myStudent = new Student();
         myStudent.setName("Petar");
         System.out.println((myStudent.getName()));
 
-        Doggy myDoggy = new Doggy();
-        System.out.println((myDoggy.name)); /* java: name has private access in Dog */
+        /*
+        1 file can contain multiple classes, but only 1 is top-level class (usually marked as public).
+        If marked as public, file name must match class name.
+        Only 1 class in a single file can be marked as public.
+        👍 GOOD PRACTICE: Have each class in its own .java file.
+         */
 
-        System.out.println("=============== S2: Building Blocks [OCA, OCP] ===============");
+        Item myItem = new Item();
+        SpecificItem mySpecificItem = new SpecificItem(); /* Internal class in the same Item.java file */
 
-        System.out.println("========== S2: Data Types [OCA]  ==========");
+        System.out.println("========== S2: The main() method [OCA]  ==========");
+
+        /*
+        main() method - starts the Java program.
+        public static void main(String[] args) { }
+        - public - access modifier
+        - static - method belongs to class (not to instance)
+        - void - no return type
+        - String[] args - input parameters (array of Strings)
+
+        Alternative syntax of main() which works:
+        public static void main(String[] args) { }
+        public static void main(String[] someFunkyThings) { }
+        public static void main(String args[]) { }
+        public static void main(String... args) { }
+        public final static void main(final String[] args) { }
+        static public void main(String[] args) { }
+         */
+
+        // 🔴 ERROR:   Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0 at JavaApp.main(JavaApp.java:115)
+        // ✅ SUCCESS: Go to Run/Debug Configurations > [...] > Run with parameters > Choose Program arguments (separated by BLANK SPACE).
+
+        System.out.println("First name: " + args[0]);
+        System.out.println("Last name: " + args[1]);
+
+        /*
+        javac JavaApp.java -> JavaApp.class
+        java JavaApp Petar Totev
+        => First name: Petar
+           Last name: Totev
+
+        java JavaApp John D. Wayne
+        => First name: John
+           Last name: D.
+
+        java JavaApp "John D." Wayne
+        => First name: John D.
+           Last name: Wayne
+         */
+
+        System.out.println("========== S2: Packages [OCA]  ==========");
+
+        /*
+        Packages - Java classes are stored in packages.
+        Packages ~ folders in which classes are stored.
+        In order ot use a class, you must IMPORT a package in your program.
+        Naming packages: com.udemy.javacourse.ocp; a.b.c
+        => "com" folder contains "udemy" subfolder containing "javacourse" subfolder having "ocp" subfolder containing classes.
+         */
+
+        // Option 1 (explicit naming):
+        java.util.Random myRandomExplicit = new java.util.Random();
+        System.out.println(myRandomExplicit.nextInt(0,101));
+
+        // Option 2 (using imports):
+        //import java.util.Random;
+        //import java.util.*;
+        Random myRandomImported = new Random();
+        System.out.println(myRandomImported.nextInt(0,101));
 
         Randomizer myRandomizer = new Randomizer();
         System.out.println(myRandomizer.getRandomNumber());
+
+        /*
+        import java.util.Date;
+        import java.sql.Date; 🔴 ERROR: Does not compile!
+
+        import java.util.Date;
+        import.java.sql.*; ✅ SUCCESS: Java will use java.util.Date when Date is referenced.
+         */
+
+        System.out.println("========== S2: Compile, Run and Archive [OCA]  ==========");
+        /* TODO */
+
+        /*
+        2 classes:
+        1st class:
+        2nd class:
+        ...
+
+        javac -d classes ocppackage/Ocp.java ocapackage/Oca.java
+
+        /ocppackage
+            Ocp.java
+        /ocapackage
+            Oca.java
+        /classes
+            /ocppackage
+                Ocp.class
+            /ocapackage
+                Oca.class
+
+        java -cp classes ocppackage.Ocp
+        java -classpath classes ocppackage.Ocp
+        java --class-path classes ocppackage.Ocp
+
+        // from files in current folder
+        jar -cvf myNewJarFile.jar .
+        jar --create --verbose --file myNewJarFile.jar .
+
+        // from files in custom folder
+        jar -cvf myNewJarFile.jar -C myFolder
+        jar --create --verbose --file myNewJarFile.jar -C myFolder
+         */
+
+        System.out.println("========== S2: Objects [OCA]  ==========");
+
+        /*
+        Code block - { ... }
+        Instance initializer - code block outside the method.
+
+        Order of initialization:
+        1. Fields and instance initializer blocks in order which they appear.
+        2. Constructor runs in the end.
+         */
+
+        Doggy myDoggyDog = new Doggy();
+        System.out.println((myDoggyDog.name)); /* java: name has private access in Dog */
+
+        /*
+        Output:
+        1. Initializer block executed!
+        2. Constructor executed! Dog's name set to Rex!
+        3. Rex
+         */
+
+        System.out.println("========== S2: Data Types [OCA]  ==========");
+
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#data-types
+
+        Boolean 'true' and 'false' are completely unrelated to 1 and 0!
+        Float requires f (or F) at the end.
+        Long requires l (or L) at the end:
+        long a = 29135135136136;  🔴 ERROR: Does not compile!
+        long a = 29135135136136L; ✅ SUCCESS: Compiles!
+        Bit size of boolean is not specified (depends on JVM).
+         */
+
+        int myIntInt = 1_000_000;
+        int myStrangeTwelve = 1_2;
+        int myStrangeTwelve2 = 1________2;
+        double myDoubleDouble = 1_000_000.000_001;
+        //double myInvalidDouble1 = _10.1; 🔴 ERROR: Does not compile!
+        //double myInvalidDouble2 = 10.1_; 🔴 ERROR: Does not compile!
+        //double myInvalidDouble3 = 10_.1; 🔴 ERROR: Does not compile!
+        //double myInvalidDouble4 = 10._1; 🔴 ERROR: Does not compile!
+
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#wrapper-classes
+
+        Primitives are not objects, but sometimes we prefer to work with objects - we use wrapper classes!
+        Wrapper class = object type that corresponds to a primitive.
+         */
+
+        Integer wrapperInt = Integer.valueOf(5); /* valueOf == static method */ /* ⚠️ WARNING: Unnecessary boxing! */
+        Integer numOutOfString = Integer.valueOf("12"); /* valueOf used to convert String into wrapper class */
+        Integer usefulMethodInt = Integer.parseInt("101");
+        //Integer p = new Integer(5); 🔴 ERROR: Does not compile! Deprecated, not impossible after Java 9!
+
         Numberinho myNumberinho = new Numberinho();
         myNumberinho.playWithNumbersAndUnderscores();
 
+        /*
+        Strings are NOT primitive types in Java!
+         */
+
+        System.out.println("========== S2: Text Blocks [OCP]  ==========");
+
+        StringDogg myStringDogg = new StringDogg();
+
+        /*
+        Text blocks were introduced in Java 15.
+         */
+
+        /* there should be a new line after """ */
+        /* white space which is common in front is ignored */
+        /* white space after the common block will be included */
+        String myFirstTextBlock = """ 
+                "Java SE 17 Developer Course"
+                      by Luka Popov""";
+        String mySecondTextBlock = """
+                      "Java SE 17 Developer Course"
+                      by Luka Popov
+                      """;
+        System.out.println(myFirstTextBlock + "Hello!");  /* ... by Luka PopovHello!   */
+        System.out.println(mySecondTextBlock + "Hello!"); /* ... by Luka Popov\nHello! */
+
+        myStringDogg.playWithTextBlocks();
+        System.out.println((myStringDogg.GREATEST_RAPPER));
+
+        System.out.println("========== S2: Variables [OCA]  ==========");
+
+        /*
+        Variable - name for a piece of memory which stores data.
+        Declare Variable - state variable type and give it a name:
+        int x;
+        Initialize variable - give variable a value:
+        int x = 5;
+        Identifier - name of variable.
+
+        Identifier rules:
+        1. Must begin with letter, currency symbol ($) or underscore (_).
+        2. Can include numbers, but cannot start with a number.
+        3. Single underscore is not allowed as identifier.
+        4. You cannot use the reserved words as identifiers!
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#special-words
+
+        Naming conventions (not obligatory):
+        1. For variables and methods, use camelCase!
+        2. For constants, use SNAKE_CASE!
+        3. Identifiers of classes, interfaces, enums, use PascalCase!
+         */
+
+        int yin, yang; /* ⚠️ WARNING: Multiple variables can be declared on the same line, but NOT a good practice! */
+        String myFunkyFirstName = "John", myFunkySecondName = "Snow";
+        boolean vv = true, ww, zz = false;
+        //int x, String name; /* 🔴 ERROR: Does not compile! */
+
+        /*
+        3 kinds of Variables:
+        - local variables - within a block of code { ... }
+        - instance variables (fields) - within an instance of a class
+        - class variables (static) - belong to the whole class, all instance share it
+
+        💡 FACT: Instance and class variables DO NOT require initialization! Local variables MUST be initialized before use!
+         */
+
+        /*
+        Final Variables (constants)
+        Cannot be changed!
+        Can be applied to a reference!
+        Reference cannot be modified, but the content of the object can!
+         */
+
+        final int MAX_HUMAN_HEIGHT = 240;
+        final int[] MY_NUMBERS = new int[5];
+        MY_NUMBERS[2] = 13;
+        System.out.println(MY_NUMBERS[2]);
+        //MY_NUMBERS = null; /* 🔴 ERROR: Does not compile! */
+
+        /*
+        Variable Scope
+        Variables can go out of scope (cease to exist).
+        Local variables: { to }.
+        Method parameters: { duration of method }.
+        Instance variables: in scope from declaration to garbage collection.
+        Class variables: in scope from declaration until program ends.
+         */
+
+        System.out.println("========== S2: Local Variable Type Interface (LVTI) [OCP]  ==========");
+
+        /*
+        LVTI introduced in Java 10.
+        LV => ONLY FOR local variables!
+        TI => Inferred by the compiler.
+         */
+
+        var myA = 5; /* myA type is inferred by compiler */
+        //var myA = "John Wayne"; /* 🔴 ERROR: Does not compile! Stays for the duration of the variable scope. */
+
+        //var s = null; /* 🔴 ERROR: Does not compile! Cannot assign null to LVTI! */
+
+        /* Var is not a reserved word (due to backward compatibility reasons)! */
+        class Var { } /* ⚠️ WARNING: OK, but a BAD practice! */
+        var var = 5;  /* ⚠️ WARNING: OK, but a BAD practice! */
+
         System.out.println("========== S2: Garbage Collection [OCA]  ==========");
 
-        System.gc(); /* ⚠️ Invokes GC, but not guaranteed to do anything! */
+        /*
+        All Java objects are stored in Program's Memory Heap (a.k.a. free store).
+        GC is a process of automatically freeing memory of the heap by removing objects no longer reachable in the program.
+        If an object is eligible for GC, Java can remove it from Memory Heap.
+        Process is out of our control - one cannot know if and when memory will be freed!
 
-        System.out.println("=============== S3: Operators [OCA, OCP] ===============");
+        💡 FACT: GC only cleans the HEAP!!! GC collects only objects, not references, even if they are hanging unused!
+        📖 EXAM: Question: Which object is eligible for Garbage Collection?
+         */
+
+        System.gc(); /* ⚠️ WARNING: You suggest Java to clean the Heap, but not guaranteed to do anything! */
+
+        System.out.println("=============== S3: OPERATORS [OCA, OCP] ===============");
+
+        /*
+        z = a + b is operation, where:
+        z is result
+        a and b are operands
+        + is operator
+        = is assignment operator.
+
+        Unary operator: a++;
+        Binary operator: a = b + c;
+        Ternary operator: a = (b > 0) ? 3 : 2;
+
+        Operator precedence!
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#operators
+         */
+
+        int myCalculation = 2 + 2 * 2 + 10 / 5 + 1; /* 9 */
+        boolean myBooleanCalc = 2 > 1 && 2 + 2 * 2 == 5; /* false */
+
+        int someValue = 1;
+        int someValue2 = ++someValue*2; /* 4 */
+        int anotherValue = 1;
+        int anotherValue2 = anotherValue++*2; /* 2 */
 
         var myOperator = new SmoothOperator();
 
@@ -69,46 +409,221 @@ public class JavaApp {
         myOperator.playWithAssignmentOperators();
         myOperator.playWithComparisonOperators();
 
-        System.out.println("=============== S4: Flow Control [OCA, OCP] ===============");
+        System.out.println("=============== S4: FLOW CONTROL [OCA, OCP] ===============");
 
-        // Switch => ⚠️ Boolean, Long, Float, Double are not allowed!
+        /*
+        ⚠️ WARNING: Switch using Boolean, Long, Float, Double is not allowed!
+        ⚠️ WARNING: Switch expression must handle all possible cases!
+         */
 
         var myFlowController = new FlowController();
 
+        myFlowController.switchItLikeInJava8(4);
         myFlowController.switchItLikeInJava17(3);
         myFlowController.switchExpressionWithJava17(100);
-        myFlowController.playWithNamedLoops();
+        myFlowController.switchExpressionWithUndefinedType(23);
+
+        /*
+        TODO: Switch expression using Enum!
+         */
+
+        myFlowController.playWithNamedWhileLoop();
+        myFlowController.playWithMultipleNamedWhileLoops();
+        myFlowController.playWithNestedWhileLoops();
+        myFlowController.playWithDoWhileLoop();
+
+        myFlowController.playWithForLoop();
+        myFlowController.playWithForLoopHavingMultipleParams();
         // myFlowController.playWithInfiniteForLoop();
         myFlowController.playWithForeachLoop();
 
-        System.out.println("=============== S5: Strings [OCA, OCP] ===============");
+        System.out.println("=============== S5: STRINGS [OCA, OCP] ===============");
+        System.out.println("========== S5: String Methods [OCA] ==========");
 
-        StringDogg myStringDogg = new StringDogg();
+        /*
+        String is a sequence of characters, implementing CharSequence interface.
+        String name = "John Wayne";
+        String name = new String("John Wayne");
 
-        myStringDogg.playWithTextBlocks();
-        System.out.println((myStringDogg.GREATEST_RAPPER));
+        Concatenation:
+        System.out.println(str1 + str2)
+        System.out.println(str1.concat(str2));
+
+        ⚠️ WARNING: Concatenation is processed from left to right!
+         */
+
         myStringDogg.playWithConcatenation();
+
         myStringDogg.playWithStringMethods();
+
+        /*
+        STRINGS ARE IMMUTABLE!
+         */
+        String nameToImmute = "John Wayne";
+        nameToImmute.toUpperCase();
+        System.out.println("nameToImmute = " + nameToImmute); /* John Wayne */
+
+        System.out.println("========== S5: StringBuilder [OCA] ==========");
+
+        /*
+        StringBuilder is a MUTABLE class which contains a String, which contains useful methods for manipulating strings.
+         */
+
         myStringDogg.playWithStringBuilder();
 
-        System.out.println("=============== S6: Arrays [OCA, OCP] ===============");
+        System.out.println("========== S5: String Pool [OCA] ==========");
+
+        /*
+        JVM stores a new string with literal value "John" in the memory location known as 'String Pool' or 'Intern Pool'.
+        Next, one creates a new string variable and assign the same literal value "John".
+        Java will save memory and look in the String pool for such literal.
+        New variable will point to the existing location in the String pool.
+         */
+
+        String firstNameToTestStringPools = "Johnny Bravo";
+        String secondNameToTestStringPools = "Johnny Bravo";
+        System.out.println(firstNameToTestStringPools == secondNameToTestStringPools); /* true (same reference!) */
+
+        myStringDogg.playWithStringPool();
+
+        System.out.println("=============== S6: ARRAYS [OCA, OCP] ===============");
+        System.out.println("========== S6: Creating an Array [OCA] ==========");
+        System.out.println("========== S6: Sorting, Searching, Comparing Arrays [OCA] ==========");
+
+        /*
+        ⚠️ WARNING: Arrays don't implement equals method!
+         */
 
         var myArrayCharles = new ArrayCharles();
-
         myArrayCharles.playWithArrays();
+
+        System.out.println("========== S6: Multidimensional Arrays [OCA] ==========");
+
         myArrayCharles.playWithMultidimensionalArrays();
 
-        System.out.println("=============== S7: Date and Time [OCA, OCP] ===============");
+        System.out.println("=============== S7: DATE AND TIME [OCA, OCP] ===============");
 
         DateTimmy myDateTimmy = new DateTimmy();
 
-        myDateTimmy.playWithDatesAndTimes();
-        myDateTimmy.playWithDateAndTimeMethods();
-        myDateTimmy.playWithDateTimePeriodsDurationsAndInstants();
+        System.out.println("========== S7: Creating Dates and Times [OCA] ==========");
 
-        System.out.println("=============== S8: Methods [OCA, OCP] ===============");
+        /*
+        import java.time.* package
+         */
+
+        myDateTimmy.playWithDateAndTime();
+
+        System.out.println("========== S7: Methods on Dates and Times [OCA] ==========");
+
+        myDateTimmy.playWithDateAndTimeMethods();
+
+        System.out.println("========== S7: Period, Duration, Instant [OCA] ==========");
+
+        myDateTimmy.playWithDatePeriods();
+        myDateTimmy.playWithTimeDurations();
+        myDateTimmy.playWithInstants();
+
+        System.out.println("=============== S8: METHODS [OCA, OCP] ===============");
 
         MethodMan myMethodMan = new MethodMan();
+
+        System.out.println("========== S8: Defining Methods [OCA] ===============");
+
+        /*
+        public final void printName(String name) throws InterruptedException { }
+
+        Method name is Java Identifier (same rules as variable names).
+        Parameters in Parameter List are separated by comma.
+        Methods must have a body { } (even empty).
+         */
+
+        System.out.println("========== S8: Local and Instance Variables [OCA] ===============");
+
+        /*
+        Local Variable
+        - defined inside  the block of code { }, go out of scope.
+        - can have only 1 optional modifier: final.
+        - once final variable is assigned a value - it can't be changed.
+        - "effectively final" - if you can put 'final' in variable declaration and code still compiles.
+        - all local variables must be explicitly initialized before used.
+
+        Instance variables
+        - defined on class level (belong to instance of class).
+        - can have many optional modifiers: private, protected, public
+        - can be marked as final, volatile, transient
+        - if not initialized, they assume default values depending on type.
+
+        Final - means that variable reference is constant!
+         */
+
+        MethodItem myMethodItem1 = new MethodItem();
+        MethodItem myMethodItem2 = new MethodItem();
+
+        // public double tax = 0.2;
+        System.out.println(myMethodItem1.getPrice(100)); /* 126.0 */
+        myMethodItem2.tax = 0.1;
+        System.out.println(myMethodItem2.getPrice(100)); /* 115.50000000000001 */
+        System.out.println(myMethodItem1.getPrice(100)); /* 126.0 */
+
+        // final double margin = 0.05;
+        System.out.println(myMethodItem1.getFinalMarginPrice(100));
+        myMethodItem1.printSomethingUsingFinalArray();
+
+        System.out.println("========== S8: Variable Arguments (Varargs) [OCA] ===============");
+
+        myMethodMan.playWithVarArgsVariableArguments("test1", "test2", "test3");
+
+        String[] myArgs = new String[] { "test333", "test666" };
+        myMethodMan.playWithVarArgsVariableArguments("test111", myArgs); // but not anonymous array!
+
+        /* ⚠️ WARNING: You cannot pass an anonymous array (!) */
+        //myMethodMan.playWithVarArgsVariableArguments("test111", {"1","2","3"}); /* 🔴 ERROR: Array initializer is not allowed here!
+
+        /* 💡 FACT: Varargs can be used in the main() method: */
+        //public static void main(String... args) { }
+
+        System.out.println("========== S8: Access Modifiers [OCA] ===============");
+
+        /*
+        Method Access Modifiers:
+        - private - can be accessed only within the class they are declared
+        - default (no keyword) - can be accessed only within the same package
+        - protected - can be accessed within the same package and outside package from child classes
+        - public - can be accessed from everywhere
+         */
+
+        System.out.println("========== S8: Static Members [OCA] ===============");
+
+        // public static double taxStatic = 0.2;
+        System.out.println("Static price myMethodItem1: " + myMethodItem1.getStaticPrice(100)); /* 126.0 */
+        myMethodItem2.taxStatic = 0.1; /* ⚠️ WARNING: taxStatic also changed for myMethodMan1! */
+        System.out.println("Static price myMethodItem2: " + myMethodItem2.getStaticPrice(100)); /* 115.50000000000001 */
+        System.out.println("Static price myMethodItem1: " + myMethodItem1.getStaticPrice(100)); /* 115.50000000000001 */
+
+        MethodStaticItem myMethodStaticItem = new MethodStaticItem();
+        myMethodStaticItem.greet1();
+        myMethodStaticItem.greet2();
+        myMethodStaticItem.greet3();
+
+        // Constants: usually marked 'static final' and SNAKE_CASE:
+        System.out.println(myMethodMan.VALUE_ADDED_TAX);
+        System.out.println(myMethodMan.TEST_CONST);
+
+        // Static Imports
+        myMethodMan.printPowOfTwo(5);
+
+        System.out.println("========== S8: Boxing and Unboxing [OCA] ===============");
+
+        /*
+        Boxing - converting ("putting") a primitive into its wrapper class.
+        Unboxing - converting a wrapper class to a primitive.
+         */
+
+        myMethodMan.playWithBoxingAndUnboxing();
+
+        System.out.println("========== S8: Overloading Methods [OCA] ===============");
+
+        myMethodMan.playWithOverloadedMethods();
 
         try {
             myMethodMan.playWithMethodSignature("test");
@@ -118,30 +633,21 @@ public class JavaApp {
             System.out.println("myMethodMan.playWithMethodSignature was executed!");
         }
 
-        myMethodMan.playWithVarArgsVariableArguments("test1", "test2", "test3");
+        System.out.println("=============== S9: CLASS DESIGN [OCA, OCP] ===============");
+        System.out.println("========== S9: Inheritance [OCA] ===============");
 
-        String[] myArgs = new String[] { "test333", "test666" };
-        myMethodMan.playWithVarArgsVariableArguments("test111", myArgs); // but not anonymous array!
-
-        System.out.println("========== S8: Access Modifiers [OCA]  ==========");
+        Animal myAnimal = new Animal();     /* superclass (parent) */
+        Dog myDogExtendsAnimal = new Dog(); /* subclass (child) */
 
         /*
-        Access Modifiers:
-        - private - can be accessed only within the class they are declared
-        - default - can be accessed only within the same package
-        - protected - can be accessed within the same package and outside package from child classes
-        - public - can be accessed from everywhere
+        Inheritance: Subclass can inherit members (fields and methods) from superclass.
+        Inheritance is transitive!
+        Java supports single inheritance - class can have only 1 direct superclass.
          */
 
-        MethodMan myMethodMan1 = new MethodMan();
-        System.out.println(myMethodMan1.getPrice(100));
-
-        MethodMan myMethodMan2 = new MethodMan();
-        myMethodMan2.tax = 0.1;
-        System.out.println(myMethodMan1.getPrice(100)); /* ⚠️ Tax also changed for myMethodMan1! */
-        System.out.println(myMethodMan2.getPrice(100));
-
-        System.out.println("=============== S9: Class Design [OCA, OCP] ===============");
+        Animal myAnimalTransitive = new Animal(); /* superclass of Mammal */
+        Mammal myMammalTransitive = new Mammal(); /* superclass of Dog - TRANSITIVE INHERITANCE! */
+        Dog myDogTransitive = new Dog(); /* subclass */
 
         Classy myClassy = new Classy();
 
@@ -150,35 +656,65 @@ public class JavaApp {
         - final
         - abstract
         - static
-        - sealed (Java 17)
-        - non-sealed (Java 17)
+        - sealed        (Java 17)
+        - non-sealed    (Java 17)
          */
 
         /*
-        All Java classes inherit from java.lang.Object class.
+        All Java classes inherit from java.lang.Object class:
+            public class Dog { }
+            public class Dog extends java.lang.Object { }
         Object has access to:
         - toString()
         - equals()
         - hashCode()
          */
 
-        Cat myCat = new Cat();
+        System.out.println("========== S9: Creating Classes [OCA] ===============");
+
+        Mammal myCreatingClassMammal = new Mammal();
+        System.out.println("myCreatingClassMammal age before: " + myCreatingClassMammal.getAge());
+        myCreatingClassMammal.setAge(23);
+        System.out.println("myCreatingClassMammal age after: " + myCreatingClassMammal.getAge());
+
+        Cat myCat = new Cat(); /* extends Mammal */
         myCat.setNameAndAge("Rex", 5);
         myCat.meow();
-        // If one of the classes is not public, you can have both files in the same file.
+
+        /*
+        💡 FACT: If one of the classes is not public, you can have both classes in the same file.
+
+        Keyword 'this' is used to access the members of the class you are in.
+        Check Mammal.setAge();
+        Keyword 'super' is used to access members of the superclass.
+        Check Cat.setNameAndAge();
+         */
+
+        System.out.println("========== S9: Creating Constructors [OCA] ===============");
+
+        /*
+        ⭐ DEFINITION: Constructor - special method called every time you create an instance of an object.
+        - Name of constructors must match class name.
+        - Constructors don't have return type!
+
+        💡 FACT: If class has no defined constructors => default constructor is created automatically:
+        Dog() { }
+         */
 
         Dog myDog1 = new Dog();
         Dog myDog2 = new Dog("Max");
-
-        // If class has no defined constructors => default constructor created automatically.
+        Dog myDog3 = new Dog("Max", 5);
 
         /*
         Constructors access modifiers:
-        - public
+        - public - constructors are usually made public
         - protected
         - default
         - private - if you don't want public no-argument constructor generated automatically.
+        In this case, instance is usually created via some static method, and not using the keyword new.
          */
+
+        System.out.println("========== S9: Using this() and super() [OCA] ===============");
 
         Elephant myElephant = new Elephant();
 
@@ -186,24 +722,37 @@ public class JavaApp {
         this() Rules:
         1. Can be called in the first line of the constructor.
         2. Can be called only once.
-        3. ⚠️ Can create a cycle - constructors calling each other infinitely!
+        3. ⚠️ WARNING: Can create a cycle - constructors calling each other infinitely!
          */
 
         /*
         super() Rules:
         1. Must be called in the fist line of the constructor.
         2. Can be called only once.
-        3. If no explicit this() or super() in the first line of the constructor the compiler adds super() at the beginning of every constructor.
+        3. ⚠️ If no explicit this() or super() in the first line of the constructor, the compiler adds super() at the beginning of every constructor.
          */
+
+        System.out.println("========== S9: Initializing Objects [OCA] ===============");
 
         /*
         Order of initialization:
         1. If superclass => initialized first
         2. All static variables are processed (in order of appearance)
         3. All static initializers are processed (in order of appearance)
+
+        This all happens at most once for each class!
          */
 
-        // Order of initialization of Instance
+        /* Order of Initialization when creating an Instance
+        1. Initialize the class if it was not already initialized.
+        2. If there is a superclass, initialize superclass.
+        3. Process all instance variable declarations.
+        4. Process all instance initializers.
+        5. Initialize the constructor.
+        TODO: Watch this again!
+         */
+
+        System.out.println("========== S9: Inheriting Members [OCA] ===============");
 
         // Inheriting Methods
         // Cat speak() @Override-s Mammal speak():
@@ -219,16 +768,21 @@ public class JavaApp {
 
         myMethodMan.playWithExceptions();
 
-        System.out.println("=============== S10: Abstract Classes & Interfaces [OCA, OCP] ===============");
+        /*
+        TODO:
+        Overriding private and static methods.
+         */
+
+        System.out.println("=============== S10: ABSTRACT CLASSES AND INTERFACES [OCA, OCP] ===============");
 
         System.out.println("========== S10: Abstract Classes [OCA]  ==========");
 
         /*
         Abstract class can be extended, but cannot be initialized.
         Abstract class can have constructors, but can be called only using 'super()' from the child class.
-        ⚠️ Abstract class or abstract method cannot be marked 'final'.
-        ⚠️ Abstract method cannot be marked 'private'.
-        ⚠️ 'abstract static' is not allowed (as static method cannot be overridden).
+        ⚠️ WARNING: Abstract class or abstract method cannot be marked 'final'.
+        ⚠️ WARNING: Abstract method cannot be marked 'private'.
+        ⚠️ WARNING: 'abstract static' is not allowed (as static method cannot be overridden).
          */
 
         // Vehicle vehicle = new Vehicle(); /* Vehicle is abstract; cannot be instantiated */
@@ -295,8 +849,8 @@ public class JavaApp {
         myCar2.playWithElements();
 
         // STATIC INTERFACE METHODS
-
         // PRIVATE INTERFACE METHODS
+        System.out.println(Drivable.getSomethingFromStaticMethod());
 
         /*
         Rules for Using Private Interface Methods:
@@ -306,13 +860,16 @@ public class JavaApp {
         4. non-static private methods may be called only by non-static methods
          */
 
-        System.out.println("=============== S11: Lambdas & Functional Programming [OCA, OCP] ===============");
+        System.out.println("=============== S11: LAMBDAS AND FUNCTIONAL PROGRAMMING [OCA, OCP] ===============");
 
         System.out.println("========== S11: Functional Interfaces and Lambdas [OCA]  ==========");
 
-        // Functional interface - an interface that has exactly one abstract method.
-        // @FunctionalInterface - annotation for functional interface
-        // Predefined functional interfaces: Supplier, Consumer, Predicate, Function
+        /*
+        Functional Interface: an interface which has exactly one abstract method.
+        Can be annotated with @FunctionalInterface.
+        Pre-defined Functional Interfaces: Supplier, Predicate, Function etc.
+        import java.util.function package
+         */
 
         // Using Class Beetle implementing Insect:
         Beetle myBeetle = new Beetle();
@@ -371,12 +928,34 @@ public class JavaApp {
 
         System.out.println("========== S11: Method References [OCP]  ==========");
 
-        // TODO
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#method-references
+         */
+
+        Furniture myFurniture1 = s -> System.out.println(s); /* Lambda can be replaced with method reference. */
+        myFurniture1.contain("myFurniture1");
+        Furniture myFurniture2 = System.out::println;
+        myFurniture2.contain("myFurniture1");
+        Book myBook1 = (a,b) -> Math.min(a, b);
+        myBook1.describeMinimal(5, 7);
+        Book myBook2 = Math::min;
+        myBook2.describeMinimal(5, 7);
+
+        GravityCalculator myGravity = Gravity::freeFall;
+        System.out.println(myGravity.path(5));
 
         System.out.println("========== S11: Built-In Functional Interfaces [OCP]  ==========");
 
         /*
-        import java.util.function package
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#Functional-Interfaces
+
+        📦 import java.util.function package
+        - contains many built-in functional interfaces
+        - you need to know:
+            - name of the interface
+            - signature of the abstract method
+            - return type of the abstract method
+        a.k.a. FUNCTIONAL PROGRAMMING
          */
 
         System.out.println("===== Supplier =====");
@@ -388,8 +967,8 @@ public class JavaApp {
         }
          */
 
-        Supplier<LocalDateTime> dtImpl = () -> LocalDateTime.now();
-        System.out.println(dtImpl.get());
+        Supplier<LocalDateTime> localDateTimeSupplier = () -> LocalDateTime.now();
+        System.out.println("localDateTimeSupplier: " + localDateTimeSupplier.get());
 
         System.out.println("===== Consumer, BiConsumer =====");
 
@@ -397,20 +976,19 @@ public class JavaApp {
         @FunctionalInterface
         public interface Consumer<T> {
             void accept(T t);
-            // ...
         }
 
         @FunctionalInterface
         public interface BiConsumer<T, U> {
             void accept(T t, U u);
-            // ...
         }
          */
 
-        Consumer<String> greet = s -> System.out.println("Hello, " + s + "!");
-        greet.accept("John");
-        BiConsumer<String, String> greets = (s, t) -> System.out.println("Hello, " + s + " " + t + "!");
-        greets.accept("John", "Snow");
+        Consumer<String> greetConsumer = s -> System.out.println("Hi, " + s + "!");
+        greetConsumer.accept("John");
+
+        BiConsumer<String, String> greetBiConsumer = (s, t) -> System.out.println("Hi, " + s + " " + t + "!");
+        greetBiConsumer.accept("John", "Snow");
 
         System.out.println("===== Predicate, BiPredicate =====");
 
@@ -418,13 +996,11 @@ public class JavaApp {
         @FunctionalInterface
         public interface Predicate<T> {
             boolean test(T t);
-            // ...
         }
 
         @FunctionalInterface
         public interface BiPredicate<T, U> {
             boolean test(T t, U u);
-            // ...
         }
          */
 
@@ -440,23 +1016,21 @@ public class JavaApp {
         @FunctionalInterface
         public interface Function<T, R> {
             R apply(T t);
-            // ...
         }
 
         @FunctionalInterface
         public interface BiFunction<T, U, R> {
             R apply(T t, U u);
-            // ...
         }
          */
 
-        Function<Integer, Double> square = n -> (double)(n*n);
-        var res = square.apply(5);
-        System.out.println(res);
+        Function<Integer, Double> squareFunction = n -> (double)(n*n);
+        var resultFunction = squareFunction.apply(5);
+        System.out.println(resultFunction);
 
-        BiFunction<String, Integer, String> con = (s, i) -> s + i;
-        var myCon = con.apply("John", 25);
-        System.out.println(myCon);
+        BiFunction<String, Integer, String> concatenationBiFunction = (s, i) -> s + i;
+        var resultBiFunction = concatenationBiFunction.apply("John", 25);
+        System.out.println(resultBiFunction);
 
         System.out.println("===== UnaryOperator, BinaryOperator =====");
 
@@ -472,19 +1046,20 @@ public class JavaApp {
         }
          */
 
-        UnaryOperator<Integer> negative = n -> -n;
-        System.out.println(negative.apply(5));
+        UnaryOperator<Integer> negativeUnaryOperator = n -> -n;
+        System.out.println(negativeUnaryOperator.apply(5));
 
-        UnaryOperator<String> shout = String::toUpperCase;
-        System.out.println(shout.apply("John"));
+        UnaryOperator<String> shoutUnaryOperator = String::toUpperCase;
+        System.out.println(shoutUnaryOperator.apply("John"));
 
-        BinaryOperator<Double> add = (a, b) -> a + b;
-        System.out.println(add.apply(3.5, 1.5));
+        BinaryOperator<Double> addBinaryOperator = (a, b) -> a + b;
+        System.out.println(addBinaryOperator.apply(3.5, 1.5));
 
-        BinaryOperator<String> conn = String::concat;
-        System.out.println(conn.apply("John", "Snow"));
+        BinaryOperator<String> connBinaryOperator = String::concat;
+        System.out.println(connBinaryOperator.apply("John", "Snow"));
 
-        System.out.println("========== S11: Helper Methods by Functional Interfaces [OCP]  ==========");
+        System.out.println("========== S11: Combining Implementations [OCP]  ==========");
+        System.out.println("===== S11: Helper Methods by Functional Interfaces [OCP]  =====");
 
         /*
         Consumer => andThen()
@@ -495,64 +1070,169 @@ public class JavaApp {
         Consumer<String> greet1 = s -> System.out.println("Hello, " + s + "!");
         Consumer<String> greet2 = s -> System.out.println("Goodbye, " + s + "!");
         Consumer<String> greet1and2 = greet1.andThen(greet2);
-        greet1and2.accept("John");
+        greet1and2.accept("John"); /* Hello, John! Goodbye, John! */
+        // Another way for the same thing:
         System.out.println();
-        greet1.andThen(greet2).accept("John");
+        greet1.andThen(greet2).accept("John"); /* Hello, John! Goodbye, John! */
 
         Function<Integer, Integer> double123 = n -> n*n;
         Function<Integer, Integer> triple123 = n -> 3*n;
         // First function, then second function.
-        Function<Integer, Integer> f1 = double123.andThen(triple123); /* (5 x 5) * 3 */
+        Function<Integer, Integer> f1 = double123.andThen(triple123); /* (5 x 5) * 3 = 75 */
         System.out.println(f1.apply(5));
         // Second function first, then first function second.
-        Function<Integer, Integer> f2 = double123.compose(triple123); /* (5 x 3) * (5 x 3) */
+        Function<Integer, Integer> f2 = double123.compose(triple123); /* (5 x 3) * (5 x 3) = 225 */
         System.out.println(f2.apply(5));
 
-        Predicate<Integer> gt100 = n -> n > 10;
-        Predicate<Integer> lt20 = n -> n < 20;
-        Predicate<Integer> p1 = gt10.and(lt20);
-        Predicate<Integer> p2 = gt10.or(lt20);
-        Predicate<Integer> p3 = lt20.negate();
+        Predicate<Integer> gt100 = n -> n > 100;
+        Predicate<Integer> lt200 = n -> n < 200;
+        Predicate<Integer> p1 = gt100.and(lt200);
+        Predicate<Integer> p2 = gt100.or(lt200);
+        Predicate<Integer> p3 = lt200.negate();
 
-        System.out.println(p1.test(5)); /* false */
-        System.out.println(p2.test(5)); /* true */
-        System.out.println(p3.test(5)); /* if true, returns false */
+        System.out.println(p1.test(50)); /* false */
+        System.out.println(p2.test(50)); /* true */
+        System.out.println(p3.test(150)); /* if true, returns false */
 
         System.out.println("========== S11: Functional Interfaces for Primitives [OCP]  ==========");
 
-        System.out.println("=============== S12: Collections [OCA, OCP] ===============");
-
         /*
-        List implements Collection
-            ArrayList implements List
-        Set implements Collection
-            HashSet and TreeSet implement Set
-        Queue (Deque) implements Collection
-            Deque implements Queue
-            LinkedList implements Queue and List
-        Map DOES NOT implement Collection
-            HashMap and TreeMap implement Map interface
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#Common-Functional-Interfaces-for-Primitives
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#Primitive-Specific-Functional-Interfaces
+
+        TODO: Revise Primitive Specific Functional Interfaces
          */
 
-        ElCollectore myCollectore = new ElCollectore();
+        System.out.println("=============== S12: COLLECTIONS [OCA, OCP] ===============");
+        System.out.println("========== S12: Common Collection Methods [OCA] ==========");
 
-        myCollectore.playWithCommonCollectionMethods();
+        /*
+        ⭐ DEFINITION: Interfaces referred to as Collections: List, Set, Queue (Deque), Map
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#Collections
 
-        myCollectore.playWithLists();
-        myCollectore.playWithListMethods();
-        myCollectore.playWithRemovingFromIntegersList();
+        List implements Collection
+            ArrayList implements List (OCA)
+        Set implements Collection
+            HashSet implements Set
+            TreeSet implements Set
+        Queue implements Collection
+            Deque implements Queue
+            LinkedList implements Queue and List
+        Map DOES NOT implement Collection (referred to as collections with lower 'c' - behave like collections, but they are not)
+            HashMap implements Map
+            TreeMap implements Map
 
-        myCollectore.playWithSets();
+        Diamond operator (<>) - used to imply the type of the element in the collection, e.g.:
+        List<String> names = new ArrayList<String>();
+         */
 
-        myCollectore.playWithQueues();
-        myCollectore.playWithDequeuesAsStack();
-        myCollectore.playWithDequeuesAsDoubleEndedQueues();
+        ElCollector myCollector = new ElCollector();
 
-        myCollectore.playWithMaps();
+        myCollector.playWithCommonCollectionMethods();
 
-        myCollectore.playWithSorting();
+        System.out.println("========== S12: List Interface [OCA] ==========");
 
-        System.out.println("=============== S13: Exceptions [OCA, OCP] ===============");
+        /*
+        ⭐ DEFINITION: List - an ordered collection that can contain duplicate entries.
+        Unlike array, its size can change after being declared.
+        2 classes implement List:
+        - ArrayList - when you read more than you write
+        - LinkedList - implements List and Deque [deck], a.k.a. "double-ended queue"
+
+        2 ways to create List:
+        - using Factory Methods
+        - using Constructor
+
+        Create List using FACTORY METHOD (⚠️ WARNING: Size is fixed (no adding or removing)):
+        1. Arrays.asList(varargs) => fixed-size list backed by an array. Change array => changes list and vice versa.
+        2. List.of(varargs) => returns immutable list.
+        3. List.copyOf(collection) => returns immutable list, but as a copy of the original values.
+
+        Create List using CONSTRUCTOR
+         */
+
+        myCollector.playWithListsCreatedByFactoryMethods();
+        myCollector.playWithListsCreatedByConstructor();
+
+        myCollector.playWithListMethods();
+        myCollector.playWithTwoWaysToUseRemoveMethodForIntegers();
+
+        System.out.println("========== S12: Set Interface [OCP] ==========");
+
+                /*
+        Set Interface - doesn't allow duplicate entries!
+
+        2 implementations:
+        - HashSet - stores key-value elements in hash table (key is hashCode(), value is Object)
+            - 🔴 Does not keep order!
+            - ✅ Takes the same time to add elements!
+        - TreeSet - stores element in a sorted tree structure
+            - ✅ Keeps order!
+            - 🕑 Takes more time to add elements!
+         */
+
+        myCollector.playWithSets();
+
+        System.out.println("========== S12: Queue Interface [OCP] ==========");
+
+        /*
+        ⭐ DEFINITION: Queue - First In, First Out (FIFO).
+        Queue Interface is implemented by LinkedList class
+        Proper methods: peek(), offer(E e), poll()
+        Collection methods: element(), add(E e), remove()
+         */
+
+        myCollector.playWithQueues();
+
+        System.out.println("========== S12: Deque Interface [OCP] ==========");
+
+        /*
+        ⭐ DEFINITION: Deque = double-ended queue.
+
+        Deque Interface used as Stack:
+        Implemented by ArrayDeque.
+        LIFO = Last In First Out
+        Proper methods: peek(), push(), poll()
+        Collection methods: element(), add(E e), remove()
+         */
+
+        myCollector.playWithDequeuesAsStack();
+
+        /*
+        Deque Interface used as Double-Ended Queue:
+        Implemented by LinkedList.
+        Proper methods:
+        - peekFirst(), offerFirst(), pollFirst()
+        - peekLast(), offerLast(), pollLast()
+        Collection methods:
+        - getFirst(), addFirst(E e), removeFirst()
+        - getLast(), addLast(E e), removeLast()
+         */
+
+        myCollector.playWithDequeuesAsDoubleEndedQueues();
+
+        System.out.println("========== S12: Map Interface [OCP] ==========");
+
+        /*
+        ⭐ DEFINITION: Map - collection which stores key-value pairs.
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#Map-Methods
+
+        2 implementations of Map Interface:
+        - HashMap
+            - 🔴 Order not kept!
+            - ✅ Same amount of time to add/get elements
+        - TreeMap
+            - ✅ Order preserved.
+            - 🕑 takes more time to add/get elements
+         */
+
+        myCollector.playWithMaps();
+
+        System.out.println("========== S12: Sorting Data [OCP] ==========");
+
+        myCollector.playWithSorting();
+
+        System.out.println("=============== S13: EXCEPTIONS [OCA, OCP] ===============");
 
         /*
         Exceptions occur when something goes wrong during runtime:
@@ -642,7 +1322,7 @@ public class JavaApp {
         Suppressed: Door does not close
          */
 
-        System.out.println("=============== S14: Math APIs [OCP] ===============");
+        System.out.println("=============== S14: MATH APIS [OCP] ===============");
 
         // min(), max()
         int aaa = Math.max(3, 11);
@@ -675,7 +1355,7 @@ public class JavaApp {
         // random numbers
         double ran = Math.random(); // between 0 and 1, not included
 
-        System.out.println("=============== S15: Beyond Classes [OCP] ===============");
+        System.out.println("=============== S15: BEYOND CLASSES [OCP] ===============");
 
         System.out.println("========== S15: Enums ==========");
         /*
@@ -711,7 +1391,7 @@ public class JavaApp {
 
         // Enums can have Constructor and Instance Method(s):
         CompassWithCtor.NORTH.printInstruction();
-        // 1. 💡 Constructors are called for each enum - 4 invocations, only once!
+        // 1. 💡 FACT: Constructors are called for each enum - 4 invocations, only once!
         // 2. Instruction "Up" is printed using printInstruction().
 
         // Enums can implement Abstract Methods:
@@ -786,8 +1466,8 @@ public class JavaApp {
         Classifier myClassifier = new Classifier();
         myClassifier.printTwice();
 
-        A myA = new A();
-        // Execute myA.main()!
+        A myPersonalA = new A();
+        // Execute myPersonalA.main()!
 
         System.out.println("===== S15: Static Nested Class =====");
 
@@ -885,7 +1565,7 @@ public class JavaApp {
         // Static methods cannot be overridden...
         // Final/static methods only hide the methods.
 
-        System.out.println("=============== S16: Streams [OCP] ===============");
+        System.out.println("=============== S16: STREAMS [OCP] ===============");
 
         System.out.println("========== S16: Optionals ==========");
 
@@ -1064,7 +1744,7 @@ public class JavaApp {
 
         /* TODO */
 
-        System.out.println("=============== S17: Localization [OCP] ===============");
+        System.out.println("=============== S17: LOCALIZATION [OCP] ===============");
 
         System.out.println("========== S17: Formatting Values ==========");
 
@@ -1217,7 +1897,7 @@ public class JavaApp {
 
         /* TODO */
 
-        System.out.println("=============== S18: Modules [OCP] ===============");
+        System.out.println("=============== S18: MODULES [OCP] ===============");
 
         System.out.println("========== S18: Introduction to Modules ==========");
 
@@ -1263,7 +1943,7 @@ public class JavaApp {
 
         System.out.println("========== S18: Migration Strategies ==========");
 
-        System.out.println("=============== S19: Concurrency [OCP] ===============");
+        System.out.println("=============== S19: CONCURRENCY [OCP] ===============");
 
         System.out.println("========== S19: Thread Concurrency ==========");
 
@@ -1621,7 +2301,7 @@ public class JavaApp {
         Check examples above - they are how things should be done!
          */
 
-        System.out.println("=============== S22: Java 21 (1Z0-830 exam) ===============");
+        System.out.println("=============== S22: JAVA 21 (1Z0-830 EXAM) ===============");
         System.out.println("========== S22: Get Certified for Java SE 21 ==========");
 
         /*

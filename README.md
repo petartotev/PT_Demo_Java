@@ -4,6 +4,8 @@
 - [TODO](#todo)
 - [Questions](#questions)
 - [Setup](#setup)
+  - [Essential Project Setup](#essential-project-setup)
+  - [Additional IDE Settings](#additional-ide-settings)
 - [Testing](#testing)
 - [C# vs. Java](#c-vs-java)
 - [Notes](#notes)
@@ -50,21 +52,26 @@
 1. Do we have BiConsumer<T, U> that accept(T, U, V, W, X) - more than 2 parameters?
 
 # Setup
+## Essential Project Setup
 1. Install IntelliJ IDEA Community (ideaIC-2024.2.4.exe) from https://www.jetbrains.com/idea/download/other.html
 2. Open Existing Project (🔴 ERROR: Does not compile! Java JDK missing!)
 3. Install JDK 17 Java Development Kit (jdk-17.0.12_windows-x64_bin) from https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
 4. Go to Project > Structure > Choose Java 17 JDK:
-![Project Structure](./res/Project-Structure_SDK-Java-17.png)
+![Project-Structure_SDK-Java-17](./res/Project-Structure_SDK-Java-17.png)
 5. Go to Run > More Actions > Configure > Choose Arguments args[0] and args[1], separated by comma:
-![Run Arguments](./res/Build-and-Run_Arguments.png)
+![Build-and-Run_Arguments](./res/Build-and-Run_Arguments.png)
 6. Right click on any directory > Mark Directory As > **Sources Root**:
-![Sources Root](./res/Sources-Root.png)
-7. Always select Opened File:
-![Project View Selected File](.res/Project_View_Selected_File.png)
+![Sources-Root](./res/Sources-Root.png)
+
+## Additional IDE Settings
+1. Always select Opened File:
+![Project-View-Selected-File](./res/Project-View-Selected-File.png)
+2. Turn on/off Inlay Hints:
+   ![File-Settings-Editor-Inlay-Hints](./res/File-Settings-Editor-Inlay-Hints.png)
 
 # Testing
 1. Make sure you have `JUnit` plugin installed:
-![Sources Root](./res/Sources-Root.png)
+![JUnit-Plugin-Installed](./res/JUnit-Plugin-Installed.png)
 2. Create new `UdemyJavaCertificatePrepTests` directory.
 3. Right-click on `UdemyJavaCertificatePrepTests` > Mark Directory As > **Test Resources Root**.
 4. Create new `FlowControllerTests` Java Class.
@@ -76,7 +83,7 @@
 6. Copy-paste the jar files into `UdemyJavaCertificatePrepTests` directory.
 7. Right-click on each of these and choose "Add to Library".
 8. Go to File > Project Structure > Libraries > you can check your added libraries:
-![Sources Root](./res/Sources-Root.png)
+![JUnit-Tests-Add-To-Library](./res/JUnit-Tests-Add-To-Library.png)
 9. Implement `FlowControllerTests` using JUnit `@Test` annotations.
 10. Run `FlowControllerTests`.
 
@@ -100,9 +107,11 @@
 | Region                                | #region //smth #endregion      | // <editor-fold desc="Section Name"> |🙁|
 
 - Print current method name:
-  - C#: Console.WriteLine(MethodBase.GetCurrentMethod().Name);
-  - Java: System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName()); 🙁
-
+  - 🏆 C#: `Console.WriteLine(MethodBase.GetCurrentMethod().Name);`
+  - Java: `System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());`
+- Print List:
+  - C#: `Console.WriteLine(string.Join(", ", myListStrings));`
+  - 🏆 Java: `System.out.println(myListStrings)`
 
 # Notes
 - float x = 2.7 // does not compile! needs 'f' at the end

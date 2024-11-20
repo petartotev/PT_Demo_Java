@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="junit-platform-commons-1.11.3 (2)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/UdemyJavaCertificatePrepTests/junit-platform-commons-1.11.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -16,6 +16,14 @@ public interface Drivable {
     default void printDrivableFeatures() {
         System.out.println("distanceWithFullTank with 100 is " + distanceWithFullTank(100));
     }
+
+    static int getSomethingFromStaticMethod() {
+        return getSomethingFromPrivateStaticMethod();
+    }
+
+    private static int getSomethingFromPrivateStaticMethod() {
+        return 100;
+    }
 }
 
 // Implicit keywords automatically added like below:

@@ -9,33 +9,59 @@ public class ArrayCharles {
         int[] nums2 = { 4, 0, 16 };
         int[] nums3 = new int[] { 3, -1 ,17 };
 
-        // print array
-        System.out.println(nums3); /* [I@20ad9418 */
+        // Declare multiple arrays on the same line:
+        int[] myNumbers, myValues;
+        // Declare int[] and int:
+        int[] myNumbersInArray, someNumber;
+
+        // ⚠️ WARNING: Arrays don't implement equals() method!
+        int[] myNums11= new int[] { 1, 2, 3 };
+        int[] myNums22= new int[] { 1, 2, 3 };
+        System.out.println("myNums11 == myNums22: " + (myNums11 == myNums22));          /* false */
+        System.out.println("myNums11.equals(myNums22): " + myNums11.equals(myNums22));  /* false */
+
+        // Print array:
+        System.out.println(nums3);                  /* [I@20ad9418 */
         System.out.println(Arrays.toString(nums3)); /* [3, -1, 17] */
-        // length of array
-        System.out.println(nums3.length);
 
-        // sort
+        // length
+        System.out.println(nums3.length); /* 3 */
+
+        // sort()
+        /* ⚠️ WARNING: Arrays are mutable => sort() changes the original array! */
         Arrays.sort(nums3);
-        System.out.println(Arrays.toString(nums3));
-        // N.B. Arrays are mutable, sort() changes original array!
+        System.out.println(Arrays.toString(nums3)); /* [-1, 3, 17] */
 
-        var result = Arrays.binarySearch(nums3, 17); // Works only with sorted arrays!
+        // binarySearch()
+        /* ⚠️ WARNING: Works only with sorted arrays! */
+        var result = Arrays.binarySearch(nums3, 17);
         System.out.println("Index is " + result);
 
-        int[] numbers1 = { };
-        int[] numbers2 = { };
-        // If 2 arrays have different length, the greater length wins
-        // If 2 arrays have the same length, the one with smaller first element is smaller
-        // Null is smaller than any other values
-        Arrays.compare(new int[] {3,7}, new int[]{3});
-        Arrays.compare(new int[] {3,7}, new int[]{3,7});
-        Arrays.compare(new int[] {3,7}, new int[]{2,7});
-        Arrays.compare(new String[] {"ab","John"}, new String[] {"abc","Hey!"});
+        // compare()
+        /*
+        If arr1 > arr2 => 1
+        If arr1 < arr2 => -1
+        If arr1 = arr2 => 0
 
-        Arrays.mismatch(new int[] {1,2}, new int[] {1,3});
-        Arrays.mismatch(new int[] {1,2}, new int[] {1,2,3});
-        Arrays.mismatch(new int[] {1,2}, new int[] {1,2});
+        If 2 arrays have different length, the greater length wins.
+        If 2 arrays have the same length, the one with smaller first element is smaller.
+        Null is smaller than any other values.
+        One String is smaller if it is a prefix of another.
+        Uppercase is smaller than lowercase.
+        Numbers are smaller than letters.
+         */
+        Arrays.compare(new int[] {3,7}, new int[]{3}); /* 1 */
+        Arrays.compare(new int[] {3,7}, new int[]{3,7}); /* 0 */
+        Arrays.compare(new int[] {3,7}, new int[]{2,7}); /* 1 */
+        Arrays.compare(new String[] {"ab","John"}, new String[] {"abc","Hey!"});  /* -1 */
+        Arrays.compare(new String[] {"xy","John"}, new String[] {"abc","Hey!"});  /* 1 */
+        Arrays.compare(new String[] {"John","John"}, new String[] {"john","John"});  /* -1 */
+        Arrays.compare(new String[] {"John","John"}, null);  /* 1 */
+
+        // mismatch()
+        Arrays.mismatch(new int[] {1,2}, new int[] {1,3}); /* 1 */
+        Arrays.mismatch(new int[] {1,2}, new int[] {1,2,3}); /* 2 */
+        Arrays.mismatch(new int[] {1,2}, new int[] {1,2}); /* -1 */
     }
 
     public void playWithMultidimensionalArrays() {

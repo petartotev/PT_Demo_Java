@@ -3,110 +3,101 @@ package Collections;
 import java.util.*;
 import java.util.function.BiFunction;
 
-public class ElCollectore {
+public class ElCollector {
     public void playWithCommonCollectionMethods() {
         System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
 
         List<String> names1 = new ArrayList<String>();
-        List<String> names2 = new ArrayList<>(); /* can omit type on the right side */
-        var colors = new ArrayList<String>(); /* Java 17 */
+        List<String> names2 = new ArrayList<>();    /* ✅ SUCCESS: Can omit type on the right side */
+        //List<> names2 = new ArrayList<String>();  /* 🔴 ERROR: Cannot omit type on the left side */
+        var colors = new ArrayList<String>();       /* Java 17 */
 
         // add() - adds an element in the Collection, returns true/false
-        // allows duplicate entities!
-        System.out.println(colors.add("red"));
-        System.out.println(colors.add("green"));
-        System.out.println(colors.add("blue"));
-        System.out.println(colors.add("red"));
+        System.out.println(colors.add("red"));  /* true */
+        System.out.println(colors.add("cyan")); /* true */
+        System.out.println(colors.add("blue")); /* true */
+        // List allows duplicate entities!
+        System.out.println(colors.add("red"));  /* true */
 
         // toString() method provides nice way to print the collection directly!
-        System.out.println(colors); /* [red, green blue, red] */
+        System.out.println(colors);                    /* [red, cyan blue, red] */
 
         // remove() - removes an element in the Collection, returns true/false
         // Removes only the first match is removed!
-        System.out.println(colors.remove("red"));
+        System.out.println(colors.remove("red"));   /* true */
+        System.out.println(colors);                    /* [cyan blue, red] */
+        System.out.println(colors.remove("brown")); /* false */
+        System.out.println(colors);                    /* [cyan blue, red] */
 
-        System.out.println(colors); /* [green blue, red] */
-
-        // isEmpty()
-        System.out.println(colors.isEmpty());
+        // isEmpty() - returns true or false
+        System.out.println(colors.isEmpty());   /* false */
 
         // size()
-        System.out.println(colors.size());
+        System.out.println(colors.size());      /* 3 */
 
-        // clear()
+        // clear() - returns true or false
         colors.clear();
-        System.out.println(colors.size()); /* 0 */
-        System.out.println(colors.isEmpty());
+        System.out.println(colors.size());      /* 0 */
+        System.out.println(colors.isEmpty());   /* true */
 
         colors.add("red");
         colors.add("green");
         colors.add("blue");
 
-        // contains()
-        System.out.println(colors.contains("red"));
-        System.out.println(colors.contains("yellow"));
+        // contains() - returns true or false
+        System.out.println(colors.contains("red"));     /* true */
+        System.out.println(colors.contains("yellow"));  /* false */
 
         // removeIf()
         colors.add("brownish");
-        System.out.println(colors);
-        colors.removeIf(x -> x.startsWith("r") || x.length() > 6);
-        System.out.println(colors);
+        colors.add("yellow");
+        System.out.println(colors); /* [red, green, blue, brownish, yellow] */
+        System.out.println(colors.removeIf(x -> x.startsWith("y") || x.length() > 6)); /* true */
+        System.out.println(colors.removeIf(x -> x.length() < 2)); /* false */
+        System.out.println(colors); /* [red, green, blue] */
 
         // forEach()
-        colors.forEach(x -> System.out.println(x + " color!"));
+        colors.forEach(x -> System.out.println(x + " color!")); /* red color! green color! blue color! */
 
         // equals()
-        // Compares type and contents of Collection.
-        // ArrayList checks order.
-        // HashSet does not check order.
+        /*
+        Each Collection has equals() method - compares type and contents of Collection.
+        ArrayList checks order.
+        HashSet does not check order.
+         */
     }
 
-    public void playWithLists() {
+    public void playWithListsCreatedByFactoryMethods() {
         System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-        /*
-        List - an ordered collection that can contain duplicate entries.
-        Unlike array, its size can change after being declared.
-        2 classes that implement List: ArrayList and LinkedList
-        - ArrayList - when you read more than you write
-        - LinkedList - implements List and Deque
-         */
-
-        /*
-        Create List using FACTORY METHOD (⚠️ size is fixed (no adding or removing)):
-        1. Arrays.asList(varargs)
-        2. List.of(varargs)
-        3. List.copyOf(collection)
-         */
 
         String[] names = new String[] { "John", "Jack", "Jay" };
 
         List<String> namesList = Arrays.asList(names);
-        // namesList.add("Amy");    /* ⚠️⚠️⚠️ java.lang.UnsupportedOperationException */
+        //namesList.add("Amy");         /* 🔴 ERROR: java.lang.UnsupportedOperationException */
+
         List<String> namesOf = List.of(names);
-        // namesOf.add("Amy");      /* ⚠️⚠️⚠️ java.lang.UnsupportedOperationException */
+        //namesOf.add("Amy");           /* 🔴 ERROR: java.lang.UnsupportedOperationException */
+
         List<String> namesCopyOf = List.copyOf(namesList);
-        // namesCopyOf.add("Amy");  /* ⚠️⚠️⚠️ java.lang.UnsupportedOperationException */
-        // namesCopyOf.set(0, "Paul"); /* ⚠️⚠️⚠️ java.lang.UnsupportedOperationException */
+        //namesCopyOf.add("Amy");       /* 🔴 ERROR: java.lang.UnsupportedOperationException */
+        //namesCopyOf.set(0, "Paul");   /* 🔴 ERROR: java.lang.UnsupportedOperationException */
 
         names[1] = "Ben";
         System.out.println(Arrays.toString(names)); /* [John, Ben, Jay] */
-        System.out.println(namesList);              /* [John, Ben, Jay] ⚠️ List also changed */
+        System.out.println(namesList);              /* [John, Ben, Jay] ⚠️ WARNING: List also changed */
         System.out.println(namesOf);                /* [John, Jack, Jay] */
         System.out.println(namesCopyOf);            /* [John, Jack, Jay] */
 
         namesList.set(2, "Michael");
         System.out.println(namesList);              /* [John, Ben, Michael] */
-        System.out.println(Arrays.toString(names)); /* [John, Ben, Michael] ⚠️ Array also changed */
+        System.out.println(Arrays.toString(names)); /* [John, Ben, Michael] ⚠️ WARNING: Array also changed */
+    }
 
-        /*
-        Create List using Constructor
-         */
-
+    public void playWithListsCreatedByConstructor() {
         // Recommended: Put name of interface on left side, name of class on right side.
         List<String> myList1 = new ArrayList<>();
         List<String> myList2 = new ArrayList<>(myList1);
-        List<String> myList3 = new ArrayList<>(5); /* reservation of slots, but if you put 6 it expands. */
+        List<String> myList3 = new ArrayList<>(5); /* 💡 FACT: Reserves 5 slots, but if you put 6 it expands. */
     }
 
     public void playWithListMethods() {
@@ -119,39 +110,38 @@ public class ElCollectore {
         names.add("George");
         names.add("Paul");
         names.add("Ringo");
-        System.out.println(names);
+        System.out.println("names: " + names);  /* names: [John, George, Paul, Ringo] */
 
         // add(int index, E element)
         names.add(1, "Luke");
-        System.out.println(names);
+        System.out.println("names: " + names);  /* names: [John, Luke, George, Paul, Ringo] */
 
         // get(int index)
-        System.out.println(names.get(0));
+        System.out.println(names.get(0));       /* John */
 
         // set(int index, E element)
         names.set(3, "Ben");
-        System.out.println(names);
+        System.out.println("names: " + names);  /* names: [John, Luke, George, Ben, Ringo] */
 
         // remove(int index)
         names.remove(1);
-        System.out.println(names);
+        System.out.println("names: " + names);  /* names: [John, George, Ben, Ringo] */
 
         // remove(E element)
         names.remove("Ben");
-        System.out.println(names);
+        System.out.println("names: " + names);  /* names: [John, George, Ringo] */
 
         // replaceAll(UnaryOperator<E> op)
         names.replaceAll(s -> s + " A.");
-        System.out.println(names);
+        System.out.println("names: " + names); /* names: [John A., George A., Ringo A.] */
 
         // sort(Comparator<? super E> c)
 
         // toArray();
-        Object[] objArray = names.toArray();
-        String[] strArray = names.toArray(new String[0]); /* TODO */
+        playWithConvertingListToArrayUsingToArrayMethod();
     }
 
-    public void playWithRemovingFromIntegersList() {
+    public void playWithTwoWaysToUseRemoveMethodForIntegers() {
         System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
 
         List<Integer> myNumbers = new ArrayList<>();
@@ -160,57 +150,48 @@ public class ElCollectore {
         myNumbers.add(5);
         myNumbers.add(1);
 
-        myNumbers.remove(1); /* 1 will be treated as index */
-        myNumbers.remove(Integer.valueOf(7)); /* 7 will be treated as integer value */
+        myNumbers.remove(1);                /* 1 will be treated as index */
+        myNumbers.remove(Integer.valueOf(7));   /* 7 will be treated as integer value */
+    }
+
+    private void playWithConvertingListToArrayUsingToArrayMethod() {
+        List<Integer> numbers = List.of(new Integer[] { 123, 24, 36, 17 });
+
+        Object[] objArray = numbers.toArray(); /* array of objects */
+        Integer[] intArray = numbers.toArray(new Integer[0]); /* special syntax => array of integers */
     }
 
     public void playWithSets() {
         System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        /*
-        Set Interface - doesn't allow duplicate entries!
-        2 implementations:
-        HashSet - stores key-value elements in hash table
-        - key is hashCode(), value is Object
-        - Does not keep order!
-        - takes the same time to add elements
-        TreeSet - stores element in a sorted tree structure
-        - Keeps order!
-        - takes more time to add elements
-         */
+        Set<String> hashSetNames = new HashSet<>();
+        System.out.println(hashSetNames.add("John"));           /* true */
+        System.out.println(hashSetNames.add("Rex"));            /* true */
+        System.out.println(hashSetNames.add("John"));           /* false */
+        System.out.println(hashSetNames.add("Ben"));            /* true */
+        System.out.println("hashSetNames: " + hashSetNames);    /* hashSetNames: [Rex, John, Ben] ⚠️ WARNING: DOES NOT KEEP ORDER! */
 
-        Set<String> names = new HashSet<>();
-        System.out.println(names.add("John"));  /* true */
-        System.out.println(names.add("Rex"));   /* true */
-        System.out.println(names.add("John"));  /* false */
-        System.out.println(names.add("Ben"));   /* true */
-        System.out.println(names);  /* [Rex, John, Ben] ⚠️ DOES NOT KEEP ORDER! */
-
-        Set<String> treeNames = new TreeSet<>();
-        System.out.println(treeNames.add("John"));  /* true */
-        System.out.println(treeNames.add("Rex"));   /* true */
-        System.out.println(treeNames.add("John"));  /* false */
-        System.out.println(treeNames.add("Ben"));   /* true */
-        System.out.println(treeNames);  /* [Ben, John, Rex] KEEPS ORDER - LAST ADDED IS FIRST IN THE LIST */
+        Set<String> treeSetNames = new TreeSet<>();
+        System.out.println(treeSetNames.add("John"));           /* true */
+        System.out.println(treeSetNames.add("Rex"));            /* true */
+        System.out.println(treeSetNames.add("John"));           /* false */
+        System.out.println(treeSetNames.add("Ben"));            /* true */
+        System.out.println("treeSetNames: " + treeSetNames);    /* treeSetNames: [Ben, John, Rex] ✅ SUCCESS: KEEPS ORDER - LAST ADDED IS FIRST IN THE LIST */
     }
 
     public void playWithQueues() {
         System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        /*
-        Queue - first in, first out (FIFO)
-        Queue Interface implemented by LinkedList class
-        Proper methods: peek(), offer(E e), poll()
-        Collection methods: element(), add(E e), remove()
-         */
-
         Queue<String> colors = new LinkedList<>();
+        // offer(E e)
         colors.offer("cyan");
         colors.offer("magenta");
         colors.offer("yellow");
         colors.offer("black");
         System.out.println(colors);         /* [cyan, magenta, yellow, black] */
+        // peek()
         System.out.println(colors.peek());  /* cyan */
+        // poll()
         colors.poll();
         System.out.println(colors);         /* [magenta, yellow, black] */
         System.out.println(colors.peek());  /* magenta */
@@ -219,21 +200,16 @@ public class ElCollectore {
     public void playWithDequeuesAsStack() {
         System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        /*
-        Deque Interface used as Stack:
-        Implemented by LinkedList and ArrayDeque
-        LIFO = Last In First Out
-        Proper methods: peek(), push(), poll()
-        Collection methods: element(), add(E e), remove()
-         */
-
         Deque<String> colors = new ArrayDeque<>();
+        // push(E e)
         colors.push("cyan");
         colors.push("magenta");
         colors.push("yellow");
         colors.push("black");
         System.out.println(colors);         /* [black, yellow, magenta, cyan] */
+        // peek()
         System.out.println(colors.peek());  /* black */
+        // pop()
         colors.pop();
         System.out.println(colors);         /* [yellow, magenta, cyan] */
         System.out.println(colors.peek());  /* yellow */
@@ -246,48 +222,33 @@ public class ElCollectore {
     public void playWithDequeuesAsDoubleEndedQueues() {
         System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        /*
-        Deque Interface used as Double-Ended Queue:
-        Implemented by LinkedList and ArrayDeque
-        LIFO = Last In First Out
-        Proper methods:
-        - peekFirst(), offerFirst(), pollFirst()
-        - peekLast(), offerLast(), pollLast()
-        Collection methods:
-        - getFirst(), addFirst(E e), removeFirst()
-        - getLast(), addLast(E e), removeLast()
-         */
-
-        Deque<Integer> nums = new LinkedList<>();
-        nums.addFirst(9);
-        nums.offerFirst(-11);
-        nums.addLast(5);
-        System.out.println(nums);               /* [-11, 9, 5] */
-        System.out.println(nums.getFirst());    /* -11 */
-        System.out.println(nums.peekLast());    /* 5 */
-        nums.pollFirst();
-        System.out.println(nums);               /* [9, 5] */
-        System.out.println(nums.getFirst());    /* 9 */
-        System.out.println(nums.peekLast());    /* 5 */
+        Deque<Integer> numbers = new LinkedList<>();
+        numbers.addFirst(9);                    /* [9] */
+        System.out.println(numbers);
+        //numbers.addFirst(-12);
+        //System.out.println(numbers);             /* [-12, 9] */
+        numbers.offerFirst(-11);
+        System.out.println(numbers);               /* [-11, 9] */
+        numbers.addLast(5);
+        System.out.println(numbers);               /* [-11, 9, 5] */
+        System.out.println(numbers.getFirst());    /* -11 */
+        System.out.println(numbers);               /* [-11, 9, 5] */
+        System.out.println(numbers.peekLast());    /* 5 */
+        System.out.println(numbers);               /* [-11, 9, 5] */
+        numbers.pollFirst();
+        System.out.println(numbers);               /* [9, 5] */
+        System.out.println(numbers.getFirst());    /* 9 */
+        System.out.println(numbers);               /* [9, 5] */
+        System.out.println(numbers.peekLast());    /* 5 */
+        System.out.println(numbers);               /* [9, 5] */
     }
 
     public void playWithMaps() {
         System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        /*
-        Map - collection which stores key-value pairs.
-        2 implementations of Map Interface:
-        HashMap
-        - order not kept
-        - same amount of time to add/get elements
-        TreeMap
-        - order preserved
-        - takes more time to add/get elements
-         */
-
         // Option 1
         Map<Integer, String> names1 = Map.of(1, "John", 2, "George", 3, "Luke");
-        System.out.println(names1); /* { 1 = John, 2 = George, 3 = Luke } */
+        System.out.println(names1); /* {2=George, 3=Luke, 1=John} ⚠️ WARNING: DOES NOT KEEP ORDER! */
 
         // Option 2
         Map<Integer, String> names2 = new HashMap<>();
@@ -295,7 +256,7 @@ public class ElCollectore {
                 Map.entry(1, "John"),
                 Map.entry(2, "George"),
                 Map.entry(3, "Luke"));
-        System.out.println(names2);
+        System.out.println(names2); /* {2=George, 3=Luke, 1=John} ⚠️ WARNING: DOES NOT KEEP ORDER! */
 
         // Example 1
         Map<Integer, String> names3 = new HashMap<>();

@@ -4,6 +4,7 @@ public class Mammal extends Animal {
     private int age;
     protected String name;
 
+    public Mammal() { setAge(0); }
     public Mammal(int age) {
         setAge(age);
     }

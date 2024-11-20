@@ -1,10 +1,17 @@
 public class Doggy {
-    String name = "Test";
+    String name = "Chip"; /* instance variable */
 
+    /* Executed 2nd */
     public Doggy() {
         name = "Rex";
-        System.out.println(("Constructor is executed. Dog's name set to Rex!"));
+        System.out.println(("Constructor executed! Dog's name set to Rex!"));
     }
 
-    /*static*/ { System.out.println(("Initializer block is executed!")); }
+    // ⚠️ WARNING: Method name Doggy is the same as its class name!
+    public void Doggy() {
+        System.out.println("This compiles, but not a good practice!");
+    }
+
+    /* Executed 1st */
+    /*static*/ { System.out.println(("Initializer block executed!")); }
 }

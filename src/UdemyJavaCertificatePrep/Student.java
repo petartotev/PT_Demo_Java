@@ -1,15 +1,21 @@
-// Comment same as C#!
+// Comments are similar to ones in C#!
 
 /* Same as C#! */
 
 /*
- * Test
- * Test
+ * This is the usual way to write multiline comments.
+ * It's very readable like this.
 */
 
-/**
+/** <- "Javadoc"
  * This class Student was the first class I ever created using Java.
- * @author Petar Totev
+ * @author Petar Totev <-- "Javadoc tag"
+ //* @param – Describes a method parameter.
+ //* @return – Describes the return value of a method.
+ //* @throws – Describes exceptions thrown by a method.
+ //* @exception – Describes exceptions thrown by a method.
+ //* @since – Indicates when the feature was added.
+ //* @deprecated – Marks a method or class as deprecated.
  */
 public class Student {
     public Student() {
