@@ -81,6 +81,7 @@
 10. Run `FlowControllerTests`.
 
 # C# vs. Java
+
 | Feature                               | C#                             | Java                                 |  |
 |---------------------------------------|--------------------------------|--------------------------------------|--|
 | Variable Naming                       | energyField // camelCase       | energyField // camelCase             |  |
@@ -97,6 +98,11 @@
 | Foreach Loops                         | foreach (var car in Cars) { }  | for (String car : cars) { }          |  |
 | Base keyword                          | base.name                      | super.name                           |  |
 | Region                                | #region //smth #endregion      | // <editor-fold desc="Section Name"> |🙁|
+
+- Print current method name:
+  - C#: Console.WriteLine(MethodBase.GetCurrentMethod().Name);
+  - Java: System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName()); 🙁
+
 
 # Notes
 - float x = 2.7 // does not compile! needs 'f' at the end
@@ -370,23 +376,23 @@ S22: Java 21 (1Z0-830 exam)
 
 ### Functional Interfaces
 
-| Functional Interface | Method Signature   | Return Type |
-|----------------------|--------------------|-------------|
-| Supplier<T>          | `get()`            | T           |
-| Consumer<T>          | `accept(T)`        | void        |
-| BiConsumer<T,U>      | `accept(T, U)`     | void        |
-| Predicate<T>         | `test(T)`          | boolean     |
-| BiPredicate<T,U>     | `test(T, U)`       | boolean     |
-| Function<T,R>        | `apply(T)`         | R           |
-| BiFunction<T,U,R>    | `apply(T, U)`      | R           |
-| UnaryOperator<T>     | `apply(T)`         | T           |
-| BinaryOperator<T>    | `apply(T, T)`      | T           |
+| Functional Interface | Method Signature   | Return Type | Examples                                                  |
+|----------------------|--------------------|-------------|-----------------------------------------------------------|
+| Supplier<T>          | `get()`            | T           | () -> LocalDateTime.now();                                |
+| Consumer<T>          | `accept(T)`        | void        | s -> System.out.println("Hi, " + s + "!");                |
+| BiConsumer<T,U>      | `accept(T, U)`     | void        | (s, t) -> System.out.println("Hi, " + s + " " + t + "!"); |
+| Predicate<T>         | `test(T)`          | boolean     | n -> n > 10;                                              |
+| BiPredicate<T,U>     | `test(T, U)`       | boolean     | (n, m) -> n > m                                           |
+| Function<T,R>        | `apply(T)`         | R           | n -> (double)(n*n);                                       |
+| BiFunction<T,U,R>    | `apply(T, U)`      | R           | (s, i) -> s + i;                                          |
+| UnaryOperator<T>     | `apply(T)`         | T           | n -> -n; String::toUpperCase;                             |
+| BinaryOperator<T>    | `apply(T, T)`      | T           | (a, b) -> a + b; String::concat;                          |
 
 ### Common Functional Interfaces for Primitives
 
 | Functional Interface   | Return Type | Abstract Method Signature              |
 |------------------------|-------------|----------------------------------------|
-| BoolSupplier           | boolean     | `getAsBoolean()`                       |
+| BooleanSupplier        | boolean     | `getAsBoolean()`                       |
 | DoubleSupplier         | double      | `getAsDouble()`                        |
 | IntSupplier            | int         | `getAsInt()`                           |
 | LongSupplier           | long        | `getAsLong()`                          |
