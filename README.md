@@ -1,12 +1,13 @@
 # PT_Demo_Java
 
 # Contents
+- [TODO](#todo)
+- [Questions](#questions)
 - [Setup](#setup)
 - [Testing](#testing)
 - [C# vs. Java](#c-vs-java)
 - [Notes](#notes)
 - [Shortcuts](#shortcuts)
-- [Questions](#questions)
 - [Links](#links)
 - [Course Contents](#course-contents)
   - [S2: Data Types](#data-types)
@@ -19,7 +20,7 @@
     - [Comparison Operators](#comparison-operators)
   - [S11: Lambdas and Functional Programming](#lambdas-and-functional-programming)
     - [Method References](#method-references)
-    - [Functional References](#functional-references)
+    - [Functional Interfaces](#functional-interfaces)
     - [Common Functional Interfaces for Primitives](#common-functional-interfaces-for-primitives)
     - [Primitive Specific Functional Interfaces](#primitive-specific-functional-interfaces)
   - [S12: Collections](#collections)
@@ -44,6 +45,9 @@
 1. Change images in Testing section (JUnit_Tests_Add_To_Library.png and JUnit_Plugin_Installed.png)
 2. Extract "Setup JDBC" and "Setup JUNit" sections and mention them in JavaApp.java
 3. Method, constructor, class access modifiers can be extracted in tables in README
+
+# Questions
+1. Do we have BiConsumer<T, U> that accept(T, U, V, W, X) - more than 2 parameters?
 
 # Setup
 1. Install IntelliJ IDEA Community (ideaIC-2024.2.4.exe) from https://www.jetbrains.com/idea/download/other.html
@@ -113,8 +117,6 @@
 | sout + tab                  | Prints System.out.println();              |
 | soutp + tab                 | Prints method parameters                  |
 | soutv + tab                 | Prints variable's name and value          |
-
-# Questions
 
 # Links
 - https://www.jetbrains.com/idea/download/other.html
@@ -366,7 +368,7 @@ S22: Java 21 (1Z0-830 exam)
 | `() -> s.isEmpty()`             | `s::isEmpty`          |
 | `s -> s.isBlank()`              | `String::isEmpty`     |
 
-### Functional References
+### Functional Interfaces
 
 | Functional Interface | Method Signature   | Return Type |
 |----------------------|--------------------|-------------|
