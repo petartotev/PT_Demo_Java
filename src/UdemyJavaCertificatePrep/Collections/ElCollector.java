@@ -260,13 +260,16 @@ public class ElCollector {
 
         // Example 1
         Map<Integer, String> names3 = new HashMap<>();
+        // put()
         names3.put(5, "John");
         names3.put(11, "George");
         names3.put(-2, "Luke");
 
+        // get()
         String myName = names3.get(-2);
         System.out.println(myName);
 
+        // keySet()
         for (Integer key : names3.keySet()) {
             System.out.println("Key: " + key + ", Value: " + names3.get(key));
         }
@@ -284,12 +287,15 @@ public class ElCollector {
         names.put(11, "George");
         names.put(-2, "Luke");
 
+        // forEach()
         names.forEach((k, v) -> {
             System.out.println("Key: " + k + ", Value: " + names.get(k));
         });
 
+        // values()
         names.values().forEach(System.out::println);
 
+        // entrySet() - returns the set of key-value pairs
         names.entrySet().forEach(e -> System.out.println("Key: " + e.getKey() + ", Value: " + e.getValue()));
     }
 
@@ -299,8 +305,10 @@ public class ElCollector {
         names.put(11, "George");
         names.put(-2, "Luke");
 
+        // get()
         System.out.println(names.get(-2));
         System.out.println(names.get(6));  /* null */
+        // getOrDefault()
         System.out.println(names.getOrDefault(6, "Name not found!"));
     }
 
@@ -310,7 +318,8 @@ public class ElCollector {
         names.put(11, "George");
         names.put(-2, "Luke");
 
-        String myName = names.replace(-2, "Paul"); /* ⚠️ replaces, but returns old value! */
+        // replace()
+        String myName = names.replace(-2, "Paul"); /* ⚠️ WARNING: Replaces, but returns old value! */
         System.out.println(myName);    /* Luke */
         System.out.println(names);     /* {-2=Paul, 5=John, 11=George} */
     }
@@ -321,9 +330,10 @@ public class ElCollector {
         names.put(11, "George");
         names.put(-2, "Luke");
 
-        names.putIfAbsent(7, "Paul");
-        names.putIfAbsent(-2, "Ringo"); /* nothing happens */
-        names.putIfAbsent(11, "null");  /* nothing happens */
+        // putIfAbsent()
+        System.out.println(names.putIfAbsent(7, "Paul")); /* null <=> does not exist, puts new value */
+        System.out.println(names.putIfAbsent(-2, "Ringo")); /* Luke <=> exists, nothing happens */
+        System.out.println(names.putIfAbsent(11, "null"));  /* George <=> exists, nothing happens */
     }
 
     private void playWithMapsMergeMethod() {
@@ -332,24 +342,16 @@ public class ElCollector {
         names.put(11, "George");
         names.put(-2, "Luke");
 
-        // insert name only if longer than original name
+        // Insert name only if longer than original name:
         BiFunction<String, String, String> myLogic = (name1, name2) -> name1.length() > name2.length() ? name1 : name2;
-        System.out.println(names.merge(5, "Joe", myLogic));     /* John is kept */
-        System.out.println(names.merge(-2, "Lucas", myLogic));  /* Lucas is put */
-        System.out.println(names.merge(7, "Paul", myLogic));    /* Pull is put */
+        // merge()
+        System.out.println(names.merge(5, "Joe", myLogic));     /* Joe.length() < John.length() => John is kept */
+        System.out.println(names.merge(-2, "Lucas", myLogic));  /* Lucas.length() > Luke.length() => Lucas is put */
+        System.out.println(names.merge(7, "Paul", myLogic));    /* 7 is missing => Paul is put */
     }
 
     public void playWithSorting() {
         System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-        /*
-        If elements in a Collection are primitives - sorted by natural order.
-        If elements are string - numbers sort before letters, uppercase before lowercase.
-        If not primitives - you have to define own criteria
-        2 approaches:
-        - use a class implementing Comparable<T> interface
-        - pass the implementation of Comparator<T> interface in sort() method
-         */
 
         /*
         Comparable<T> Interface
@@ -367,13 +369,15 @@ public class ElCollector {
         Collections.sort(people);
 
         System.out.println(people);
-        // Before Person overrides toString():
-        // [Collections.Person@2b05039f, Collections.Person@61e717c2, Collections.Person@66cd51c3]
-        // After Person overrides toString():
-        // [Person(Name: George, Age: 20), Person(Name: John, Age: 25), Person(Name: Ben, Age: 30)]
+        // Before Person overrides toString(): [Collections.Person@2b05039f, Collections.Person@61e717c2, Collections.Person@66cd51c3]
+        // After Person overrides toString():  [Person(Name: George, Age: 20), Person(Name: John, Age: 25), Person(Name: Ben, Age: 30)]
 
-        // If we sometimes want to sort by name and sometimes by age:
-        // Use Comparator<T> interface and pass to sort()
+        /*
+        If we want to sort by name and sometimes by age:
+        1. Change Person @Override compareTo(Person other):
+            return this.name.compareTo(other.name);
+        2. Use Comparator<T> interface and pass to sort()
+         */
 
         List<Persona> personas = Arrays.asList(
                 new Persona("John", 25),

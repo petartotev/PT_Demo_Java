@@ -10,6 +10,7 @@ import DataTypes.*;
 import Exceptional.Door;
 import Exceptional.Exceptionalissimo;
 import Exceptional.MyFileClass;
+import Exceptional.OutOfMilkException;
 import FlowControl.FlowController;
 import FunctionalProgramming.*;
 import Methodology.MethodItem;
@@ -18,6 +19,7 @@ import Methodology.MethodStaticItem;
 import Operators.SmoothOperator;
 import Streams.Optionalles;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.text.DecimalFormat;
@@ -35,7 +37,7 @@ import java.util.stream.Stream;
 
 // 💡 FACT: Class JavaApp is initialized automatically, as main() method is inside the class.
 public class JavaApp {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, OutOfMilkException {
         System.out.println("=============== UDEMY.COM Java Certificate Prep: OCA (1Z0-808) & OCP (1Z0-829, 1Z0-830) by Luka Popov ===============");
         System.out.println("=============== S1: INTRODUCTION ===============");
 
@@ -1230,10 +1232,23 @@ public class JavaApp {
 
         System.out.println("========== S12: Sorting Data [OCP] ==========");
 
+        /*
+        If elements in a Collection are primitives => sorted by natural order.
+        If elements are strings:
+        - numbers sort before letters
+        - uppercase sort before lowercase.
+        If not primitives - one needs to define their own criteria.
+        2 approaches:
+        - use a class implementing Comparable<T> interface
+        - pass the implementation of Comparator<T> interface in sort() method
+
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#Compare-Compares
+         */
+
         myCollector.playWithSorting();
 
         System.out.println("=============== S13: EXCEPTIONS [OCA, OCP] ===============");
-
+        System.out.println("========== S13: Undestanding and Handling Exceptions [OCA] ==========");
         /*
         Exceptions occur when something goes wrong during runtime:
         - divide by 0
@@ -1242,49 +1257,66 @@ public class JavaApp {
          */
 
         /*
+        Exception Types Hierarchy:
+        --------------------------
         java.lang.Throwable
         - java.lang.Error (unchecked ⚠️)
-        - java.lang.Exception
+        - java.lang.Exception (checked ✔)
             - java.lang.RuntimeException (unchecked ⚠️) - does not inherit from Exception!
-                - java.lang.ArithmeticException
-                - java.lang.ArrayIndexOutOfBoundsException
-                - java.lang.NullPointerException
-                - java.lang.ClassCastException
-                - java.lang.NumberFormatException
-            - java.lang.
-            IOException
+                - java.lang.ArithmeticException (unchecked ⚠️)
+                - java.lang.IndexOutOfBoundsException (unchecked ⚠️)
+                    - java.lang.ArrayIndexOutOfBoundsException (unchecked ⚠️)
+                - java.lang.NullPointerException (unchecked ⚠️)
+                - java.lang.ClassCastException (unchecked ⚠️)
+                - java.lang.NumberFormatException (unchecked ⚠️)
+                - java.lang.IllegalArgumentException (unchecked ⚠️)
+            - java.lang.IOException (checked ✔)
                 - java.io.IOException
                 - java.io.FileNotFoundException
             - other exceptions
+
+       ⭐ DEFINITION: Checked Exception - must be declared or handled by the application code where it is thrown.
+       You cannot ignore them in the codebase as a programmer - you have to declare or handle them.
+       All Checked Exceptions inherit from Exception (but not RuntimeException).
+       Exception is declared when defining a method, using keyword 'throws'.
+       Exception is handled using try-catch block.
+       Main method must also declare or handle the checked exception!
+
+       ⭐ DEFINITION: Unchecked Exception - may or may not be handled.
+       📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#Unchecked-Exceptions
         */
 
         Exceptionalissimo ex = new Exceptionalissimo();
-        //ex.readFirstByteFromFileDoesNotCompile(new File("file.txt")); // IOException
-        //ex.readFirstByteFromFileWithThrows(new File("file.txt")); // IOException
-        //ex.readFirstByteFromFileHandleException(new File("file.txt")); // IOException
+
+        //ex.readFirstByteFromFileDoesNotCompile(new File("file.txt")); // IOException (checked exception)
+        //ex.readFirstByteFromFileWithThrows(new File("file.txt")); // IOException (checked exception)
+        ex.readFirstByteFromFileHandleException(new File("file.txt")); // IOException (checked exception)
+        // The line above ^ throws exception, but codebase continues...
 
         int[] a = {1, 2, 3};
-        //ex.printFourthElementNotHandled(a); // ArrayIndexOutOfBoundsException
+        //ex.printFourthElementNotHandled(a); // ArrayIndexOutOfBoundsException (unchecked exception)
         //ex.printFourthElementHandled(a);
 
         //ex.manuallyThrowExceptionIfGreaterThanEight(9); // IllegalArgumentException
 
-        /*
-        Unchecked Exceptions
-        */
+        //ex.playWithCustomOutOfMilkException(); /* 🔴 ERROR: Unhandled exception: Exceptional.OutOfMilkException!
+        // Add throws OutOfMilkException in main() method
+        ex.playWithCustomOutOfMilkException();  /* ✅ SUCCESS: Compiles! */
 
         //ex.catchMultipleExceptionsSubclasses(new File("file.txt")); // IOException
         //ex.catchMultipleExceptionsNotSubclasses(new File("file.txt")); // IOException
         //ex.catchMultipleExceptionsNotSubclassesCoolerWay(new File("file.txt")); // IOException
 
-       /*
-       Resource Management
-       - any external data sources (file, database etc.) referred to resource
-       - dealing with resource requires 3 steps:
-       1. opening resource
-       2. using resource
-       3. closing resource
-       */
+        System.out.println("========== S13: Try-with-resources [OCP] ==========");
+
+        /*
+        Resource Management
+        - any external data sources (file, database etc.) referred to resource
+        - dealing with resource requires 3 steps:
+        1. opening resource
+        2. using resource
+        3. closing resource
+         */
 
         //ex.useResourceManagementManual("file.txt");
         //ex.useResourceManagementAutomatic("file.txt");

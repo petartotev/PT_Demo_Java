@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Exceptionalissimo {
-    /* Does not compile, possibility to throw IOException! */
+    /* 🔴 ERROR: Does not compile, possibility to throw IOException! */
     public void readFirstByteFromFileDoesNotCompile(File fileName) {
         //FileInputStream file = new FileInputStream(fileName);
         //byte x = (byte) file.read();
@@ -20,13 +20,17 @@ public class Exceptionalissimo {
         System.out.println(x);
     }
 
-    /* Fix 2: try-catch block */
+    /*
+    Fix 2: try-catch block
+    👍 GOOD PRACTICE: Have Exceptions both declared and handled.
+    Note that below IOException is only handled, not declared.
+     */
     public void readFirstByteFromFileHandleException(File fileName) {
         try {
             FileInputStream file = new FileInputStream(fileName);
             byte x = (byte) file.read();
             System.out.println(x);
-        } catch (IOException e) {
+        } catch (IOException e) { /* java.io.FileNotFoundException: file.txt (The system cannot find the file specified) */
             System.out.println("An IO error occurred");
             e.printStackTrace();
         }
@@ -49,6 +53,10 @@ public class Exceptionalissimo {
         if (x > 8) {
             throw new IllegalArgumentException("Number is greater than 8");
         }
+    }
+
+    public void playWithCustomOutOfMilkException() throws OutOfMilkException {
+        System.out.println("Getting the milk...");
     }
 
     public void catchMultipleExceptionsSubclasses(File fileName) {
@@ -84,9 +92,9 @@ public class Exceptionalissimo {
             FileInputStream file = new FileInputStream(fileName);
             byte x = (byte) file.read();
             System.out.println(x);
-        } catch (IOException | NumberFormatException e) { /* ⚠️ works only for independent classes!! */
-            // } catch (FileNotFoundException e1 | NumberFormatException e2) { /* ⚠️ wrong syntax! */
-            // } catch (FileNotFoundException e | NumberFormatException e) { /* ⚠️ wrong syntax! */
+        } catch (IOException | NumberFormatException e) { /* ⚠️ WARNING: works only for independent classes!! */
+     // } catch (FileNotFoundException e1 | NumberFormatException e2) { /* 🔴 ERROR: wrong syntax! */
+     // } catch (FileNotFoundException e | NumberFormatException e) { /* 🔴️ ERROR: wrong syntax! */
             e.printStackTrace();
         } finally {
             System.out.println("Finally block");
