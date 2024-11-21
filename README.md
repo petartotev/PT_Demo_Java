@@ -119,19 +119,21 @@
 - LVTI (Local Variable Type Inference)
 
 # Shortcuts
-| Shortcut                    | Description                               |
-|-----------------------------|-------------------------------------------|
-| Ctrl + Shift + /            | Comment out multiple lines                |
-| Ctrl + Shift + [+/-]        | Expand / Collapse methods in a class      |
-| Ctrl + D                    | Duplicate single line (Ctrl+C and Ctrl+V) |
-| Ctrl + Shift + R            | Replace                                   |
-| Ctrl + Alt + L              | Format a file                             |
-| Alt + Shift + Up/Down Arrow | Move line up / down                       |
-| Hold Alt and drag down/up   | Write on multiple lines                   |
-| fori + tab                  | Automatically writes for (i = 0; i...     |
-| sout + tab                  | Prints System.out.println();              |
-| soutp + tab                 | Prints method parameters                  |
-| soutv + tab                 | Prints variable's name and value          |
+| Shortcut                    | Description                                      |
+|-----------------------------|--------------------------------------------------|
+| Ctrl + D                    | Duplicate single line (Ctrl+C and Ctrl+V)        |
+| Ctrl + Shift + /            | Comment out multiple lines                       |
+| Ctrl + Shift + [+/-]        | Expand / Collapse methods in a class             |
+| Ctrl + Shift + R            | Replace                                          |
+| Ctrl + Shift + F            | Search throughout the whole project              |
+| Ctrl + Alt + L              | Format a file                                    |
+| Alt + Shift + Up/Down Arrow | Move line up / down                              |
+| Alt + Insert                | Shortcut for creating constructors, getters etc. |
+| Hold Alt and drag down/up   | Write on multiple lines                          |
+| fori + tab                  | Automatically writes for (i = 0; i...            |
+| sout + tab                  | Prints System.out.println();                     |
+| soutp + tab                 | Prints method parameters                         |
+| soutv + tab                 | Prints variable's name and value                 |
 
 # Links
 - https://www.jetbrains.com/idea/download/other.html

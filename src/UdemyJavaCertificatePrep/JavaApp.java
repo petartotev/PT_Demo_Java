@@ -1404,7 +1404,8 @@ public class JavaApp {
         /*
         Enum (enumeration) is a fixed set of constants.
         Enum provides type-safe checking - impossible to create an invalid enum value.
-        Enums - seasons, compass directions, days of the week, deck of cards
+        Enums - seasons, compass directions, days of the week, deck of cards.
+        Enums cannot extend a class, but can implement an interface.
          */
 
         // Simple Enums (no constructors, methods etc.)
@@ -1422,11 +1423,19 @@ public class JavaApp {
             System.out.println(direction.ordinal() + " : " + direction.name());
         }
 
+        /*
+        Output:
+            0 : NORTH
+            1 : SOUTH
+            2 : EAST
+            3 : WEST
+         */
+
         // Enums used in a switch:
         Compass NO = Compass.NORTH;
         switch (NO) {
-            //case Compass.NORTH -> ... /* ⚠️ wrong syntax! */
-            //case 1 -> ...             /* ⚠️ wrong syntax! */
+            //case Compass.NORTH -> ... /* 🔴 ERROR:  wrong syntax! */
+            //case 1 -> ...             /* 🔴 ERROR:  wrong syntax! */
             case NORTH -> System.out.println("Heading North!");
             case SOUTH -> System.out.println("Heading South!");
             default -> System.out.println("Get back!");
@@ -1437,25 +1446,49 @@ public class JavaApp {
         // 1. 💡 FACT: Constructors are called for each enum - 4 invocations, only once!
         // 2. Instruction "Up" is printed using printInstruction().
 
+        /*
+        Output:
+            Constructor executed: Up!
+            Constructor executed: Down!
+            Constructor executed: Right!
+            Constructor executed: Left!
+            Up!
+         */
+
         // Enums can implement Abstract Methods:
         System.out.println(CompassAbstract.SOUTH.getDirection());
         System.out.println(CompassNotAbstract.SOUTH.getDirection());
         System.out.println(CompassNotAbstract.SOUTH.getDirection());
 
-        // Enums can implement Interfaces
-        System.out.println(CompassWithInterface.NORTH.getPlanetName()); /* Earth */
+        // Enums can implement Interfaces:
+        System.out.println(CompassWithInterface.NORTH.getPlanetName()); /* Northern Star */
+        System.out.println(CompassWithInterface.SOUTH.getPlanetName()); /* South Cross */
+        System.out.println(CompassWithInterface.EAST.getPlanetName()); /* Earth */
+        System.out.println(CompassWithInterface.WEST.getPlanetName()); /* Earth */
+
+        /*
+        Output:
+            Northern Star!
+            South Cross
+            Earth
+            Earth
+         */
 
         System.out.println("========== S15: Sealed Classes ==========");
 
         /*
         Used to restrict other classes to directly extend your class.
-        New keywords: sealed, non-sealed, permits
+        New keywords: sealed, non-sealed, permits.
         Sealed classes must be declared in the same package as its direct subclasses.
         Every listed subclass must extend the sealed class:
         - final, sealed, non-sealed
 
         Automobile
-
+            Ford
+            Renault
+            Fiat
+                Punto
+                Uno
          */
 
         /*
@@ -1464,12 +1497,14 @@ public class JavaApp {
             Eats
             ClownFish
             Shark
+
+        💡 FACT: Interfaces cannot be final! Can be either sealed or non-sealed!
          */
 
         System.out.println("========== S15: Records ==========");
 
         /*
-        Encapsulated classes, but without boilerplate code.
+        ⭐ DEFINITION: Records - encapsulated classes, but without the boilerplate code.
         Encapsulation is secured.
         Constructor, getters, toString(), equals(), hashCode() are generated automatically.
         Records cannot have explicit instance fields.
@@ -1483,11 +1518,19 @@ public class JavaApp {
 
         PupilRecord pr = new PupilRecord("Petar", "Totev", 2);
         System.out.println(pr);
+        PupilRecord pr2 = new PupilRecord("Ivaylo", "Ivanov", 3);
+        System.out.println(pr == pr2);      /* false? */
+        System.out.println(pr.equals(pr2)); /* true? */
 
-        // ❓ Canonical constructor
-        // ❓ Compact constructor - without initializing field:
-        // public Student { if (id < 10 || id > 1_000_000) throw new IllegalArgumentException(); }
-        // TODO
+        /*
+        We can override auto-generated constructor!
+        This is called a canonical constructor.
+         */
+
+        // Canonical Constructor
+        PupilRecordOverriddenCtor myPROC = new PupilRecordOverriddenCtor("john", "doe", 1);
+        // Compact Constructor
+        PupilRecordCompactCtor myPRCC = new PupilRecordCompactCtor("john", "doe", 1);
 
         System.out.println("========== S15: Nested Classes ==========");
 

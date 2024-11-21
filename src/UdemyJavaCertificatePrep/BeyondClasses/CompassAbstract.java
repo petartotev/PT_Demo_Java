@@ -1,6 +1,6 @@
 package BeyondClasses;
 
-// Enums can implement abstract methods
+// 💡 FACT: Enums can implement abstract methods!
 public enum CompassAbstract {
     // Enum requires values to be listed in the beginning, then methods.
     NORTH {
