@@ -101,7 +101,7 @@ public class Exceptionalissimo {
         }
     }
 
-    // Resource Management
+    // Manual Resource Management
     public void useResourceManagementManual(String fileName) {
         FileInputStream is = null;
         try {
@@ -115,14 +115,14 @@ public class Exceptionalissimo {
                 try {
                     // 3. close resource
                     is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException e2) {
+                    e2.printStackTrace();
                 }
             }
         }
     }
 
-    // Try With Resource Block (Automatic Resource Management)
+    // Automatic Resource Management (using Try-With-Resource Block)
     public void useResourceManagementAutomatic(String fileName) {
         try (FileInputStream is = new FileInputStream(fileName)) { /* open resource */
             /* read file data */

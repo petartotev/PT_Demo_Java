@@ -1311,11 +1311,12 @@ public class JavaApp {
 
         /*
         Resource Management
-        - any external data sources (file, database etc.) referred to resource
-        - dealing with resource requires 3 steps:
+        ⭐ DEFINITION: Resource - any external data source (file, database etc.) is referred to as resource.
+        Dealing with resources requires 3 steps:
         1. opening resource
         2. using resource
         3. closing resource
+        ⚠️ WARNING: Forgetting to close the resource can cause 'resource leaks' which make the resource inaccessible.
          */
 
         //ex.useResourceManagementManual("file.txt");
@@ -1325,6 +1326,8 @@ public class JavaApp {
              MyFileClass movieReader = new MyFileClass(2)) {
             System.out.println("try block");
             throw new RuntimeException();
+            // When exception occurs, first all resources are closed (starting with the latest).
+            // Then, the program continues in a regular order.
         } catch (Exception e) {
             System.out.println("catch block");
         } finally {
@@ -1333,15 +1336,18 @@ public class JavaApp {
 
         /*
         Output:
-        try block
-        closing MyFileClass #2
-        closing MyFileClass #1
-        catch block
-        finally block
+            try block
+            Close MyFileClass #2
+            Close MyFileClass #1
+            catch block
+            finally block
          */
 
         try (Door d = new Door()) {
             throw new IllegalStateException("Something is wrong!");
+            /* If try-with-resources block also throws exception in catch block,
+            then only the first exception will be caught,
+            other exceptions will be suppressed. */
         } catch (IllegalStateException e) {
             System.out.println("Caught: " + e.getMessage());
             for (Throwable t : e.getSuppressed())
@@ -1350,28 +1356,33 @@ public class JavaApp {
 
         /*
         Output:
-        Caught: Something is wrong
-        Suppressed: Door does not close
+            Caught: Something is wrong!
+            Suppressed: Door does not close!
          */
 
         System.out.println("=============== S14: MATH APIS [OCP] ===============");
 
-        // min(), max()
-        int aaa = Math.max(3, 11);
-        int bbb = Math.min(2, -4);
+        /*
+        import java.lang;
+         */
 
+        // min(), max()
+        int aaa = Math.max(3, 11); /* 11 */
+        int bbb = Math.min(2, -4); /* -4 */
+
+        /* When you compare all types of numbers, be aware of autoscaling: */
         long aaaa = 5;
         int bbbb = 3;
-        // int cccc = Math.max(aaaa, bbbb); DOES NOT COMPILE
-        int dddd = (int) Math.max(aaaa, bbbb);
+        //int cccc = Math.max(aaaa, bbbb);      /* 🔴 ERROR: DOES NOT COMPILE, comparing int and long! */
+        int dddd = (int) Math.max(aaaa, bbbb);  /* ✅ SUCCESS: Compiles! */
 
         // round()
-        // if parameter is float, returns int
-        // if parameter is double, returns long
+        // if parameter is float, returns int.
+        // if parameter is double, returns long.
         double ddddd = 2.56;
-        long aaaaa = Math.round(ddddd);
-        //int bbbbb = Math.round(ddddd); /* DOES NOT COMPILE */
-        int c = (int) Math.round(ddddd);
+        long aaaaa = Math.round(ddddd);         /* 3 */
+        //int bbbbb = Math.round(ddddd);        /* 🔴 ERROR: DOES NOT COMPILE, trying to assign long to int! */
+        int c = (int) Math.round(ddddd);        /* ✅ SUCCESS: Compiles! */
 
         // ceil(), floor()
         // take any number, returns double
