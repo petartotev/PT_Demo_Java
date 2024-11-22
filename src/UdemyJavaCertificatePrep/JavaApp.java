@@ -17,7 +17,7 @@ import Methodology.MethodItem;
 import Methodology.MethodMan;
 import Methodology.MethodStaticItem;
 import Operators.SmoothOperator;
-import Streams.Optionalles;
+import Streams.Optionalissimo;
 
 import java.io.File;
 import java.io.IOException;
@@ -1434,8 +1434,8 @@ public class JavaApp {
         // Enums used in a switch:
         Compass NO = Compass.NORTH;
         switch (NO) {
-            //case Compass.NORTH -> ... /* 🔴 ERROR:  wrong syntax! */
-            //case 1 -> ...             /* 🔴 ERROR:  wrong syntax! */
+            //case Compass.NORTH -> ... /* 🔴 ERROR: wrong syntax! */
+            //case 1 -> ...             /* 🔴 ERROR: wrong syntax! */
             case NORTH -> System.out.println("Heading North!");
             case SOUTH -> System.out.println("Heading South!");
             default -> System.out.println("Get back!");
@@ -1528,9 +1528,9 @@ public class JavaApp {
          */
 
         // Canonical Constructor
-        PupilRecordOverriddenCtor myPROC = new PupilRecordOverriddenCtor("john", "doe", 1);
+        //PupilRecordOverriddenCtor myPROC = new PupilRecordOverriddenCtor("john", "doe", 1); /* throws IllegalArgumentException */
         // Compact Constructor
-        PupilRecordCompactCtor myPRCC = new PupilRecordCompactCtor("john", "doe", 1);
+        //PupilRecordCompactCtor myPRCC = new PupilRecordCompactCtor("john", "doe", 1); /* throws IllegalArgumentException */
 
         System.out.println("========== S15: Nested Classes ==========");
 
@@ -1592,33 +1592,35 @@ public class JavaApp {
         System.out.println("========== S15: Polymorphism ==========");
 
         /*
-        Property of the object to take many different forms (poly = many, morph = form)
+        ⭐ DEFINITION: Polymorphism - property of the object to take many different forms (poly = many, morph = form)
         To access a Java object, we have to have a reference pointing to that object.
         There are 3 ways to access the Java object:
         - using reference with the same type as the object
         - using reference that is superclass of the object
         - using interface reference
+
+        PolyShihTzu > PolyDog
          */
 
-        PolyShihTzu myShihTzu = new PolyShihTzu(); /* create a reference using the same type as object */
-        System.out.println(myShihTzu.weight); /* 6 */
+        PolyShihTzu myShihTzu = new PolyShihTzu();  /* create reference using the same type as object */
+        System.out.println(myShihTzu.weight);       /* 6 */
+        System.out.println(myShihTzu.canRun());     /* true */
 
-        PolyDog myDog = myShihTzu; /* create a second reference using superclass type */
-        System.out.println(myDog.canRun()); /* true */
+        PolyDog myDog = myShihTzu;                  /* create second reference using superclass type */
+        System.out.println(myDog.canRun());         /* true */
 
         PolyCanRun myPolyCanRun = myShihTzu; /* creating a reference using interface type */
         System.out.println(myPolyCanRun.canRunFast()); /* false */
 
         // NOTE: Only one object is created here (ShihTzu)!
+        // IMPORTANT: Once you create a new reference, only the members of that reference type are accessible via that reference (!!!)
 
-        // Once you create a new reference, only the members of that reference type are accessible via that reference (!!)
+        PolyCanRun canRun = new PolyShihTzu();      /* Reference canRun points to ShihTzu object -> OK */
+        // System.out.println(canRun.weight);       /* 🔴 ERROR: Does not compile! */
 
-        PolyCanRun canRun = new PolyShihTzu(); // reference canRun points to ShihTzu object -> OK
-        // System.out.println(canRun.weight); // does not compile!
-
-        PolyDog doggy = new PolyShihTzu(); // reference dog points to ShihTzu object -> OK
-        // System.out.println(doggy.weight); // does not compile!
-        // System.out.println(doggy.canRunFast()); // does not compile!
+        PolyDog doggy = new PolyShihTzu();          /* Reference dog points to ShihTzu object -> OK */
+        // System.out.println(doggy.weight);        /* 🔴 ERROR: Does not compile! */
+        // System.out.println(doggy.canRunFast());  /* 🔴 ERROR: Does not compile! */
 
         PolyShihTzu shihTzuu = new PolyShihTzu();
         System.out.println(shihTzuu.weight);
@@ -1638,93 +1640,106 @@ public class JavaApp {
         System.out.println("===== S15: Casting =====");
 
         PolyShihTzu shihTzu3 = new PolyShihTzu();
-        PolyDog polyDog3 = shihTzu3; /* implicit casting to a supertype, OK */
-
-        PolyShihTzu shihTzu4 = (PolyShihTzu) polyDog3; /* explicit cast to subtype, OK */
-
-        // PolyShihTzu shihTzu5 = polyDog3; /* ClassCastException - you cannot put larger in smaller without the explicit cast */
+        PolyDog polyDog3 = shihTzu3;                    /* Implicit casting to a supertype, OK */
+        PolyShihTzu shihTzu4 = (PolyShihTzu) polyDog3;  /* Explicit cast to subtype, OK */
+        //PolyShihTzu shihTzu5 = polyDog3;              /* ClassCastException - cannot put larger in smaller without explicit cast */
 
         PolyDog myPolyDog6 = new PolyDog();
-        //Ford myFord = (Ford) myPolyDog6; /* DOES NOT COMPILE! */
+        //Ford myFord = (Ford) myPolyDog6;              /* 🔴 ERROR: Does not compile! Classes are not related */
 
-        // TODO: Overriding methods...
+        System.out.println("===== S15: Overriding methods =====");
+
+        new GreatDane().printSpeed(); /* 35 */
 
         // You can always limit polymorphism by making methods final, in which case they can't be overridden in a subclass.
         // Static methods cannot be overridden...
         // Final/static methods only hide the methods.
+
+        var gd = new GreatDane();
+        gd.printHeight();                   /* 5 */
+        // Hiding the method:
+        System.out.println(gd.getHeight()); /* 55 */
 
         System.out.println("=============== S16: STREAMS [OCP] ===============");
 
         System.out.println("========== S16: Optionals ==========");
 
         /*
-        Optional - container object that is used to contain values.
+        ⭐ DEFINITION: Optional - container object that is used to contain values.
         Like a box - either empty or containing objects.
         Optional object itself (box itself) is never null.
         There are methods to deal with the optional values without explicit null checks.
-        Otherwise => NullPointerException.
+        ⚠️ WARNING: Otherwise, we can get unhandled NullPointerException!
+
+        import java.util.Optional;
          */
 
-        Optional<Double> optional1 = Optionalles.average(10, 20, 30);
-        System.out.println(optional1); /* Optional[20.0] */
-        System.out.println(optional1.isPresent());
+        Optional<Double> optional1 = Optionalissimo.average(10, 20, 30);
+        System.out.println(optional1);                          /* Optional[20.0] */
+        System.out.println(optional1.isPresent());              /* true */
+        // Option 1
+        if (optional1.isPresent()) {
+            System.out.println(optional1.get());
+        }
+        // Option 2
+        optional1.ifPresent(System.out::println);
 
-        Optional<Double> optional2 = Optionalles.average();
-        System.out.println(optional2); /* Optional.empty */
-        System.out.println(optional2.isPresent());
-        //System.out.println(optional2.get()); /* 'Optional.get()' without 'isPresent()' check! => ⚠️⚠️⚠️ NoSuchElementException: No value present */
+        Optional<Double> optional2 = Optionalissimo.average();
+        System.out.println(optional2);                          /* Optional.empty */
+        System.out.println(optional2.isPresent());              /* false */
+        //System.out.println(optional2.get()); /* 'Optional.get()' without 'isPresent()' check! => 🔴 ERROR: NoSuchElementException: No value present */
 
-        // Good practice:
+        // 👍 GOOD PRACTICE:
         // Optional myOptional = (value == null) ? Optional.empty() : Optional.of(value)
+
         //Double vals = LocalTime.now().getMinute() % 2 == 0 ? Double.valueOf(24) : Double.valueOf(null);
         Double vals = Double.valueOf(24);
+        // ofNullable(value) - if value is null, Optional.empty is returned.
         Optional myNullableOptional = Optional.ofNullable(vals);
         System.out.println("myNullableOptional: " + myNullableOptional);
 
-        Optional<Double> optional3 = Optionalles.average(15);
+        Optional<Double> optional3 = Optionalissimo.average(15);
         if (optional3.isPresent()) {
             System.out.println(optional3.get());
         }
         /* or */
         optional3.ifPresent(System.out::println);
 
-        Optional<Double> myOptional = Optionalles.average();
-        System.out.println(myOptional.orElse(Double.NaN)); /* NaN */
-        System.out.println(myOptional.orElseGet(() -> Math.random())); /* must provide a Double (same type as Optional */
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#common-optional-instance-methods
+         */
 
+        Optional<Double> myOptional = Optionalissimo.average();
+        System.out.println(myOptional.orElse(Double.NaN));              /* NaN */
+        System.out.println(myOptional.orElseGet(() -> Math.random()));  /* must provide a Double (same type as Optional */
         //System.out.println(myOptional.orElseThrow()); // NoSuchElementException
         //System.out.println(myOptional.orElseThrow(() -> new IllegalStateException()));
 
         System.out.println("========== S16: Pipelines ==========");
 
         /*
-        Stream in Java is a sequence of data
-        Stream Pipeline is set of operations that run on the Stream
+        ⭐ DEFINITION: Stream - a sequence of data in Javaл
+        Stream Pipeline is set of operations that run on the Stream to produce results.
         Pipeline ~ an assembly line in a factory.
         - every line has a beginning (source)
         - after that one by one element in the line is processed (intermediate operations)
         - finally, we get the result (terminal operation)
-        Date in the stream is not generated up front
+        Data in the stream is not generated up front.
         - rather, each element is created when needed -> lazy evaluation
-         */
-
-        /*
-        Stream Pipeline
+d
+        Stream Pipeline:
         1. Source - where the stream comes from (array of data)
-        2. Intermediate operations - transform the stream into another stream
+        2. Intermediate operations - transforms the stream into another stream
         - there can be many of these operations
         - don't run until terminal operation runs (lazy evaluation)
         3. Terminal Operation - produces a result, can be used once
         - after terminal operation, stream is no longer valid
 
-         YOU CANNOT USE THE SAME STREAM TWICE
-         */
+        ⚠️ WARNING: YOU CANNOT USE THE SAME STREAM TWICE!
 
-        /*
-        Stream Pipeline Schema
-
-        [ Source ] -> [ Intermediate operations ] -> [ Terminal operation ]
-                      [   ][   ][     ][   ][   ]
+        Stream Pipeline Schema:
+        [ Source ] -> [  Intermediate operations  ] -> [ Terminal operation ]
+                      [  ]>[  ]>[  ]>[  ]>[  ]>[  ]
                               (optional)
          */
 

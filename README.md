@@ -71,6 +71,7 @@
 ![Project-View-Selected-File](./res/Project-View-Selected-File.png)
 2. Turn on/off Inlay Hints:
    ![File-Settings-Editor-Inlay-Hints](./res/File-Settings-Editor-Inlay-Hints.png)
+3. Set Font Size: Go to Settings > Editor > Font > Change size to 16
 
 # Testing
 1. Make sure you have `JUnit` plugin installed:
@@ -95,21 +96,23 @@
 1. Go to File > Project Structure > Artifacts.
 2. Press [+] > JAR > From modules with dependencies...
 3. Select Main class, specify output directory and choose OK.
+![Artifact-Set](./res/Artifact-Set.png)
 4. Next, go to Build > Build Artifacts... > Build (JAR).
 5. Make sure you have a .JAR file populated in the chosen directory.
+![Artifact-Build](./res/Artifact-Build.png)
 
 ## Run Program
-0. Copy-paste the populated JAR file on a Linux machine.
-1. Install JDK by executing the following commands:
+1. Copy-paste the populated JAR file on a Linux machine.
+2. Install JDK by executing the following commands:
 ```
 sudo apt update
 sudo apt install openjdk-17-jdk
 ```
-2. Make sure you have Java successfully installed:
+3. Make sure you have Java successfully installed:
 ```
 java --version
 ```
-3. Finally, run the program:
+4. Finally, run the program:
 ```
 java -jar your-program.jar
 ```
