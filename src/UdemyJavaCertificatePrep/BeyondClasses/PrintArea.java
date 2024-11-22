@@ -5,7 +5,9 @@ public class PrintArea {
 
     public void calculateArea() {
         final int b = 15;
+
         class Computer {
+            // Note that class Computer can access both a and b:
             public void multiply() {
                 System.out.println(a * b);
             }
@@ -16,6 +18,6 @@ public class PrintArea {
 
     public static void main(String[] args) {
         var printArea = new PrintArea();
-        printArea.calculateArea();
+        printArea.calculateArea(); /* 150 */
     }
 }

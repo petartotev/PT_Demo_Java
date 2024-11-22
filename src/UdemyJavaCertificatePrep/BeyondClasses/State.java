@@ -6,6 +6,7 @@ public class State {
     }
 
     public static void main(String[] args) {
+        // You can call town initialization directly, not through State!
         Town town = new Town();
         System.out.println(town.type);
         // If not static:

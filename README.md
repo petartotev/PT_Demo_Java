@@ -7,6 +7,9 @@
   - [Essential Project Setup](#essential-project-setup)
   - [Additional IDE Settings](#additional-ide-settings)
 - [Testing](#testing)
+- [Build Artifact and Run Program](#build-artifact-and-run-program)
+  - [Build Artifact](#build-artifact)
+  - [Run Program](#run-program)
 - [C# vs. Java](#c-vs-java)
 - [Notes](#notes)
 - [Shortcuts](#shortcuts)
@@ -86,6 +89,30 @@
 ![JUnit-Tests-Add-To-Library](./res/JUnit-Tests-Add-To-Library.png)
 9. Implement `FlowControllerTests` using JUnit `@Test` annotations.
 10. Run `FlowControllerTests`.
+
+# Build Artifact and Run Program
+## Build Artifact
+1. Go to File > Project Structure > Artifacts.
+2. Press [+] > JAR > From modules with dependencies...
+3. Select Main class, specify output directory and choose OK.
+4. Next, go to Build > Build Artifacts... > Build (JAR).
+5. Make sure you have a .JAR file populated in the chosen directory.
+
+## Run Program
+0. Copy-paste the populated JAR file on a Linux machine.
+1. Install JDK by executing the following commands:
+```
+sudo apt update
+sudo apt install openjdk-17-jdk
+```
+2. Make sure you have Java successfully installed:
+```
+java --version
+```
+3. Finally, run the program:
+```
+java -jar your-program.jar
+```
 
 # C# vs. Java
 

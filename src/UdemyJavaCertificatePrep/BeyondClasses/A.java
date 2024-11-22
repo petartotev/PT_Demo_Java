@@ -22,5 +22,7 @@ public class A {
         B b = a.new B();
         B.C c = b.new C();
         c.printT(); // 3, 3, 2, 1
+
+        //C myC = new C(); /* 🔴 ERROR: Does not compile! */
     }
 }

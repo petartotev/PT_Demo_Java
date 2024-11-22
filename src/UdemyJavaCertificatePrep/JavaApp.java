@@ -1552,8 +1552,9 @@ public class JavaApp {
         Classifier myClassifier = new Classifier();
         myClassifier.printTwice();
 
-        A myPersonalA = new A();
+        // Nested class in a nested class (A > B > C):
         // Execute myPersonalA.main()!
+        A myPersonalA = new A();
 
         System.out.println("===== S15: Static Nested Class =====");
 
@@ -1572,6 +1573,7 @@ public class JavaApp {
         Can be declared abstract or final.
         Can access all members of the enclosing class.
         Can access final and effectively final local variables.
+        ⭐ DEFINITION: Effectively final variables are variables that don't change value in the scope they are defined.
          */
         PrintArea myArea = new PrintArea();
         myArea.calculateArea();
