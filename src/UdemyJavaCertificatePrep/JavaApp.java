@@ -18,6 +18,7 @@ import Methodology.MethodMan;
 import Methodology.MethodStaticItem;
 import Operators.SmoothOperator;
 import Streams.Optionalissimo;
+import Streams.StreamEngine;
 
 import java.io.File;
 import java.io.IOException;
@@ -1745,26 +1746,31 @@ d
 
         System.out.println("========== S16: Creating Stream Source ==========");
 
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#stream-creation-methods
+         */
+
+        StreamEngine myStreamEngine = new StreamEngine();
+
         // Creating finite streams
-        Stream<String> empty = Stream.empty();
-        Stream<Integer> singleElement = Stream.of(1);
-        Stream<Integer> fromArray = Stream.of(1, 2, 3);
+        Stream<String> streamEmpty = Stream.empty();
+        Stream<Integer> streamOfValues = Stream.of(1);
+        Stream<Integer> streamFromArray = Stream.of(1, 2, 3);
 
         // Converting Collection to Stream
         var list = List.of("a", "b", "c");
-        Stream<String> fromList = list.stream();
+        Stream<String> streamFromList = list.stream();
 
         // Parallel Stream (operations are done in parallel rather than in sequence
-        Stream<String> fromListParallel = list.parallelStream();
+        Stream<String> streamFromListParallel = list.parallelStream();
 
         // Create infinite streams
         Stream<Double> randoms = Stream.generate(Math::random);
         Stream<Integer> oddNums = Stream.iterate(1, n -> n + 2);
-
         // These streams are infinite, they generate values infinitely:
-        //randoms.forEach(System.out::println); /* will print until killed */
+        //randoms.forEach(System.out::println); /* Prints until killed */
 
-        // Operations like limit() can turn infinite stream to finite one
+        // Operations like limit() can turn infinite stream to finite one.
 
         // Create odd numbers, less than 50
         Stream<Integer> oddNumsUnder50 = Stream.iterate(1, n -> n < 50, n -> n + 2);
@@ -1772,9 +1778,13 @@ d
 
         System.out.println("========== S16: Terminating Stream Source ==========");
 
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#terminal-stream-operations
+         */
+
         // Counting
         Stream<String> names = Stream.of("John", "George", "Ben");
-        System.out.println(names.count()); // 3
+        System.out.println(names.count()); /* 3 */
 
         // For infinite streams, count() never terminates.
 
@@ -1787,7 +1797,7 @@ d
         // Minimum / Maximum
         Stream<String> names2 = Stream.of("John", "George", "Ben");
         Optional<String> min = names2.min((s1, s2) -> s1.length() - s2.length());
-        min.ifPresent(System.out::println);
+        min.ifPresent(System.out::println); /* Ben */
 
         // Using with empty stream:
         Optional<?> minEmpty = Stream.empty().min((s1, s2) -> 0);
@@ -1802,7 +1812,7 @@ d
         names3.findAny().ifPresent(System.out::println);
         inf.findAny().ifPresent(System.out::println); /* Luke */ /* Terminates infinite stream */
 
-        // findFirst() always returns the first element
+        // findFirst() always returns the first element.
 
         // matching
         var myList = List.of("George", "21", "Ben");
@@ -1820,11 +1830,11 @@ d
 
         // iterating
         Stream<String> names5 = Stream.of("John", "George", "Ben");
-        names5.forEach(System.out::println); /* JohnGeorgeBen */
+        names5.forEach(System.out::print); /* JohnGeorgeBen */
 
         // You cannot use traditional for loop on the Stream:
         Stream<Integer> s = Stream.of(1,2,3);
-        //for (Integer i : s) { // DOES NOT COMPILE
+        //for (Integer i : s) { // 🔴 ERROR: DOES NOT COMPILE
         //    // do something
         //}
         // Instead, use forEach() - not a loop, but rather a terminal operator for streams
@@ -1838,14 +1848,85 @@ d
 
         // Same thing using Streams
         Stream<String> myStreamy = Stream.of("L", "u", "k", "e");
-        String myName = myStreamy.reduce("", (sc, cs) -> sc + cs);
+        String myName = myStreamy.reduce("", (sc, cs) -> sc + cs); /* "" - identity, lambda - accumulator */
         System.out.println(myName); /* Luke */
 
-        /* TODO */
+        Stream<String> myStreamy2 = Stream.of("L", "u", "k", "e");
+        String myName2 = myStreamy2.reduce("", String::concat);
+        System.out.println(myName2); /* Luke */
+
+        Stream<Integer> myStreamyInt = Stream.of(3,7,10);
+        System.out.println(myStreamyInt.reduce(1, (abc,bcd) -> abc * bcd)); /* 210 */
+
+        // If you omit the identity, Optional will be returned.
+        BinaryOperator<Integer> op = (m,n) -> m * n;
+        Stream<Integer> emptyIntStream = Stream.empty();
+        Stream<Integer> oneElementStream = Stream.of(7);
+        Stream<Integer> threeElementsStream = Stream.of(3,7,10);
+
+        emptyIntStream.reduce(op).ifPresent(System.out::println);       /* no output */
+        oneElementStream.reduce(op).ifPresent(System.out::println);     /* 7 */
+        threeElementsStream.reduce(op).ifPresent(System.out::println);  /* 210 */
+
+        // When dealing with different types
+        Stream<String> namesStreamString = Stream.of("John", "George", "Ben");
+        int len = namesStreamString.reduce(0, (i,j) -> i + j.length(), (u,v) -> u + v); /* initializer, accumulator, combiner */
+        System.out.println(len); /* 13 */
+
+        myStreamEngine.playWithCollectingStreams();
 
         System.out.println("========== S16: Using Intermediate Operations ==========");
 
-        /* TODO */
+        /*
+        Intermediate Operations:
+        - produces a Stream as a result. Transforms a stream in order to produce another stream.
+        - can deal with infinite streams (by returning another infinite stream)
+        - can be omitted in a pipeline (unlike Source and Terminal Operations)
+         */
+
+        myStreamEngine.playWithIntermediateOperations();
+
+        System.out.println("========== S16: Putting The Pipeline Together ==========");
+
+        myStreamEngine.playWithPuttingThePipelineTogether();
+
+        System.out.println("========== S16: Primitive Streams ==========");
+
+        /*
+        When working with primitive values, it's more convenient to use primitive streams.
+        3 types of primitive streams:
+        - IntStream - used for int, short, byte, char
+        - LongStream - used for long
+        - DoubleStream - used for double and float
+        Everything you know about streams apply to primitive streams as well.
+        Only difference is that primitive streams have some unique methods.
+
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#unique-primitive-streams-methods
+         */
+
+        myStreamEngine.playWithPrimitiveStreams();
+
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#mapping-streams
+         */
+
+        myStreamEngine.playWithMappingStreams();
+
+        /*
+        Summarizing Statistics
+        summaryStatistics() method performs many calculations on the stream.
+        - getCount() - gives number of values (long)
+        - getAverage() - returns an average value (double) or 0 if stream empty
+        - getSum() - returns a sum (double or long)
+        - getMin() - returns the smallest number (double, int, long). If stream empty => returns largest numeric value based on type.
+        - getMax() - returns the largest number (double, int, long). If stream empty => returns smallest numeric value based on type.
+         */
+
+        myStreamEngine.playWithSummarizingStatistics();
+
+        System.out.println("========== S16: Spliterator ==========");
+
+        System.out.println("========== S16: Collecting Results ==========");
 
         System.out.println("=============== S17: LOCALIZATION [OCP] ===============");
 

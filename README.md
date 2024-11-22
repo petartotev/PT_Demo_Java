@@ -38,6 +38,8 @@
       - [Common Optional Instance Methods](#common-optional-instance-methods)
     - [Stream Creation Methods](#stream-creation-methods)
     - [Terminal Stream Operations](#terminal-stream-operations)
+    - [Unique Primitive Streams Methods](#unique-primitive-streams-methods)
+    - [Mapping Streams](#mapping-streams)
   - [S17: Localization](#localization)
     - [Common Date Time Symbols](#common-date-time-symbols)
     - [NumberFormat Factory Methods](#numberformat-factory-methods)
@@ -47,12 +49,11 @@
     - [Future\<V\> Interface Methods](#futurev-interface-methods)
 
 # TODO
-1. Change images in Testing section (JUnit_Tests_Add_To_Library.png and JUnit_Plugin_Installed.png)
-2. Extract "Setup JDBC" and "Setup JUNit" sections and mention them in JavaApp.java
-3. Method, constructor, class access modifiers can be extracted in tables in README
+- Extract "Setup JDBC" and "Setup JUNit" sections and mention them in JavaApp.java.
+- Method, constructor, class access modifiers can be extracted in tables in README.
 
 # Questions
-1. Do we have BiConsumer<T, U> that accept(T, U, V, W, X) - more than 2 parameters?
+- Do we have BiConsumer<T, U> that accept(T, U, V, W, X) - more than 2 parameters?
 
 # Setup
 ## Essential Project Setup
@@ -567,6 +568,38 @@ S22: Java 21 (1Z0-830 exam)
 | `forEach()`                                 | Does not terminate              | `void`         | No        |
 | `reduce()`                                  | Does not terminate              | values         | Yes       |
 | `collect()`                                 | Does not terminate              | varies         | Yes       |
+
+### Unique Primitive Streams Methods
+
+| Method                                        | Primitive Stream                          | Description                                                             |
+|-----------------------------------------------|-------------------------------------------|-------------------------------------------------------------------------|
+| `OptionalDouble average()`                    | `IntStream`, `LongStream`, `DoubleStream` | Arithmetic mean of elements                                             |
+| `Stream<T> boxed()`                           | `IntStream`, `LongStream`, `DoubleStream` | Converts to `Stream<T>` where `T` is the wrapper class of the primitive |
+| `OptionalInt max()`                           | `IntStream`                               | Maximum element of the stream                                           |
+| `OptionalDouble max()`                        | `DoubleStream`                            | Maximum element of the stream                                           |
+| `OptionalInt min()`                           | `IntStream`                               | Minimum element of the stream                                           |
+| `OptionalLong min()`                          | `LongStream`                              | Minimum element of the stream                                           |
+| `OptionalDouble min()`                        | `DoubleStream`                            | Minimum element of the stream                                           |
+| `IntStream range(int a, int b)`               | `IntStream`                               | Returns `IntStream` from `a` (inclusive) to `b` (exclusive)             |
+| `LongStream range(long a, long b)`            | `LongStream`                              | Returns `LongStream` from `a` (inclusive) to `b` (exclusive)            |
+| `IntStream rangeClosed(int a, int b)`         | `IntStream`                               | Returns `IntStream` from `a` (inclusive) to `b` (inclusive)             |
+| `LongStream rangeClosed(long a, long b)`      | `LongStream`                              | Returns `LongStream` from `a` (inclusive) to `b` (inclusive)            |
+| `int sum()`                                   | `IntStream`                               | Sum of elements in the stream                                           |
+| `long sum()`                                  | `LongStream`                              | Sum of elements in the stream                                           |
+| `double sum()`                                | `DoubleStream`                            | Sum of elements in the stream                                           |
+| `IntSummaryStatistics summaryStatistics()`    | `IntStream`                               | Object containing statistics (avg, min, max, etc.) for the stream       |
+| `LongSummaryStatistics summaryStatistics()`   | `LongStream`                              | Object containing statistics (avg, min, max, etc.) for the stream       |
+| `DoubleSummaryStatistics summaryStatistics()` | `DoubleStream`                            | Object containing statistics (avg, min, max, etc.) for the stream       |
+
+### Mapping Streams
+
+| Source Stream Class   | To Create: `Stream`            | To Create: `DoubleStream`     | To Create: `IntStream`       | To Create: `LongStream`      |
+|-----------------------|--------------------------------|-------------------------------|------------------------------|------------------------------|
+| `Stream<T>`           | `map()`                        | `mapToDouble()`               | `mapToInt()`                 | `mapToLong()`                |
+| `DoubleStream`        | `mapToObj()`                   | `map()`                       | `mapToInt()`                 | `mapToLong()`                |
+| `IntStream`           | `mapToObj()`                   | `mapToDouble()`               | `map()`                      | `mapToLong()`                |
+| `LongStream`          | `mapToObj()`                   | `mapToDouble()`               | `mapToInt()`                 | `map()`                      |
+
 
 ## Localization
 
