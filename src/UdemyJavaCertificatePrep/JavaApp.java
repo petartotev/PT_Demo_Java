@@ -1926,7 +1926,25 @@ d
 
         System.out.println("========== S16: Spliterator ==========");
 
+        /*
+        How Spliterator works?
+        You start with some kind of collection of N elements (a box containing number of toys).
+        Now you want to split this collection in two (or more collections).
+        In order to do this you have to create an object of type Spliterator.
+        Once you have Spliterator object, you can apply some common methods.
+
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#common-spliterator-methods
+         */
+
+        myStreamEngine.playWithSpliterator();
+
         System.out.println("========== S16: Collecting Results ==========");
+
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#common-grouping--partitioning-collectors
+         */
+
+        myStreamEngine.playWithCollectingResults();
 
         System.out.println("=============== S17: LOCALIZATION [OCP] ===============");
 
@@ -1937,32 +1955,40 @@ d
         NumberFormat interface
         public final String format(double number)
         public final String format(long number)
+        Formatting characters:
+            # - omit position if no digit exists for it (e.g. $2.2)
+            0 - put 0 in position if no digit exists for it (e.g. $002.20)
+        import java.text.*
          */
 
         double nummy = 12345.6789;
         NumberFormat form1 = new DecimalFormat("###,###,###.0");
-        System.out.println(form1.format(nummy));
+        System.out.println(form1.format(nummy)); /* 12,345.7 */
         NumberFormat form2 = new DecimalFormat("000,000.000000");
-        System.out.println(form2.format(nummy));
+        System.out.println(form2.format(nummy)); /* 012,345.678900 */
         NumberFormat form3 = new DecimalFormat("My Balance: $#,###,###.##");
-        System.out.println(form3.format(nummy));
+        System.out.println(form3.format(nummy)); /* My Balance: $12,345.68 */
 
         // Formatting Dates and Times
         /*
-        You can use predefined formats (ISO_LOCAL_DATE)
+        To display standard formats, Java provides class DateTimeFormatter.
+        - you can use predefined formats (ISO_LOCAL_DATE).
+        - create your own String format use ofPattern method.
+            - used with common date/time symbols (see table)
+
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#common-date-time-symbols
          */
 
         LocalDate date = LocalDate.of(2023, Month.SEPTEMBER, 14);
-        System.out.println(date.getDayOfWeek());
-        System.out.println(date.getMonth());
-        System.out.println(date.getYear());
-        System.out.println(date.getDayOfYear());
+        System.out.println(date.getDayOfWeek());    /* THURSDAY */
+        System.out.println(date.getMonth());        /* SEPTEMBER */
+        System.out.println(date.getYear());         /* 2023 */
+        System.out.println(date.getDayOfYear());    /* 257 */
 
         // Display standard formats
         LocalDate datey = LocalDate.of(2023, Month.SEPTEMBER, 14);
         LocalTime timey = LocalTime.of(9, 6, 24);
         LocalDateTime dateTimey = LocalDateTime.of(datey, timey);
-
         System.out.println(datey.format(DateTimeFormatter.ISO_LOCAL_DATE));             /* 2023-09-14 */
         System.out.println(timey.format(DateTimeFormatter.ISO_LOCAL_TIME));             /* 09:06:24 */
         System.out.println(dateTimey.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));    /* 2023-09-14T09:06:24 */
@@ -1981,10 +2007,9 @@ d
         /* Alternative syntax! */
         System.out.println(f33.format(dtt)); /* септември-14-22 07:06:14 сл.об. */
 
-        // Insert text values using single quotes:
+        // Insert text values using single quotes (spaces work inside or outside the quotes):
         var f44 = DateTimeFormatter.ofPattern("'Date:' dd.MM.yy 'Time:' hh:mm:ss");
         System.out.println(f44.format(dtt)); /* Date: 14.09.22 Time: 07:06:14 */
-
         var f55 = DateTimeFormatter.ofPattern("MMM-dd-yyyy 'at' hh'h'mm'm'ss's'");
         System.out.println(f55.format(dtt)); /* сеп-14-2022 at 07h06m14s */
 
@@ -2006,6 +2031,8 @@ d
         System.out.println(Locale.ITALIAN); /* it */
         System.out.println(Locale.ITALY); /* it_IT */
         System.out.println(new Locale("hi", "OK")); /* hi_OK */
+        System.out.println(new Locale("petar", "TOTEV")); /* petar_TOTEV */
+        System.out.println(new Locale("PETAR", "totev")); /* petar_TOTEV */
 
         // Create Local
         Locale myLocaley = new Locale.Builder()
@@ -2013,6 +2040,7 @@ d
                 .setRegion("US") /* could be in any order */
                 .build();
 
+        // Get/Set default locale
         Locale localeFrench = new Locale("fr");
         Locale.setDefault(localeFrench);
         System.out.println(Locale.getDefault());
@@ -2023,6 +2051,8 @@ d
         Different countries have different conventions when it comes to numbers.
         Localization can help to display the number in the appropriate locale format.
         For this purpose, we use NumberFormat factory method.
+
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#number-format-factory-methods
          */
 
         // Formatting Numbers

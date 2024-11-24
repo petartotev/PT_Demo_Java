@@ -166,4 +166,152 @@ public class StreamEngine {
         System.out.println(stats.getMin());     /* -4 */
         System.out.println(stats.getMax());     /* 27 */
     }
+
+    public void playWithSpliterator() {
+        // Example 1
+        List<String> list = Arrays.asList("One", "Two", "Three", "Four", "Five");
+        Stream<String> stream = list.stream();
+
+        Spliterator<String> originalSpliterator = stream.spliterator();      /* three, four, five */
+        Spliterator<String> newSpliterator = originalSpliterator.trySplit(); /* one, two *.
+        newSpliterator.forEachRemaining(System.out::println);
+        System.out.println("---");
+        originalSpliterator.forEachRemaining(System.out::println);
+
+        /*
+        Output:
+            One
+            Two
+            ---
+            Three
+            Four
+            Five
+         */
+
+        /*
+        Once you apply forEachRemaining() method on a Spliterator, all elements are processed and Spliterator is now empty,
+        so if you run this command again it will return nothing:
+         */
+        originalSpliterator.forEachRemaining(System.out::println);
+
+        // Example 2
+        List<String> list2 = Arrays.asList("One", "Two", "Three", "Four", "Five");
+        Stream<String> stream2 = list2.stream();
+        Spliterator<String> originalSpliterator2 = stream2.spliterator(); /* three, four five */
+        Spliterator<String> newSpliterator2 = originalSpliterator2.trySplit(); /* one, two */
+        newSpliterator2.tryAdvance(System.out::println);
+        System.out.println("---");
+        newSpliterator2.forEachRemaining(System.out::println);
+        System.out.println("---");
+        originalSpliterator2.tryAdvance(System.out::println);
+        System.out.println("---");
+        originalSpliterator2.forEachRemaining(System.out::println);
+
+        /*
+        Output:
+            One
+            ---
+            Two
+            ---
+            Three
+            ---
+            Four
+            Five
+         */
+    }
+
+    public void playWithCollectingResults() {
+        // joining() example
+        var names = Stream.of("John", "George", "Luke");
+        // Static Collectors method is passed as an argument in collect():
+        String result = names.collect(Collectors.joining("-"));
+        System.out.println(result); /* John-George-Luke */
+
+        // averaging() example
+        var names2 = Stream.of("John", "George", "Luke");
+        Double result2 = names2.collect(Collectors.averagingInt(String::length));
+        System.out.println(result2); /* 4.666666666666667 */
+
+        // toCollection() example
+        var names3 = Stream.of("John", "George", "Luke");
+        TreeSet<String> result3 = names3
+                .filter(s -> s.startsWith("J"))
+                .collect(Collectors.toCollection(TreeSet::new));
+        System.out.println("result3 = " + result3); /* [Joe, John] */
+        
+        // toMap() example #1
+        var names4 = Stream.of("John", "George", "Luke");
+        Map<String, Integer> result4 = names4
+                .collect(Collectors.toMap(s -> s, String::length));
+        System.out.println("result4 = " + result4); /* {George=6, Luke=4, John=4} */
+
+        // toMap() example #2
+        var names5 = Stream.of("John", "George", "Luke");
+        //Map<Integer, String> result5 = names5
+        //        .collect(Collectors.toMap(String::length, k -> k));
+        //System.out.println("result5 = " + result5); /* ERROR: Exception java.lang.IllegalStatException: Duplicate key 4
+        // to solve this we have to provide a merge rule, e.g.
+        var names6 = Stream.of("John", "George", "Luke");
+        Map<Integer, String> result6 = names6.collect(Collectors.toMap(
+                String::length,
+                k -> k,
+                (s1, s2) -> s1 + ";" + s2));
+        System.out.println("result6 = " + result6);
+
+        /*
+        If we don't specify the class, toMap can return any class which implements Map interface (usually HashMap, but not guaranteed) or we can specify the class:
+         */
+        // This example from the Tutorials does not compile, so it was commented out.
+        //var names7 = Stream.of("John", "George", "Luke");
+        //Map<Integer, String> result7 = names7.collect(Collectors.toMap(
+        //        String::length,
+        //        k -> k,
+        //        (s1, s2) -> s1 + ";" + s2),
+        //        TreeMap::new);
+        //System.out.println("result7 = " + result7); /* {4=John;Luke, 6=George} */
+        //System.out.println(result.getClass()); /* class java.util.TreeMap */
+
+        // groupingBy() example #1
+        var names8 = Stream.of("John", "George", "Luke");
+        Map<Integer, List<String>> result8 = names8
+                .collect(Collectors.groupingBy(String::length)); /* argument is Function */
+        System.out.println("result8 = " + result8); /* {4=[John,Luke], 6=[George]} */
+
+        // groupingBy() example #2
+        var names9 = Stream.of("John", "George", "Luke");
+        Map<Integer, Set<String>> result9 = names9
+                .collect(Collectors.groupingBy(String::length, Collectors.toSet())); /* downstream collector ensures that the value will be Set */
+        System.out.println("result8 = " + result8); /* {4=[John,Luke], 6=[George]} */
+
+        // groupingBy() example #3
+        var names10 = Stream.of("John", "George", "Luke");
+        TreeMap<Integer, Set<String>> result10 = names10
+                .collect(Collectors.groupingBy(String::length, TreeMap::new, Collectors.toSet())); /* map supplier ensures that the Map implementation will be TreeMap */
+        System.out.println("result10 = " + result10); /* {4=[John,Luke], 6=[George]} */
+
+        // partitioningBy() has only 2 groups: true and false
+        var names11 = Stream.of("John", "George", "Luke");
+        Map<Boolean, List<String>> result11 = names11.collect(
+                Collectors.partitioningBy(s -> s.length() <= 4));
+        System.out.println("result11 = " + result11); /* {false=[George], true=[John, Luke]} */
+
+        // partitioningBy() with Set instead of List
+        var names12 = Stream.of("John", "George", "Luke");
+        Map<Boolean, Set<String>> result12 = names12.collect(
+                Collectors.partitioningBy(s -> s.length() <= 4, Collectors.toSet())); /* We have provided downstream collector */
+        System.out.println("result12 = " + result12); /* {false=[George], true=[John, Luke]} */
+
+        // teeing() is used for returning multiple values, e.g. sum and average
+        // step 1: create a type which stores values:
+        record MyData(int sum, double avg) {}
+        // step 2: use stream to return the result of the type MyData
+        var numbers = Stream.of(1,2,3,4,5);
+        MyData result13 = numbers.collect(
+                Collectors.teeing(
+                        Collectors.summingInt(i -> i),
+                        Collectors.averagingDouble(i -> i),
+                        MyData::new
+                ));
+        System.out.println("Sum: " + result13.sum() + ", Average: " + result13.avg()); /* Sum: 15, Average: 3.0 */
+    }
 }

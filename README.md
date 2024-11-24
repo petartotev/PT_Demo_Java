@@ -40,6 +40,8 @@
     - [Terminal Stream Operations](#terminal-stream-operations)
     - [Unique Primitive Streams Methods](#unique-primitive-streams-methods)
     - [Mapping Streams](#mapping-streams)
+    - [Common Spliterator Methods](#common-spliterator-methods)
+    - [Common Grouping / Partitioning Collectors](#common-grouping--partitioning-collectors)
   - [S17: Localization](#localization)
     - [Common Date Time Symbols](#common-date-time-symbols)
     - [NumberFormat Factory Methods](#numberformat-factory-methods)
@@ -51,6 +53,7 @@
 # TODO
 - Extract "Setup JDBC" and "Setup JUNit" sections and mention them in JavaApp.java.
 - Method, constructor, class access modifiers can be extracted in tables in README.
+- Make a Thing:ImportPackage table.
 
 # Questions
 - Do we have BiConsumer<T, U> that accept(T, U, V, W, X) - more than 2 parameters?
@@ -600,6 +603,45 @@ S22: Java 21 (1Z0-830 exam)
 | `IntStream`           | `mapToObj()`                   | `mapToDouble()`               | `map()`                      | `mapToLong()`                |
 | `LongStream`          | `mapToObj()`                   | `mapToDouble()`               | `mapToInt()`                 | `map()`                      |
 
+### Common Spliterator Methods
+
+| Method                                 | What It Does                                                                                                              |
+|----------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `Spliterator<T> trySplit()`            | Returns a `Spliterator` containing about half of the data, removing it from the original. Returns `null` if unsplittable. |
+| `void forEachRemaining(Consumer<T> c)` | Processes remaining elements in the `Spliterator` using the provided consumer.                                            |
+| `boolean tryAdvance(Consumer<T> c)`    | Processes a single element (if available) and returns `true` if an element was processed, `false` otherwise.              |
+
+### Common Grouping / Partitioning Collectors
+
+| Collector                                                     | Description                                              | Return Value (with `collect`)             |
+|---------------------------------------------------------------|----------------------------------------------------------|-------------------------------------------|
+| `averagingDouble(ToDoubleFunction f)`                         | Calculates average for doubles                           | `Double`                                  |
+| `averagingInt(ToIntFunction f)`                               | Calculates average for integers                          | `Double`                                  |
+| `averagingLong(ToLongFunction f)`                             | Calculates average for longs                             | `Double`                                  |
+| `counting()`                                                  | Counts the number of elements                            | `Long`                                    |
+| `filtering(Predicate p, Collector c)`                         | Applies a filter before calling the downstream collector | `R`                                       |
+| `groupingBy(Function f)`                                      | Creates a map                                            | `Map<K, List<T>>`                         |
+| `groupingBy(Function f, Collector dc)`                        | Creates a map with a downstream collector                | `Map<K, R>`                               |
+| `groupingBy(Function f, Supplier s, Collector dc)`            | Creates a map with a supplier and downstream collector   | `Map<K, R>`                               |
+| `joining(CharSequence cs)`                                    | Creates a `String` using the delimiter `cs`              | `String`                                  |
+| `maxBy(Comparator c)`                                         | Finds the largest element                                | `Optional<T>`                             |
+| `minBy(Comparator c)`                                         | Finds the smallest element                               | `Optional<T>`                             |
+| `mapping(Function f, Collector dc)`                           | Adds another level of collectors                         | `Collector`                               |
+| `partitioningBy(Predicate p)`                                 | Creates a map grouping                                   | `Map<Boolean, List<T>>`                   |
+| `partitioningBy(Predicate p, Collector dc)`                   | Creates a map grouping with downstream collector         | `Map<Boolean, R>`                         |
+| `summarizingDouble(ToDoubleFunction f)`                       | Calculates summarizing statistics for doubles            | `DoubleSummaryStatistics`                 |
+| `summarizingInt(ToIntFunction f)`                             | Calculates summarizing statistics for integers           | `IntSummaryStatistics`                    |
+| `summarizingLong(ToLongFunction f)`                           | Calculates summarizing statistics for longs              | `LongSummaryStatistics`                   |
+| `summingDouble(ToDoubleFunction f)`                           | Calculates sum for doubles                               | `Double`                                  |
+| `summingInt(ToIntFunction f)`                                 | Calculates sum for integers                              | `Integer`                                 |
+| `summingLong(ToLongFunction f)`                               | Calculates sum for longs                                 | `Long`                                    |
+| `teeing(Collector c1, Collector c2, BiFunction f)`            | Combines results of two collectors into a new type       | `R`                                       |
+| `toList()`                                                    | Creates a list                                           | `List`                                    |
+| `toSet()`                                                     | Creates a set                                            | `Set`                                     |
+| `toCollection(Supplier s)`                                    | Creates a collection of a specified type                 | `Collection`                              |
+| `toMap(Function k, Function v)`                               | Creates a map using functions for keys and values        | `Map`                                     |
+| `toMap(Function k, Function v, BinaryOperator m)`             | Creates a map with merge rule for key conflicts          | `Map`                                     |
+| `toMap(Function k, Function v, BinaryOperator m, Supplier s)` | Creates a map with merge rule and map type supplier      | `Map`                                     |
 
 ## Localization
 
