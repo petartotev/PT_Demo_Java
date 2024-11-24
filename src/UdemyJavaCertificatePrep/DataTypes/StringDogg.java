@@ -52,7 +52,9 @@ public class StringDogg {
         System.out.println(nameAsIs.toLowerCase());
         System.out.println(nameAsIs.toUpperCase());
 
-        /* TODO: Check for toLowerInvariant(), toUpperInvariant() alternatives in Java */
+        /* PT: C#'s ToLowerInvariant() and ToUpperInvariant() can be replaced in Java using Locale.ROOT: */
+        System.out.println(nameAsIs.toLowerCase(Locale.ROOT));
+        System.out.println(nameAsIs.toUpperCase(Locale.ROOT));
 
         var name1 = new String("John Doe");
         var name2 = new String("John Doe");

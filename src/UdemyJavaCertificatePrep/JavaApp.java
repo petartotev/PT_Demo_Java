@@ -2252,11 +2252,139 @@ d
 
         System.out.println("========== S18: Build-in Modules ==========");
 
+        /*
+        Build-In Java Modules:
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#build-in-modules
+
+        🧪 EXAM TIP: For the exam, know these 5 modules:
+        - java.base
+            - the most important module, available to all modular apps
+            - all modules dependend on it
+        - java.sql
+            - used by JDBC
+        - java.desktop - just know it exists
+        - java.logging - just know it exists
+        - java.xml - just know it exists
+d
+        Java Modules prefixed with jdk:
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#jdk-modules
+        🧪 EXAM TIP: For the exam, just know these JDK-prefixed modules exist!
+         */
+
         System.out.println("========== S18: Command Line Operations ==========");
+
+        /*
+        // compile non-modular code
+            javac -cp <classpath> -d <directory> <classesToCompile>
+            javac --class-path <classpath> -d <directory> <classesToCompile>
+            javac -classpath <classpath> -d <directory> <classesToCompile>
+        // run non-modular code
+            java -cp <classpath> <package>.<className>
+            java -classpath <classpath> <package>.<className>
+            java --class-path <classpath> <package>.<className>
+        // compile module
+            javac -p <moduleFolderName> -d <directory> <classesToCompilePlusModuleInfo>
+            javac --module-path <moduleFolderName> -d <directory> <classesToCompilePlusModuleInfo>
+        // run module
+            java -p <moduleFolderName> -m <moduleName/package.className>
+            java --module-path <moduleFolderName> --module <moduleName/package.className>
+        // describe module
+            java -p <moduleFolderName> -d <moduleName>
+            java --module-path <moduleFolderName> --describe-module <moduleName>
+            jar --file <jarName> --describe-module
+            jar -f <jarName> -d
+        // list available modules
+            java --module-path <moduleFolderName> --list-modules
+            java -p <moduleFolderName> --list-modules
+            java --list-modules
+        // view dependencies
+            jdeps -summary --module-path <moduleFolderName> <jarName>
+            jdeps -s --module-path <moduleFolderName> <jarName>
+            jdeps --jdk-internals <jarName>
+            jdeps -jdkinternals <jarName>
+        // show module resolution
+            java --show-module-resolution --module-path <moduleFolderName> --module <moduleName>
+            java --show-module-resolution -p <moduleFolderName> -m <moduleName>
+        // create runtime JAR
+            jlink --module-path <moduleFolderName> --add-modules <moduleName> --output <directory>
+            jlink -p <moduleFolderName> --add-modules <moduleName> --output <directory>
+         */
+
+        /*
+        Using jmod:
+        JMOD files are used when you have libraries that can't go inside a JAR file
+        🧪 EXAM TIP: For the exam you only need to know common modes used by jmod
+        • create - creates JMOD file
+        • extracts - extracts all files from JMOD (like unzipping)
+        • describe - prints module details (such as requires)
+        • list - lists all files in JMOD file
+        • hash - prints or records hashes
+         */
 
         System.out.println("========== S18: Named, Automatic, Unnamed Modules ==========");
 
+        /*
+        ⭐ DEFINITION: Named Module
+        - contain module-info.java file
+            - this file is in the root of the JAR alongside other packages
+        - module name is specified in module-info.java
+        - named modules appear on the module path (not on the classpath!)
+
+        ⭐ DEFINITION: Automatic Module
+        - appear on the module path
+        - it doesn't contain module-info.java file
+        - basically a regular JAR file placed in the module path and treated as a module
+        - in this case Java automatically determines the module name
+        - unless there is a file called MANIFEST.MF in META-INF folder in .jar file
+            - in this file one can set the property Automatic-Module-Name
+            - this is from the "old days", helping developers to transition from JAR to module (Java 9?)
+
+        Algorithm for naming automatic module:
+        1. Remove the file extension from the JAR file name
+        2. Remove any version information from the end of the name
+        3. Replace any remaining characters other than letters and numbers with dots
+        4. Replace any sequences of dots with a single dot
+        5. Remove the dot if it is the first or last character of the result
+        mod_$-1.0-RC.jar -1-> mod_$-1.0-RC -2-> mod_$ -3-> mod.. -4-> mod. -5-> mod
+
+        ⭐ DEFINITION: Unnamed Module
+        - appears on the classpath (unlike automatic module)
+        - basically a regular JAR in the classpath
+        - usually doesn't contain module-info.java (if it does, it is ignored)
+        - unnamed modules don't export any packages to named or automatic modules
+            - it can read from any JARs on the classpath or module path
+        - important to remember:
+            - code on the classpath can access the module path
+            - code on the module path is unable to read from the classpath
+         */
+
         System.out.println("========== S18: Migration Strategies ==========");
+
+        /*
+        Many application were written before JPMS was introduced.
+        With migration, you can migrate the existing application to use modules.
+        2 approaches:
+        1. Bottom-Up Migration
+        - used when you have control over JAR files on which your app depends
+        2. Top-Down Migration
+        - useful when you don't have control over every JAR file used by your app
+
+        Bottom-Up Migration Strategy:
+        1. Pick the lowest-level project that has not yet been migrated.
+        2. Add module-info.java file to that project with appropriate exports/requires.
+        3. Move newly migrated module from the classpath to module path.
+        4. Do this until there are no unnamed modules on the classpath.
+        5. Repeat with the next lowest-level project until you are done.
+
+        Top-Down Migration Strategy:
+        1. Place all projects on the module path
+        2. Pick the highest-level project that has not yet been migrated.
+        3. Add module-info.java to the project.
+        - this converts automatic module into a named module
+        - add appropriate exports / requires statements
+        - you can use the automatic module name of other modules in the process
+        4. Repeat with the next highest-level project until you are done.
+         */
 
         System.out.println("=============== S19: CONCURRENCY [OCP] ===============");
 
@@ -2295,7 +2423,6 @@ d
         1. Extend Thread class
         2. Implement Runnable interface
         3. Implement Callable interface (requires ExecutedService)
-
          */
 
         MyThreadClass myThreadClass = new MyThreadClass();

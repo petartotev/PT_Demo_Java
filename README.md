@@ -51,6 +51,8 @@
     - [DateTimeFormatter Factory Methods](#datetimeformatter-factory-methods)
   - [S18: Modules](#modules)
     - [module-info.java keywords](#module-infojava-keywords)
+    - [Build-In Modules](#build-in-modules)
+    - [JDK Modules](#jdk-modules)
   - [S19: Concurrency](#concurrency)
     - [Future\<V\> Interface Methods](#futurev-interface-methods)
 
@@ -744,6 +746,34 @@ S22: Java 21 (1Z0-830 exam)
 | exports <package>                        | Public members of the named package are accessible to other modules.                              |
 | uses <service>                           | The module uses a service (interface) which can be implemented elsewhere.                         |
 | provides <service> with <implementation> | Module provides a concrete implementation of a service (interface).                               |
+
+### Build-In Modules
+
+| **Modules**                | **Modules**           | **Modules**           |
+|----------------------------|-----------------------|-----------------------|
+| `java.base`                | `java.naming`         | `java.smartcardio`    |
+| `java.compiler`            | `java.net.http`       | `java.sql`            |
+| `java.datatransfer`        | `java.prefs`          | `java.sql.rowset`     |
+| `java.desktop`             | `java.rmi`            | `java.transaction.xa` |
+| `java.instrument`          | `java.scripting`      | `java.xml`            |
+| `java.logging`             | `java.se`             | `java.xml.crypto`     |
+| `java.management`          | `java.security.jgss`  |                       |
+| `java.management.rmi`      | `java.security.sasl`  |                       |
+
+### JDK Modules
+
+| **Modules**                | **Modules**                | **Modules**              | **Modules**            |
+|----------------------------|----------------------------|--------------------------|------------------------|
+| `jdk.accessibility`        | `jdk.incubator.foreign`    | `jdk.jlink`              | `jdk.net`              |
+| `jdk.attach`               | `jdk.incubator.vector`     | `jdk.jshell`             | `jdk.nio.mapmode`      |
+| `jdk.charset`              | `jdk.jartool`              | `jdk.jsobject`           | `jdk.sctp`             |
+| `jdk.compiler`             | `jdk.javadoc`              | `jdk.jstatd`             | `jdk.security.auth`    |
+| `jdk.crypto.cryptoki`      | `jdk.jcmd`                 | `jdk.localedata`         | `jdk.security.jgss`    |
+| `jdk.crypto.ec`            | `jdk.jconsole`             | `jdk.management`         | `jdk.xml.dom`          |
+| `jdk.dynalink`             | `jdk.jdeps`                | `jdk.management.agent`   | `jdk.zipfs`            |
+| `jdk.editpad`              | `jdk.jdi`                  | `jdk.management.jfr`     | `jdk.hotspot.agent`    |
+| `jdk.httpserver`           | `jdk.jdwp.agent`           | `jdk.naming.dns`         | `jdk.naming.rmi`       |
+| `jdk.jfr`                  |                            |                          |                        |
 
 ## Concurrency
 
