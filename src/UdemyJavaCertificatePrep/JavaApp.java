@@ -13,24 +13,30 @@ import Exceptional.MyFileClass;
 import Exceptional.OutOfMilkException;
 import FlowControl.FlowController;
 import FunctionalProgramming.*;
+import Localizator.LocalBundy;
 import Methodology.MethodItem;
 import Methodology.MethodMan;
 import Methodology.MethodStaticItem;
 import Operators.SmoothOperator;
 import Streams.Optionalissimo;
 import Streams.StreamEngine;
+import com.bookapi.Runbook;
+import com.emailnotification.EmailNotification;
+import com.inventory.RunbookInventory;
+import com.notificationservice.NotificationService;
+
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
+import java.text.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Random;
+import java.time.format.FormatStyle;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
@@ -38,7 +44,7 @@ import java.util.stream.Stream;
 
 // 💡 FACT: Class JavaApp is initialized automatically, as main() method is inside the class.
 public class JavaApp {
-    public static void main(String[] args) throws IOException, OutOfMilkException {
+    public static void main(String[] args) throws IOException, OutOfMilkException, ParseException {
         System.out.println("=============== UDEMY.COM Java Certificate Prep: OCA (1Z0-808) & OCP (1Z0-829, 1Z0-830) by Luka Popov ===============");
         System.out.println("=============== S1: INTRODUCTION ===============");
 
@@ -1948,6 +1954,8 @@ d
 
         System.out.println("=============== S17: LOCALIZATION [OCP] ===============");
 
+        LocalBundy myLocalBundy = new LocalBundy();
+
         System.out.println("========== S17: Formatting Values ==========");
 
         /*
@@ -2055,61 +2063,74 @@ d
         📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#number-format-factory-methods
          */
 
-        // Formatting Numbers
-        double myNummy = 1234.568;
+        myLocalBundy.playWithFormattingNumbers();
 
-        var us = NumberFormat.getInstance(Locale.US);
-        System.out.println(us.format(myNummy)); /* 1,234.568 */
-        var it = NumberFormat.getInstance(Locale.ITALY);
-        System.out.println(it.format(myNummy)); /* 1.234,568 */
-        var ca = NumberFormat.getInstance(Locale.CANADA_FRENCH);
-        System.out.println(ca.format(myNummy)); /* 1 234,568 */
+        myLocalBundy.playWithFormattingCurrencies();
 
-        // Formatting Currencies
-        double price = 12.3;
+        myLocalBundy.playWithFormattingPercentages();
 
-        var ussy = NumberFormat.getCurrencyInstance(Locale.US);
-        System.out.println(ussy.format(price));
-        var uk = NumberFormat.getCurrencyInstance(Locale.UK);
-        System.out.println(uk.format(price));
+        myLocalBundy.playWithParsingNumbers();
 
-        // Formatting Percentages
-        double discount = 0.151;
+        myLocalBundy.playWithParsingNumbersWithCurrency();
 
-        var uspercent = NumberFormat.getPercentInstance(Locale.US);
-        System.out.println(uspercent.format(discount)); /* 15% */
-        var gerpercent = NumberFormat.getPercentInstance(Locale.GERMANY);
-        System.out.println(gerpercent.format(discount)); /* 15 % */
+        myLocalBundy.playWithUsingCompactNumberFormat();
 
-        // Parsing Numbers
-        String myNumStr = "15.72";
-        var usns = NumberFormat.getInstance(Locale.US);
-        // System.out.println(usns.parse(myNumStr)); /* Java.Text.ParseException */
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#datetimeformatter-factory-methods
+         */
 
-        // Parsing Numbers with Currency
+        myLocalBundy.playWithLocalizingDatesAndTimes();
 
-        // using CompactNumberFormat (new in Java 17!)
-        int myNum = 8_765_432;
-        var us1 = NumberFormat.getCompactNumberInstance();
-
-        /* TODO */
-
-        var hr = new Locale("hr", "HR");
-        var priceHr = 4.32;
-
-        System.out.println(hr.getDisplayLanguage()); /* Croatian */
-        System.out.println(hr.getDisplayCountry()); /* Croatia */
-        System.out.println(NumberFormat.getCurrencyInstance(hr).format(priceHr));
+        myLocalBundy.playWithLocaleDisplaying();
 
         System.out.println("========== S17: Resource Bundle ==========");
 
         /*
-        Properties file which contains the locale-specific objects for the program.
+        ⭐ DEFINITION: Resource Bundle - Properties file which contains the locale-specific objects for the program.
         Basically a map with keys and values.
-
+        Keys and values in property file are separated either by '=' or ':'
+        Property file name is like this: Museum_en.properties
+            <name_of_the_bundle>_<target_locale>.properties
+        To load a resource bundle:
+            ResourceBundle.getBundle(bundle, locale)
          */
 
-        /* TODO */
+        /*
+        Museum_en.properties file was created in the same directory as JavaApp.
+        Next, Museum_it.properties file was created in the same directory as JavaApp.
+        This automatically created Resource Bundle 'Museum' directory and grouped the 2 files together.
+         */
+
+        // new Locale can be omitted (default locale will be used)
+        var enRb = ResourceBundle.getBundle("Museum", new Locale("en", "US"));
+        var itRb = ResourceBundle.getBundle("Museum", new Locale("it", "IT"));
+
+        System.out.println(enRb.getString("greeting") + "! " + enRb.getString("open")); /* Hello! The museum is open! */
+        System.out.println(itRb.getString("greeting") + "! " + itRb.getString("open")); /* Ciao! Il museum e aperto! */
+
+        /*
+        How to pick resource bundle?
+        1. Looks for Museum_it_IT.properties (requested locale)
+        2. Next, looks for Museum_it.properties (requested language with no country)
+        3. Next, looks for Museum_en_US.properties (default locale)
+        4. Next, looks for Museum_en.properties (default locale with no country)
+        5. Next, looks for Museum.properties (bundle with no locale - default bundle)
+        6. Throws MissingResourceException (if above found)
+         */
+
+        /*
+        Formatting messages
+        import java.text.*
+        Add greetByName=Ciao, {0} e {1} in Museum_it.properties
+         */
+        String greet = itRb.getString("greetByName");
+        System.out.println(MessageFormat.format(greet, "Bruno", "Mario")); /* Ciao, Bruno e Mario */
+
+        // Using Properties class to define properties outside rb file:
+        var props = new Properties();
+        props.setProperty("name", "Natural Museum");
+        System.out.println("Welcome to " + props.getProperty("name"));
+        // Works like a HashMap with String key and values.
 
         System.out.println("=============== S18: MODULES [OCP] ===============");
 
@@ -2117,25 +2138,67 @@ d
 
         /*
         Java Platform Module System (JPMS)
-        JAR Files
-        Make sure you have compatible versions of all libraries at runtime.
+        JAR Files - you need to make sure you have compatible versions of all libraries at runtime.
+        This can lead to a big mess with versions and dependencies.
+        Alternative: use modules - groups of related packages with some set of functionalities.
 
-        Benefits:
-        Better access control
-        Clearer dependency manager
-        Custom Java builds - choose which parts of JDK you need
-        Improved security
-        Improved performance
+        Benefits of Modules:
+        - Better access control
+        - Clearer dependency manager - if dependency is missing, Java complains when starting the program.
+        - Custom Java builds - choose which parts of JDK you need =>
+        - Improved security
+        - Improved performance
 
         Module = folder on your computer which contains:
         - a group of packages
         - module-info.java file
             - contents is called module declaration - defines dependencies
+
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#module-infojava-keywords
+
+        Service Provider Interface (SPI) = uses <service> + provides <service> with <implementation>
+
+        Compiling and Running Modules
+        Compiling with javac:
+        Directory for class files       -d <dir>        n/a
+        Module path                     -p <path>       --module-path <path>
+        Running the program with java:
+        Module name                     -m <name>       --module <name>
+        Module path                     -p <path>       --module-path <path>
          */
 
         System.out.println("========== S18: Designing Modular App ==========");
 
-        /* TODO */
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#create-modules
+
+        1. Create module bookapi by following the instruction in the README above.
+        2. Next import it here: import com.bookapi.Runbook;
+        Now you can use it directly here:
+        List<Runbook> myRunbooks = new ArrayList<>();
+
+        4. Create module inventory by following the README.
+        5. Import it here: import com.inventory.RunbookInventory;
+        6. Now it is ready to use.
+        Note that as it is defined as transitive in module-info.java (inventory), we can use Runbook directly as well!
+         */
+
+        RunbookInventory myRunbookInventory = new RunbookInventory();
+        myRunbookInventory.runbooks.forEach(System.out::println); /* Runbook[title=OCA]\nRunbook[title=OCP] */
+        Runbook myPersonalRunbook = new Runbook("Mini Me");
+
+        /*
+        Create module notificationservice containing package com.notificationservice containing interface NotificationService.
+        Next, create module emailnotification containing package com.emailnotificaiton containing interface EmailNotification that implements NotificationService.
+        import com.notificationservice.NotificationService;
+        No need to import EmailNotification!
+         */
+
+        NotificationService myNotificationService = new EmailNotification();
+        System.out.println(myNotificationService.getName());
+        myNotificationService.sendNotification("This is some test message!");
+
+        /* TODO: Implement reports, checkout modules and finally, app module... */
 
         System.out.println("========== S18: Compiling and Running Modules ==========");
 
@@ -2147,6 +2210,44 @@ d
         Running with java:
         Module name                 -m <name>   --module <name>
         Module path                 -p <path>   --module-path <path>
+
+        ## COMPILE MODULES
+        # bookapi
+        javac -d bookapi/bin bookapi/src/module-info.java bookapi/src/com/bookapi/*.java
+        # inventory
+        javac --module-path bookapi/bin:reports/bin -d inventory/bin inventory/src/module-info.java inventory/src/com/inventory/*.java
+        # reports
+        javac --module-path bookapi/bin:inventory/bin -d reports/bin reports/src/module-info.java reports/src/com/reports/*.java
+        # notificationservice
+        javac -d notificationservice/bin notificationservice/src/module-info.java notificationservice/src/com/notificationservice/*.java
+        # emailnotification
+        javac --module-path notificationservice/bin -d emailnotification/bin emailnotification/src/module-info.java emailnotification/src/com/emailnotification/*.java
+        # checkout
+        javac --module-path bookapi/bin:inventory/bin:notificationservice/bin:emailnotification/bin -d checkout/bin checkout/src/module-info.java checkout/src/com/checkout/*.java
+        # app
+        javac --module-path checkout/bin:reports/bin -d app/bin app/src/module-info.java app/src/com/app/*.java
+
+        ## RUNNING THE APPLICATION USING bin
+        java --module-path bookapi/bin:inventory/bin:checkout/bin:app/bin:reports/bin:notificationservice/bin:emailnotification/bin --module app/com.app.LibraryApp
+
+        ## CREATE MODULAR JAR's (recommended)
+        # bookapi
+        jar --create --file=bookapi/bookapi.jar -C bookapi/bin .
+        # inventory
+        jar --create --file=inventory/inventory.jar -C inventory/bin .
+        # notification service
+        jar --create --file=notificationservice/notificationservice.jar -C notificationservice/bin .
+        # email notification
+        jar --create --file=emailnotification/emailnotification.jar -C emailnotification/bin .
+        # checkout
+        jar --create --file=checkout/checkout.jar -C checkout/bin .
+        # reports
+        jar --create --file=reports/reports.jar -C reports/bin .
+        # app
+        jar --create --file=app/app.jar --main-class=com.app.LibraryApp -C app/bin .
+
+        ## RUNNING THE APPLICATION USING JAR's (recommended)
+        java --module-path bookapi/bookapi.jar:inventory/inventory.jar:checkout/checkout.jar:app/app.jar:reports/reports.jar:notificationservice/notificationservice.jar:emailnotification/emailnotification.jar -m app/com.app.LibraryApp
          */
 
         System.out.println("========== S18: Build-in Modules ==========");

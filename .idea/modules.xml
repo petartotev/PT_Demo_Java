@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/PT_Demo_Java.iml" filepath="$PROJECT_DIR$/.idea/PT_Demo_Java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bookapi/bookapi.iml" filepath="$PROJECT_DIR$/bookapi/bookapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/emailnotification/emailnotification.iml" filepath="$PROJECT_DIR$/emailnotification/emailnotification.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inventory/inventory.iml" filepath="$PROJECT_DIR$/inventory/inventory.iml" />
+      <module fileurl="file://$PROJECT_DIR$/notificationservice/notificationservice.iml" filepath="$PROJECT_DIR$/notificationservice/notificationservice.iml" />
     </modules>
   </component>
 </project>

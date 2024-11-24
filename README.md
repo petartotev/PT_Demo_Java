@@ -6,6 +6,9 @@
 - [Setup](#setup)
   - [Essential Project Setup](#essential-project-setup)
   - [Additional IDE Settings](#additional-ide-settings)
+- [Create Modules](#create-modules)
+  - [Create new Module](#create-new-module)
+  - [Create new Transitive Module](#create-new-transitive-module)
 - [Testing](#testing)
 - [Build Artifact and Run Program](#build-artifact-and-run-program)
   - [Build Artifact](#build-artifact)
@@ -45,6 +48,7 @@
   - [S17: Localization](#localization)
     - [Common Date Time Symbols](#common-date-time-symbols)
     - [NumberFormat Factory Methods](#numberformat-factory-methods)
+    - [DateTimeFormatter Factory Methods](#datetimeformatter-factory-methods)
   - [S18: Modules](#modules)
     - [module-info.java keywords](#module-infojava-keywords)
   - [S19: Concurrency](#concurrency)
@@ -76,6 +80,54 @@
 2. Turn on/off Inlay Hints:
    ![File-Settings-Editor-Inlay-Hints](./res/File-Settings-Editor-Inlay-Hints.png)
 3. Set Font Size: Go to Settings > Editor > Font > Change size to 16
+
+# Create Modules
+## Create new Module
+
+1. Go to `File` > `Project Structure` > `Modules`.
+2. Choose `[+] Add` > `New Module` > choose `Java`.
+3. Choose the following settings and save in the same project directory:
+- `Name`: (bookapi)
+- `Location`: (PT_Demo_Java)
+- `Build system`: IntelliJ
+- `JDK`: 17
+- [Y] Add sample code
+4. Remove file `Main` from newly created module `bookapi`.
+5. Create new package `com.bookapi` and new record `Runbook`:
+```
+package com.bookapi;
+public record Runbook(String title) { }
+```
+6. Create new file `bookapi/src/module-info.java`:
+```
+module bookapi {
+  exports com.bookapi;
+}
+```
+7. In `JavaApp`, add dependency on module `bookapi`:
+```
+import com.bookapi.Runbook;
+```
+8. When the program runs, one can have the following 🔴 ERROR::
+```
+java: warning: source release 21 requires target release 21
+```
+To fix it, go to `File` > `Project Structure` > `Modules`, then go through all the modules and set `Language Level` to `17`.
+9. ✅ SUCCESS: You are ready to use `Runbook` in `JavaApp`:
+```
+List<Runbook> myRunbooks = new ArrayList<>();
+```
+
+## Create new Transitive Module
+1. Create new module `inventory`, containing package `com.inventory` in its `src` directory by following the instructions above.
+2. Create new file `inventory/src/module-info.java`:
+```
+module inventory {
+  requires transitive bookapi;    /* if some other module requires inventory, it automatically gets access to bookapi */
+  exports com.inventory;          /* in order for com.inventory to be available in other modules */
+  opens com.inventory to reports; /* makes com.inventory available to module reports in the runtime */
+}
+```
 
 # Testing
 1. Make sure you have `JUnit` plugin installed:
@@ -153,21 +205,21 @@ java -jar your-program.jar
 - LVTI (Local Variable Type Inference)
 
 # Shortcuts
-| Shortcut                    | Description                                      |
-|-----------------------------|--------------------------------------------------|
-| Ctrl + D                    | Duplicate single line (Ctrl+C and Ctrl+V)        |
-| Ctrl + Shift + /            | Comment out multiple lines                       |
-| Ctrl + Shift + [+/-]        | Expand / Collapse methods in a class             |
-| Ctrl + Shift + R            | Replace                                          |
-| Ctrl + Shift + F            | Search throughout the whole project              |
-| Ctrl + Alt + L              | Format a file                                    |
-| Alt + Shift + Up/Down Arrow | Move line up / down                              |
-| Alt + Insert                | Shortcut for creating constructors, getters etc. |
-| Hold Alt and drag down/up   | Write on multiple lines                          |
-| fori + tab                  | Automatically writes for (i = 0; i...            |
-| sout + tab                  | Prints System.out.println();                     |
-| soutp + tab                 | Prints method parameters                         |
-| soutv + tab                 | Prints variable's name and value                 |
+| Shortcut                     | Description                                      |
+|------------------------------|--------------------------------------------------|
+| Ctrl + D                     | Duplicate single line (Ctrl+C and Ctrl+V)        |
+| Ctrl + Shift + Up/Down Arrow | Move line up / down                              |
+| Ctrl + Shift + /             | Comment out multiple lines                       |
+| Ctrl + Shift + [+/-]         | Expand / Collapse methods in a class             |
+| Ctrl + Shift + R             | Replace                                          |
+| Ctrl + Shift + F             | Search throughout the whole project              |
+| Ctrl + Alt + L               | Format a file                                    |
+| Alt + Insert                 | Shortcut for creating constructors, getters etc. |
+| Hold Alt and drag down/up    | Write on multiple lines                          |
+| fori + tab                   | Automatically writes for (i = 0; i...            |
+| sout + tab                   | Prints System.out.println();                     |
+| soutp + tab                  | Prints method parameters                         |
+| soutv + tab                  | Prints variable's name and value                 |
 
 # Links
 - https://www.jetbrains.com/idea/download/other.html
@@ -669,6 +721,16 @@ S22: Java 21 (1Z0-830 exam)
 | getPercentInstance(), getPercentInstance(Locale locale)    | For formatting percentages                  |
 | getIntegerInstance(), getIntegerInstance(Locale locale)    | Rounds decimal numbers before displaying    |
 | getCompactNumberInstance(), getInstance(Locale l, Style s) | Returns compact number formatter            |
+
+### DateTimeFormatter Factory Methods
+
+| Method                                                              | Description                              |
+|---------------------------------------------------------------------|------------------------------------------|
+| `ofLocalizedDate(FormatStyle dateStyle)`                            | For formatting dates                     |
+| `ofLocalizedTime(FormatStyle timeStyle)`                            | For formatting times                     |
+| `ofLocalizedDateTime(FormatStyle dateStyle, FormatStyle timeStyle)` | For formatting dates and times           |
+| `ofLocalizedDateTime(FormatStyle dateTimeStyle)`                    | For formatting dates and times           |
+
 
 ## Modules
 
