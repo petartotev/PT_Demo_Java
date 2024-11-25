@@ -2516,7 +2516,7 @@ d
 
         System.out.println("========== S20: Serialization ==========");
 
-        System.out.println("=============== S21: JBDC [OCP] ===============");
+        System.out.println("=============== S21: JDBC [OCP] ===============");
 
         System.out.println("========== S21: Introduction to JDBC ==========");
 
@@ -2614,10 +2614,22 @@ d
             System.err.println(e.getMessage());
         }
 
+        // Alternative - plain connection string, username and password passed as arguments in getConnection() method:
+        String urlWithNoUserAndPass = "jdbc:postgresql://localhost:5432/postgres";
+        try (Connection connection = DriverManager.getConnection(url, "postgres", "test1234")) {
+            if (connection != null) {
+                System.out.println("Connected with user and pass passed as args!");
+            } else {
+                System.out.println("Failed connection!");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
         System.out.println("========== S21: Using PreparedStatement ==========");
 
         /*
-        To get PreparedStatement objet, we have to use Connection object.
+        To get PreparedStatement object, we have to use Connection object.
         1. DriverManager -> Connection (using getConnection() method)
         2. Connection -> PreparedStatement (using prepareStatement() method)
         3. PreparedStatement -> Execute SQL Query
