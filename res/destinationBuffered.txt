@@ -1,0 +1,3 @@
+This is some text that will be used for testing purposes.
+I just want to try copying contents from 1 file to another using FileReader and FileWriter.
+Thanks!

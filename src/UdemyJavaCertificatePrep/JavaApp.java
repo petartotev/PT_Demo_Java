@@ -14,6 +14,9 @@ import Exceptional.MyFileClass;
 import Exceptional.OutOfMilkException;
 import FlowControl.FlowController;
 import FunctionalProgramming.*;
+import IoEuropaGanymedeCallisto.FilesManager;
+import IoEuropaGanymedeCallisto.SerializationExample;
+import IoEuropaGanymedeCallisto.User;
 import Localizator.LocalBundy;
 import Methodology.MethodItem;
 import Methodology.MethodMan;
@@ -2673,15 +2676,154 @@ d
         System.out.println("========== S19: Threading Problems ==========");
 
         /*
+        Liveness
+        The ability of an application to be able to execute in a timely manner.
+        Liveness problem occurs when application becomes unresponsive ("stuck").
+        These problems are the result of a thread entering BLOCKING or WAITING state.
+        (forever or altering between entering and exiting these states)
+        🧪 EXAM TIP: For the exam you need to know 3 types of liveness issues:
+        - deadlock
+        - starvation
+        - livelock
 
+        Deadlock - 2 or more threads are blocked forever.
+        Because each thread is waiting on the other to complete.
+
+        Starvation - a single thread is perpetually denied access to a shared resource or a lock.
+        The thread is still active, but is unable to complete its work, e.g. when other thread(s) are constantly taking the resource it's trying to access.
+
+        Livelock = Deadlock + Starvation
+        2 or more threads are conceptually blocked forever.
+        Even though each of them are active and is trying to complete its task.
+        This is special case of Resource Starvation - 2 or more threads actively try to acquire a set of locks and since they are unable to do so, the process is restarted.
+        In practice, livelock is difficult issue to detect, because threads in livelock state appear active and responsive.
+        But actually they are just stuck in an endless state.
+
+        Race Condition - 2 tasks that should be completed sequentially are completed at the same time.
+        Most common example is the creation of unique username:
+        Either both users will create an account with the same username.
+        Or neither user will be able to create an account and will get an error.
+        Or one user will be allowed a username, and other one will get an error.
+        Neither of these outcomes are desirable!
          */
 
         System.out.println("=============== S20: I/O [OCP] ===============");
         System.out.println("========== S20: Working with Files ==========");
 
+        /*
+        I/O - input/output
+        import java.io.* package
+        Java reads/writes either characters or bytes.
+        Classes with Stream in their names read/writes binary (usually used for images, executable files etc.)
+        - FileInputStream
+        - FileOutputStream
+        - ObjectInputStream
+        - ObjectOutputStream
+        Readers and Writers are used to read/write text (for text files - data which consists of characters or strings):
+        - FileReader
+        - BufferedReader
+        - FileWriter
+        - BufferedWriter
+        - PrintWriter
+        File class enables on to create File objects
+        - from which actual files on the hard disk can be created.
+        Many of the classes mentioned in the previous slides are intended to be wrapped.
+       - this enables low-level classes to get access to higher-level functionality.
+       - which results with efficiency (buffering)
+
+       Abstract class: InputStream
+       - Low-level class: FileInputStream - read one byte at a time
+       - High-level class (for efficiency): BufferedInputStream
+       - High-level class (other): ObjectInputStream
+       Wrapping example:
+       new ObjectInputStream(new FileInputStream("file.dat"));
+
+       Abstract class: OutputStream
+       - Low-level class: FileOutputStream
+       - High-level class (for efficiency): BufferedOutputStream
+       - High-level class (other): ObjectOutputStream
+       Wrapping example:
+       new ObjectOutputStream(new FileOutputStream("file.dat"));
+
+       Abstract class: Reader
+       - Low-level class: FileReader
+       - High-level class (for efficiency): BufferedReader
+       - High-level class (other): InputStreamReader - a bridge between byte streams and character streams.
+       Wrapping example:
+       new BufferedReader(new FileReader("file.dat"));
+       new BufferedReader(new InputStreamReader("System.in"));
+
+       Abstract class: Writer
+       - Low-level class: FileWriter
+       - High-level class (for efficiency): BufferedWriter
+       - High-level class (other): OutputStreamWriter, PrintWriter - a bridge between byte streams and character streams.
+       Wrapping example:
+       new BufferedWriter(new FileWriter("file.dat"));
+       new BufferedWriter(new OutputStreamWriter("System.in"));
+         */
+
+        FilesManager myFilesManager = new FilesManager();
+
+        myFilesManager.playWithCopyingTextFileWithNoBufferingUsingFileReaderAndFileWriter();
+        myFilesManager.playWithCopyingTextFileUsingBuffering();
+
+        myFilesManager.playWithCopyingBinaryFileWithNoBuffering();
+        myFilesManager.playWithCopyingBinaryFileUsingBuffering();
+
         System.out.println("========== S20: Console Class ==========");
 
+        /*
+        import java.io.Console - designed for interacting with the user.
+        Singleton class - using factory method we create one and only instance of this class.
+        Constructors of Console class are private - created using factory methods, not with NEW keyword.
+
+        Run IoEuropaGanymedeCallisto.ConsoleExample.java from Terminal!!!
+         */
+
         System.out.println("========== S20: Serialization ==========");
+
+        /*
+        Serialization - process of saving in-memory Java object in physical file.
+        Deserialization - reading from the file and creating Java object.
+        To make class serializable, you must implement the marker interface Serializable (marker interface).
+        Marker interface - interface which has no methods.
+        When serializing the object, only instance members are serialized (not static!).
+        serialVersionUID - a special field in serializable classes which is serialized even though it is static:
+        private static final long serialVersionUID = 1L;
+        Field serves as unique identifier for each class in (de)serialization process.
+        During deserialization JVC checks if the serialVersionUID of the loaded class is the same as the serialVersionUID of the serialized object.
+        If they match => means the 2 versions of the class are compatible.
+        If they don't match => JVM throws an InvalidClassException.
+
+        Transient Fields
+        If you don't want a field to be serialized - you can mark it as transient.
+        private transient String myPassword;
+        When being deserialized, transient field will revert to its default Java value.
+        (null for String, 0 for int, false for boolean, etc.)
+        If you have instance variables in your serializable class, make sure that these objects are also marked as serializable, e.g.:
+        If you want to serialize class Student which has an instance variable of type Address, you have to make Address serializable as well.
+        REMEMBER: Only non-transient instance members will be serialized!
+
+        Serialization Tools
+        In order to perform serialization, you have to use the classes:
+        ObjectOutputStream
+        ObjectInputStream
+        These classes are high-level classes, and they usually wrap lower-level classes:
+        FileOutputStream
+        FileInputStream
+        Usually we start with a file stream, then we wrap it in a buffered stream to improve performance.
+        Then we wrap the buffered stream with an object stream to access serialization/deserialization methods.
+         */
+
+        var fileName = "./res/serialization.txt";
+        User myUser = new User("Ivan Ivanovich", "ivan123!");
+        SerializationExample.serialize(myUser, fileName);
+        try {
+            User userDeserialized = (User) SerializationExample.deserialize(fileName);
+            System.out.println("userDeserialized = " + userDeserialized); /* userDeserialized = User{name='Ivan Ivanovich', password='null'} */
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         System.out.println("=============== S21: JDBC [OCP] ===============");
         System.out.println("========== S21: Introduction to JDBC ==========");
