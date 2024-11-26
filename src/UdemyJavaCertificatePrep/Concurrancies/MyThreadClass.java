@@ -1,6 +1,6 @@
 package Concurrancies;
 
-// 1. Extending Thread class
+// Option 1: Extend Thread class
 public class MyThreadClass extends Thread {
     @Override
     public void run() {

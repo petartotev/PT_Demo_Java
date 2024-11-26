@@ -55,7 +55,11 @@
     - [JDK Modules](#jdk-modules)
   - [S19: Concurrency](#concurrency)
     - [Future\<V\> Interface Methods](#futurev-interface-methods)
-
+    - [Atomic Classes](#atomic-classes)
+    - [Common Atomic Methods](#common-atomic-methods)
+    - [Lock Methods](#lock-methods)
+    - [Concurrent Collection Classes](#concurrent-collection-classes)
+    - [Synchronized Collections Methods](#synchronized-collections-methods)
 # TODO
 - Extract "Setup JDBC" and "Setup JUNit" sections and mention them in JavaApp.java.
 - Method, constructor, class access modifiers can be extracted in tables in README.
@@ -207,22 +211,22 @@ java -jar your-program.jar
 - LVTI (Local Variable Type Inference)
 
 # Shortcuts
-| Shortcut                     | Description                                      |
-|------------------------------|--------------------------------------------------|
-| Ctrl + D                     | Duplicate single line (Ctrl+C and Ctrl+V)        |
-| Ctrl + Shift + Up/Down Arrow | Move line up / down                              |
-| Ctrl + Shift + /             | Comment out multiple lines                       |
-| Ctrl + Shift + [+/-]         | Expand / Collapse methods in a class             |
-| Ctrl + Shift + R             | Replace                                          |
-| Ctrl + Shift + F             | Search throughout the whole project              |
-| Ctrl + Alt + L               | Format a file                                    |
-| Alt + Insert                 | Shortcut for creating constructors, getters etc. |
-| Hold Alt and drag down/up    | Write on multiple lines                          |
-| fori + tab                   | Automatically writes for (i = 0; i...            |
-| sout + tab                   | Prints System.out.println();                     |
-| soutp + tab                  | Prints method parameters                         |
-| soutv + tab                  | Prints variable's name and value                 |
-
+| Shortcut                     | Description                                        |
+|------------------------------|----------------------------------------------------|
+| Ctrl + D                     | Duplicate single line (Ctrl+C and Ctrl+V)          |
+| Ctrl + Shift + Up/Down Arrow | Move line up / down                                |
+| Ctrl + Shift + /             | Comment out multiple lines                         |
+| Ctrl + Shift + [+/-]         | Expand / Collapse methods in a class               |
+| Ctrl + Shift + R             | Replace                                            |
+| Ctrl + Shift + F             | Search throughout the whole project                |
+| Ctrl + Alt + L               | Format a file                                      |
+| Alt + Insert                 | Shortcut for creating constructors, getters etc.   |
+| Hold Alt and drag down/up    | Write on multiple lines                            |
+| fori + tab                   | Automatically writes for (i = 0; i...              |
+| sout + tab                   | Prints System.out.println();                       |
+| soutp + tab                  | Prints method parameters                           |
+| soutv + tab                  | Prints variable's name and value                   |
+| psvm                         | Creates public static void main(String[] args) {}  |
 # Links
 - https://www.jetbrains.com/idea/download/other.html
 - https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
@@ -787,3 +791,55 @@ S22: Java 21 (1Z0-830 exam)
 | `V get()`                                        | Retrieves the result of the task.                                                               |
 | `V get(long timeout, TimeUnit unit)`             | Retrieves the task result, waiting up to the specified time. Throws `TimeoutException` if not ready. |
 
+### Atomic Classes
+
+| **Class Name**    | **Description**                                 |
+|-------------------|-------------------------------------------------|
+| `AtomicBoolean`   | A boolean value that may be updated atomically. |
+| `AtomicInteger`   | An int value that may be updated atomically.    |
+| `AtomicLong`      | A long value that may be updated atomically.    |
+
+### Common Atomic Methods
+
+| **Method**                | **Description**                                |
+|---------------------------|------------------------------------------------|
+| `get()`                   | Retrieves the current value.                   |
+| `set(T newValue)`         | Sets a new value and returns it (like `=`).    |
+| `getAndSet(T newValue)`   | Sets a new value and returns the old one.      |
+| `incrementAndGet()`       | Equivalent to `++value`.                       |
+| `getAndIncrement()`       | Equivalent to `value++`.                       |
+| `decrementAndGet()`       | Equivalent to `--value`.                       |
+| `getAndDecrement()`       | Equivalent to `value--`.                       |
+
+### Lock Methods
+
+| **Method**                                     | **Description**                                                                                    |
+|------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| `void lock()`                                  | Requires the lock and blocks until it is acquired.                                                 |
+| `void unlock()`                                | Releases the lock.                                                                                 |
+| `boolean tryLock()`                            | Requests the lock and returns immediately with a boolean indicating if the lock was acquired.      |
+| `boolean tryLock(long timeout, TimeUnit unit)` | Requests the lock, blocking for the specified time or until acquired, returning a boolean status.  |
+
+
+### Concurrent Collection Classes
+
+| **Class Name**              | **Java Collection Interfaces**                                                                 |
+|-----------------------------|------------------------------------------------------------------------------------------------|
+| `ConcurrentHashMap`         | `Map`, `ConcurrentMap`                                                                         |
+| `ConcurrentLinkedQueue`     | `Queue`                                                                                        |
+| `ConcurrentSkipListMap`     | `Map`, `SortedMap`, `NavigableMap`, `ConcurrentMap`, `ConcurrentNavigableMap`                  |
+| `ConcurrentSkipListSet`     | `Set`, `SortedSet`, `NavigableSet`                                                             |
+| `CopyAndWriteArrayList`     | `List`                                                                                         |
+| `CopyOnWriteArraySet`       | `Set`                                                                                          |
+| `LinkedBlockingQueue`       | `Queue`, `BlockingQueue`                                                                       |
+
+### Synchronized Collections Methods
+
+synchronizedCollection(Collection<T> c)
+synchronizedList(List<T> list)
+synchronizedMap(Map<K,V> m)
+synchronizedNavigableMap(NavigableMap<K,V> m)
+synchronizedNavigableSet(NavigableSet<T> s)
+synchronizedSet(Set<T> s)
+synchronizedSortedMap(SortedMap<K,V> m)
+synchronizedSortedSet(SortedSet<T> s)

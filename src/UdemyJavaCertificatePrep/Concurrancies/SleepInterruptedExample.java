@@ -21,5 +21,10 @@ public class SleepInterruptedExample {
         }
 
         sleeperThread.interrupt();
+
+        /*
+        About to wait 10 seconds...
+        Thread was interrupted during sleep!
+         */
     }
 }

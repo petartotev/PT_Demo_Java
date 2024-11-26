@@ -6,6 +6,7 @@ import ClassDesign.*;
 import Collections.ElCollector;
 import Concurrancies.MyRunnableClass;
 import Concurrancies.MyThreadClass;
+import Concurrancies.Synchronizer;
 import DataTypes.*;
 import Exceptional.Door;
 import Exceptional.Exceptionalissimo;
@@ -511,10 +512,9 @@ public class JavaApp {
         myArrayCharles.playWithMultidimensionalArrays();
 
         System.out.println("=============== S7: DATE AND TIME [OCA, OCP] ===============");
+        System.out.println("========== S7: Creating Dates and Times [OCA] ==========");
 
         DateTimmy myDateTimmy = new DateTimmy();
-
-        System.out.println("========== S7: Creating Dates and Times [OCA] ==========");
 
         /*
         import java.time.* package
@@ -533,10 +533,9 @@ public class JavaApp {
         myDateTimmy.playWithInstants();
 
         System.out.println("=============== S8: METHODS [OCA, OCP] ===============");
+        System.out.println("========== S8: Defining Methods [OCA] ===============");
 
         MethodMan myMethodMan = new MethodMan();
-
-        System.out.println("========== S8: Defining Methods [OCA] ===============");
 
         /*
         public final void printName(String name) throws InterruptedException { }
@@ -783,7 +782,6 @@ public class JavaApp {
          */
 
         System.out.println("=============== S10: ABSTRACT CLASSES AND INTERFACES [OCA, OCP] ===============");
-
         System.out.println("========== S10: Abstract Classes [OCA]  ==========");
 
         /*
@@ -870,7 +868,6 @@ public class JavaApp {
          */
 
         System.out.println("=============== S11: LAMBDAS AND FUNCTIONAL PROGRAMMING [OCA, OCP] ===============");
-
         System.out.println("========== S11: Functional Interfaces and Lambdas [OCA]  ==========");
 
         /*
@@ -1406,7 +1403,6 @@ public class JavaApp {
         double ran = Math.random(); // between 0 and 1, not included
 
         System.out.println("=============== S15: BEYOND CLASSES [OCP] ===============");
-
         System.out.println("========== S15: Enums ==========");
         /*
         Enum (enumeration) is a fixed set of constants.
@@ -1668,7 +1664,6 @@ public class JavaApp {
         System.out.println(gd.getHeight()); /* 55 */
 
         System.out.println("=============== S16: STREAMS [OCP] ===============");
-
         System.out.println("========== S16: Optionals ==========");
 
         /*
@@ -2133,7 +2128,6 @@ d
         // Works like a HashMap with String key and values.
 
         System.out.println("=============== S18: MODULES [OCP] ===============");
-
         System.out.println("========== S18: Introduction to Modules ==========");
 
         /*
@@ -2387,88 +2381,134 @@ d
          */
 
         System.out.println("=============== S19: CONCURRENCY [OCP] ===============");
-
         System.out.println("========== S19: Thread Concurrency ==========");
 
         /*
         Basic Terminology
-        - thread -
-        - process -
-        - shared environment -
-        - task - single unit of work performed by the thread
-            - implemented as a lambda expression in Java
-            - can complete multiple independent tasks
+        - thread - smallest unit of execution that can be scheduled by the OS.
+        - process - group of associated threads that execute in the same shared env.
+            - single-threaded process (only 1 thread).
+            - multithreaded process (more than 1 thread).
+        - shared environment - group of threads in the same process that share the same memory space (e.g. Java application).
+            - these threads can communicate directly with each other.
+        - task - single unit of work performed by the thread.
+            - implemented as a lambda expression in Java.
+            - can complete multiple independent tasks, but only 1 at a time.
         - shared memory
+            - static variables + instance/local variables passed to a thread.
+            - static variables are shared among all instances of a class.
+            - if 1 thread updates the value of a static member, information becomes immediately available to other threads.
         - thread concurrency
-        - content switch
-        - thread priority
+            - property of program to execute multiple threads and processes at the same time.
+            - number of threads can exceed available CPU-s - in this case OS uses Thread Scheduler.
+        - content switch - occurs when thread's allocated time is complete, but thread has not finished processing.
+            - a process of storing thread's current state and later restoring the state.
+            - good Thread Scheduler minimizes the number of context switching.
+        - thread priority - numeric value associated with a thread
+            - used by Thread Scheduler to determine which thread should be executing.
 
-        Thread Concurrency
-        - property of executing multiple threads and processes at the same time
-        - number of threads CAN exceed number of CPUs - OS uses thread scheduler to determine which threads to execute.
+
+        |     Process  (Java Program )     |
+        | [         Shared Memory        ] |
+        |     ^          ^          ^      |
+        | [ Thread ] [ Thread ] [ Thread ] |
+              v          v          v
+        [======= OS Thread Scheduler ======]
+              v                     v
+         ( CPU(1) )             ( CPU(n) )
+
+         N.B. Threads >= CPU-s
+
 
         Thread's Life Cycle
-        - after a thread is created it exists in 1 of 6 states:
-        NEW - created, but not started
-        RUNNABLE - running or able to be run
-        TERMINATED - task completed
-        BLOCKED - waiting to enter synchronized block
-        WAITING - waiting indefinitely until notified
-        TIMED_WAITING - waiting a specified time
+        After a thread is created it exists in one of the following 6 states:
+        NEW - created, but not started;
+        RUNNABLE - running or able to be run;
+        TERMINATED - task completed;
+        BLOCKED - waiting to enter synchronized block;
+        WAITING - waiting indefinitely until notified;
+        TIMED_WAITING - waiting a specified time.
          */
+
+        System.out.println("========== S19: Creating a Thread (intro) ==========");
 
         /*
         Concurrency
-        Create a thread
-        1. Extend Thread class
-        2. Implement Runnable interface
-        3. Implement Callable interface (requires ExecutedService)
+        Create a thread - 3 options:
+        1. Extend Thread class;
+        2. Implement Runnable interface;
+        3. Implement Callable interface (requires ExecutedService).
          */
 
+        // Option 1: Extend Thread class
         MyThreadClass myThreadClass = new MyThreadClass();
-        // !!! Executed after printing the other chapters below (S20, S21, S22)
-        // We have implemented run() method, but we run start()
+        /* IMPORTANT: We implemented run() method, but we run start() in order to execute! */
         myThreadClass.start();
+        System.out.println("Thread '" + Thread.currentThread().getName() + "' is being executed...");
+        /* Thread 'main' is being executed... */
         /* Thread 'Thread-0' is being executed... */
+        // Note that Thread-0 executed some time after the program manages to print from Thread-main!
 
+        // Option 2.1: Implement Runnable interface
         new Thread(new MyRunnableClass()).start();
-        /* Thread 'Thread-1' is being executed from MyRunnableClass. */
+        System.out.println("Thread '" + Thread.currentThread().getName() + "' is being executed...");
+        /* Thread 'main' is being executed... */
+        /* Thread 'Thread-1' is being executed from MyRunnableClass! */
 
-        System.out.println("Thread '" + Thread.currentThread().getName() + "' is being executed");
-        /* Thread 'main' is being executed */
+        // Option 2.2: Implement Runnable interface using Lambda Expression
+        new Thread(() -> System.out.println("Thread '" + Thread.currentThread().getName() + "' is being executed using Lambda expression!"))
+                .start();
+        System.out.println("Thread '" + Thread.currentThread().getName() + "' is being executed...");
+        /* Thread 'main' is being executed... */
+        /* Thread 'Thread-2' is being executed using Lambda expression! */
 
-        new Thread(() -> System.out.println("Thread '" + Thread.currentThread().getName() + "' is being executed using Lambda expression")).start();
-        /* Thread 'Thread-2' is being executed using Lambda expression */
+        System.out.println("========== S19: Creating a Thread (examples) ==========");
 
-        // ACTION: Check SleepExample class!
-        // ACTION: Check SleepInterruptedExample class!
-
-        System.out.println("========== S19: Creating a Thread (intro + examples) ==========");
+        /*
+        Run SleepExample class!
+        Run SleepInterruptedExample class!
+         */
 
         System.out.println("========== S19: Using Concurrency API ==========");
 
         /*
         Concurrency API - import java.util.concurrent Package.
-        ExecutedService Interface:
+        This package includes ExecutorService Interface:
         - Defines services which create and manage threads.
-        - Includes features like pooling, thread scheduling etc.
+        - Includes features like thread pooling, thread scheduling etc.
          */
 
         // Single-thread executor
         ExecutorService execService = Executors.newSingleThreadExecutor();
         // Threads are executed one by one:
-        execService.execute(new Thread(() -> System.out.println("execService executes 1st thread!")));
+        execService.execute(new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("execService executes 1st thread!"); }));
         execService.execute(new Thread(() -> System.out.println("execService executes 2nd thread!")));
         execService.execute(new Thread(() -> System.out.println("execService executes 3rd thread!")));
-        execService.shutdown(); /* ⚠️ if omitted, program never ends! */
+        /* Threads are executed one by one! */
+        execService.shutdown(); /* ⚠️ WARNING: If omitted, program never ends! */
+
+        /*
+        Output:
+            execService executes 1st thread!
+            execService executes 2nd thread!
+            execService executes 3rd thread!
+         */
 
         /*
         Future<V> instance
-        There are 2 ways you can execute Runnable task
+        There are 2 ways you can execute Runnable task:
         1. using execute(Runnable task) method
         2. using submit(Runnable task) method - returns a value!
         Value is instance of a special interface Future<V>.
         Instance can be used to determine result of execution.
+
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#futurev-interface-methods
          */
 
         /*
@@ -2482,34 +2522,161 @@ d
          */
 
         ExecutorService execService2 = Executors.newSingleThreadExecutor();
-
         AtomicInteger count = new AtomicInteger();
         Future<?> resultFuture = execService2.submit(() -> {
+            // takes a few milliseconds...
             for(int i = 0; i < 10_000_000; i++) count.getAndIncrement(); });
-
         try {
-            var valuee = resultFuture.get(1, TimeUnit.MILLISECONDS);
-            if (valuee == null) System.out.println("Task completed.");
+            // will wait 1 millisecond!
+            var valueGet = resultFuture.get(1, TimeUnit.MILLISECONDS);
+            if (valueGet == null) System.out.println("Task completed.");
         } catch (TimeoutException e) {
+            // ergo, throws exception!
             System.out.println("Task didn't complete in time.");
         } catch ( InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-
         execService2.shutdown();
+
+        System.out.println("===== S19: Callable Interface =====");
+
+        /*
+        Similar to Runnable, except:
+        - method you need to implement is called call()
+        - call() method returns a value and can throw a checked exception
+        ExecutorService includes overloaded version of the submit method()
+        - you can pass Callable object to submit() and get Future<T> instance
+        When passing Runnable(), get() returns null if the task is complete.
+        With Callable(), get() returns the matching generic type.
+         */
+
+        var service22 = Executors.newSingleThreadExecutor();
+        try {
+            Future<Integer> result22 = service22.submit(() -> 11 * 12);
+            System.out.println(result22.get()); /* 132 */
+        } catch (Exception eee) {
+            eee.printStackTrace();
+        } finally {
+            service22.shutdown();
+        }
+
+        /*
+        Scheduling Tasks:
+        To schedule tasks we use ScheduledExecutorService interface with:
+
+        schedule(Callable<V> callable, long delay, TimeUnit unit)
+            Creates and executes Callable task after given delay.
+        schedule(Runnable task, long delay, TimeUnit unit)
+            Creates and executes Runnable task after given delay.
+        scheduleAtFixedRate(Runnable task, long initDelay, long period, TimeUnit unit)
+            Creates and executes Runnable task after initial delay and creating new task every period value that passes.
+        scheduleWithFixedDelay(Runnable task, long initDelay, long period, TimeUnit unit)
+            Creates and executes Runnable task after initial delay and subsequently with given delay between termination of one and execution of the next one.
+         */
+
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+
+        Runnable taskOne = () -> System.out.println("Hello!");
+        Callable<String> taskTwo = () -> "Hi";
+        ScheduledFuture<?> resultOne = service.schedule(taskOne, 1, TimeUnit.SECONDS);
+        ScheduledFuture<?> resultTwo = service.schedule(taskTwo, 2, TimeUnit.SECONDS);
+        System.out.println("TEST");
+        try {
+            Thread.sleep(3000);
+        } catch (Exception eeeee) {
+            eeeee.printStackTrace();
+        }
+
+        /*
+        Scheduling Thread Pool:
+        Thread pool is a group of pre-instantiated reusable threads - available to perform a set of arbitrary tasks.
+
+        ExecutorService newCachedThreadPool()
+            Creates thread pool that creates new threads as needed, but reuses previously constructed threads when they are available.
+        ExecutorService newFixedThreadPool(int noOfThreads)
+            Creates thread pool that reuses fixed number of threads operating off shared unbounded queue.
+        ScheduledExecutorService newScheduledThreadPool(int noOfThreads)
+            Creates thread pool that can schedule commands to run after given delay or execute.
+         */
 
         System.out.println("========== S19: Atomic Classes ==========");
 
+        /*
+        Run AtomicIntegerBadExample class!
+        Run AtomicIntegerGoodExample class!
+         */
+
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#atomic-classes
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#common-atomic-methods
+         */
+
         System.out.println("========== S19: Synchronized Block ==========");
+
+        /*
+        Synchronized Access:
+        Atomic classes protect single variable.
+        Synchronized access protects series of commands (block).
+        A structure called monitor (or lock) supports mutual exclusion.
+        - While the block is running, no other thread can interfere.
+        Any object can be used as a monitor (existing or new one).
+        When thread tries to run the block it first checks if any other thread is running it.
+        - If lock is not available, the thread will transition to BLOCKED state.
+        - After the thread "acquires the lock", the single thread will enter the block.
+        - While the block is executed, all other threads will be prevented from entering.
+         */
+
+        Synchronizer mySynchronizer = new Synchronizer();
+        mySynchronizer.playWithLocking();
+
+        /*
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#lock-methods
+
+        Keep in mind...
+        You can release the lock the same number of times it is acquired.
+        - in other words: lock/unlock always works in pairs.
+        If you obtain the lock twice, but release it only once, you will create an error.
+        To make sure to avoid the error use tryLock() in combination with unlock().
+        - only if tryLock() returns true, call unlock().
+         */
 
         System.out.println("========== S19: Using CyclicBarrier ==========");
 
+        /*
+        CyclicBarrier class takes in its constructor a limit value.
+        - indicating the number of threads to wait for
+        As each thread finishes, it calls the await() method on cyclic barrier.
+        Once the specific number of threads have each called await(), the barrier is released, and all threads can continue.
+
+        Run CyclicBarrierExample.java
+         */
+
         System.out.println("========== S19: Concurrent Collections ==========");
+
+        /*
+        Using Collections with Threads:
+        Multiple threads performing operations on the same collection can be dangerous!
+        Memory consistency error.
+        Two threads have inconsistent views of what should be the same data.
+        For example:
+        - one thread removes element
+        - the other thread "didn't get the memo" and behaves like the element is still there...
+        To avoid errors of this kind => use thread-safe collections via Concurrent Classes.
+
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#concurrent-collection-classes
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#synchronized-collections-methods
+         */
+
+        // Concurrent Classes:
+        Map<String, Integer> myMap = new ConcurrentHashMap<>();
 
         System.out.println("========== S19: Threading Problems ==========");
 
-        System.out.println("=============== S20: I/O [OCP] ===============");
+        /*
 
+         */
+
+        System.out.println("=============== S20: I/O [OCP] ===============");
         System.out.println("========== S20: Working with Files ==========");
 
         System.out.println("========== S20: Console Class ==========");
@@ -2517,7 +2684,6 @@ d
         System.out.println("========== S20: Serialization ==========");
 
         System.out.println("=============== S21: JDBC [OCP] ===============");
-
         System.out.println("========== S21: Introduction to JDBC ==========");
 
         /*
