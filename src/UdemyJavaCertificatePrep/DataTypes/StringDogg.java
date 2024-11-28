@@ -163,10 +163,31 @@ public class StringDogg {
 
         stringBuilder.insert(6, "D. "); /* John D. Wayne */
 
-        // delete(), deleteCharAt(2), replace(), reverse()
-        /* TODO: Implement examples for the 4 methods above as in tutorial. */
+        // delete()
+        StringBuilder myBuilderToDelete = new StringBuilder("abcdef");
+        System.out.println(myBuilderToDelete.delete(1,4)); /* aef - deletes from 1 to 4 (excluded) */
 
-        System.out.println(stringBuilder.toString());
+        // deleteCharAt()
+        StringBuilder myBuilderToDeleteCharAt = new StringBuilder("abcdef");
+        System.out.println(myBuilderToDeleteCharAt.deleteCharAt(2)); /* abdef - c is deleted */
+        //System.out.println(myBuilderToDeleteCharAt.deleteCharAt(6)); /* 🔴 ERROR: StringIndexOutOfBoundsException */
+
+        // replace()
+        StringBuilder myBuilderToReplace = new StringBuilder("abcdef");
+        // Removes characters from index 1 to 3 (excluded) and inserts new string:
+        myBuilderToReplace.replace(1, 3, "JOHN");
+        System.out.println(myBuilderToReplace);  /* aJOHNdef */
+        myBuilderToReplace.replace(5, 100, "SNOW"); /* no exception due to end out of range */
+        System.out.println(myBuilderToReplace); /* aJOHNSNOW */
+
+        // reverse()
+        StringBuilder myBuilderToReverse = new StringBuilder("rateP");
+        myBuilderToReverse.reverse();
+        System.out.println(myBuilderToReverse); /* Petar */
+
+        // toString()
+        String myString = stringBuilder.toString();
+        System.out.println("myString = " + myString);
 
         // 💡 FACT: StringBuilder doesn't implement equals() method => equals() acts the same as ==
         StringBuilder sbName1 = new StringBuilder("John");
@@ -174,7 +195,7 @@ public class StringDogg {
         System.out.println(sbName1 == sbName2); /* false */
         System.out.println(sbName1.equals(sbName2)); /* false */
 
-        // 💡 FACT: substring() returns a Strng and doesn't change the StringBuilder:
+        // 💡 FACT: substring() returns a String and doesn't change the StringBuilder:
         StringBuilder sbName3 = new StringBuilder("John Wayne");
         sbName3.substring(2, 6);
         System.out.println(sbName3);

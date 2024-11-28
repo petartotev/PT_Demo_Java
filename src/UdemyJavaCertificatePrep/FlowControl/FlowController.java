@@ -1,5 +1,7 @@
 package FlowControl;
 
+import BeyondClasses.Compass;
+
 public class FlowController {
     /* Switch */
     public void switchItLikeInJava8(int a) {
@@ -56,6 +58,16 @@ public class FlowController {
             default -> 3.14;
         };
         System.out.println(printOut);
+    }
+
+    public String switchExpressionUsingEnum(Compass value) {
+        return switch(value) {
+            case NORTH -> "NORTH!";
+            case SOUTH -> "SOUTH!";
+            case EAST -> "EAST!";
+            case WEST -> "WEST!";
+            /* Note that there is no need for default value in case of enums */
+        };
     }
 
     /* While */

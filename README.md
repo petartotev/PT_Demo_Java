@@ -9,7 +9,8 @@
 - [Create Modules](#create-modules)
   - [Create new Module](#create-new-module)
   - [Create new Transitive Module](#create-new-transitive-module)
-- [Testing](#testing)
+- [JDBC with Postgres](#jdbc-with-postgres)
+- [Testing with JUnit](#testing-with-junit)
 - [Build Artifact and Run Program](#build-artifact-and-run-program)
   - [Build Artifact](#build-artifact)
   - [Run Program](#run-program)
@@ -60,13 +61,22 @@
     - [Lock Methods](#lock-methods)
     - [Concurrent Collection Classes](#concurrent-collection-classes)
     - [Synchronized Collections Methods](#synchronized-collections-methods)
+
 # TODO
-- Extract "Setup JDBC" and "Setup JUNit" sections and mention them in JavaApp.java.
 - Method, constructor, class access modifiers can be extracted in tables in README.
 - Make a Thing:ImportPackage table.
 
 # Questions
-- Do we have BiConsumer<T, U> that accept(T, U, V, W, X) - more than 2 parameters?
+- Q1: Do we have BiConsumer<T, U> that accept(T, U, V, W, X) - more than 2 parameters?
+  - A1: Implement manually:
+```
+@FunctionalInterface
+public interface PentaConsumer<T,U,V,W,X> {
+  void accept(T t, U u, V v, W w, X x);
+  }
+```
+- Q2: ...
+  - A2: ...
 
 # Setup
 ## Essential Project Setup
@@ -135,7 +145,18 @@ module inventory {
 }
 ```
 
-# Testing
+# JDBC with Postgres
+1. Pull `postgres` Docker image and run it in a Docker container by following the instructions in [PT_Demo_PostgreSQL](https://github.com/petartotev/PT_Demo_PostgreSQL).
+2. Try to connect to the `postgres` database through the Java codebase. The following error might appear:
+```
+🔴 ERROR: No suitable driver found for jdbc:postgresql://localhost:5432/phonebook_db?user=postgres?password=test1234
+```
+3. Download driver (e.g. postgresql-42.7.3.jar) from https://jdbc.postgresql.org/download/.
+4. Move downloaded file to project directory.
+5. Right click, choose 'Add as Library', select OK with default settings.
+6. ✅ SUCCESS!
+
+# Testing with JUnit
 1. Make sure you have `JUnit` plugin installed:
 ![JUnit-Plugin-Installed](./res/JUnit-Plugin-Installed.png)
 2. Create new `UdemyJavaCertificatePrepTests` directory.
@@ -204,6 +225,8 @@ java -jar your-program.jar
 - Print List:
   - C#: `Console.WriteLine(string.Join(", ", myListStrings));`
   - 🏆 Java: `System.out.println(myListStrings)`
+- Asynchronous Programming:
+  - 🏆 C#: `async` and `await`
 
 # Notes
 - float x = 2.7 // does not compile! needs 'f' at the end
@@ -227,6 +250,7 @@ java -jar your-program.jar
 | soutp + tab                  | Prints method parameters                           |
 | soutv + tab                  | Prints variable's name and value                   |
 | psvm                         | Creates public static void main(String[] args) {}  |
+
 # Links
 - https://www.jetbrains.com/idea/download/other.html
 - https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
@@ -730,7 +754,7 @@ S22: Java 21 (1Z0-830 exam)
 
 ### DateTimeFormatter Factory Methods
 
-| Method                                                              | Description                              |
+| **Method**                                                          | **Description**                          |
 |---------------------------------------------------------------------|------------------------------------------|
 | `ofLocalizedDate(FormatStyle dateStyle)`                            | For formatting dates                     |
 | `ofLocalizedTime(FormatStyle timeStyle)`                            | For formatting times                     |
@@ -742,7 +766,7 @@ S22: Java 21 (1Z0-830 exam)
 
 ### module-info.java keywords
 
-| Keyword                                  | Description                                                                                       |
+| **Keyword**                              | **Description**                                                                                   |
 |------------------------------------------|---------------------------------------------------------------------------------------------------|
 | requires <module>                        | Module depends on the code in another module.                                                     |
 | requires transitive <module>             | If module A requires transitive module B, and module C requires module A, then C has access to B. |
@@ -783,13 +807,13 @@ S22: Java 21 (1Z0-830 exam)
 
 ### Future\<V\> Interface Methods
 
-| Method                                           | Description                                                                                      |
-|--------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| `boolean isDone()`                               | Returns `true` if the task was completed, threw an exception, or was canceled.                   |
-| `boolean isCanceled()`                           | Returns `true` if the task was canceled before completing normally.                              |
-| `boolean cancel(boolean mayInterruptIfRunning)`  | Attempts to cancel the task execution. Returns `true` if the task was successfully canceled.     |
-| `V get()`                                        | Retrieves the result of the task.                                                               |
-| `V get(long timeout, TimeUnit unit)`             | Retrieves the task result, waiting up to the specified time. Throws `TimeoutException` if not ready. |
+| **Method**                                      | **Description**                                                                                      |
+|-------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| `boolean isDone()`                              | Returns `true` if the task was completed, threw an exception, or was canceled.                       |
+| `boolean isCanceled()`                          | Returns `true` if the task was canceled before completing normally.                                  |
+| `boolean cancel(boolean mayInterruptIfRunning)` | Attempts to cancel the task execution. Returns `true` if the task was successfully canceled.         |
+| `V get()`                                       | Retrieves the result of the task.                                                                    |
+| `V get(long timeout, TimeUnit unit)`            | Retrieves the task result, waiting up to the specified time. Throws `TimeoutException` if not ready. |
 
 ### Atomic Classes
 
@@ -835,11 +859,11 @@ S22: Java 21 (1Z0-830 exam)
 
 ### Synchronized Collections Methods
 
-synchronizedCollection(Collection<T> c)
-synchronizedList(List<T> list)
-synchronizedMap(Map<K,V> m)
-synchronizedNavigableMap(NavigableMap<K,V> m)
-synchronizedNavigableSet(NavigableSet<T> s)
-synchronizedSet(Set<T> s)
-synchronizedSortedMap(SortedMap<K,V> m)
-synchronizedSortedSet(SortedSet<T> s)
+- synchronizedCollection(Collection<T> c)
+- synchronizedList(List<T> list)
+- synchronizedMap(Map<K,V> m)
+- synchronizedNavigableMap(NavigableMap<K,V> m)
+- synchronizedNavigableSet(NavigableSet<T> s)
+- synchronizedSet(Set<T> s)
+- synchronizedSortedMap(SortedMap<K,V> m)
+- synchronizedSortedSet(SortedSet<T> s)

@@ -12,10 +12,10 @@ public class MethodMan {
     // or
     public static final double TEST_CONST;
     // static blocks are useful when you need to calculate values.
-    // TODO: Get used to static blocks - used when you need to calculate values!
     static {
         TEST_CONST = 0.25;
     }
+    // ❗❗❗ IMPORTANT: Get used to static blocks ^ - used when you need to calculate values!
     public static double tax = 0.2;
 
     // Instance variables - no need to initialize them, they have default value by type.

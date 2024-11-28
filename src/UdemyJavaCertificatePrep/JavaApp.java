@@ -29,7 +29,6 @@ import com.emailnotification.EmailNotification;
 import com.inventory.RunbookInventory;
 import com.notificationservice.NotificationService;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
@@ -39,7 +38,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -130,23 +128,19 @@ public class JavaApp {
 
         // 🔴 ERROR:   Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0 at JavaApp.main(JavaApp.java:115)
         // ✅ SUCCESS: Go to Run/Debug Configurations > [...] > Run with parameters > Choose Program arguments (separated by BLANK SPACE).
-
         System.out.println("First name: " + args[0]);
         System.out.println("Last name: " + args[1]);
 
         /*
         javac JavaApp.java -> JavaApp.class
         java JavaApp Petar Totev
-        => First name: Petar
-           Last name: Totev
+        => First name: Petar\nLast name: Totev
 
         java JavaApp John D. Wayne
-        => First name: John
-           Last name: D.
+        => First name: John\nLast name: D. - Note that 3rd parameter is ignored!
 
         java JavaApp "John D." Wayne
-        => First name: John D.
-           Last name: Wayne
+        => First name: John D.\nLast name: Wayne
          */
 
         System.out.println("========== S2: Packages [OCA]  ==========");
@@ -174,44 +168,76 @@ public class JavaApp {
 
         /*
         import java.util.Date;
-        import java.sql.Date; 🔴 ERROR: Does not compile!
+        import java.sql.Date; 🔴 ERROR: Does not compile, duplicate class!
 
         import java.util.Date;
         import.java.sql.*; ✅ SUCCESS: Java will use java.util.Date when Date is referenced.
          */
 
         System.out.println("========== S2: Compile, Run and Archive [OCA]  ==========");
-        /* TODO */
 
         /*
-        2 classes:
-        1st class:
-        2nd class:
-        ...
+        Compiling code with packages:
+        1. First class:
+        -- C:\\com\\udemy\\ocppackage\\Ocp.java (windows)
+        -- /com/udemy/ocppackage/Ocp.java (unix)
+        2. Second class:
+        -- C:\\com\\udemy\\ocapackage\\Oca.java (windows)
+        -- /com/udemy/ocapackage/Oca.java (unix)
+        3. Take the common-ground position:
+        -- cd C:\\com\\udemy (windows)
+        -- cd /com/udemy (*nix)
+        4. Compile:
+        Option 1:
+        javac ocppackage/Ocp.java ocapackage/Oca.java
+            Output: .class files
+        Option 2 (alternative, using wildcards):
+        javac ocppackage/*.java ocapackage/*.java
+            Result:
+                /ocppackage
+                    Ocp.java
+                    Ocp.class
+                /ocapackage
+                    Oca.java
+                    Oca.class
+        5. Run Ocp application:
+        java ocppackage.Ocp     // N.B. not Ocp.class !!
 
+        What if we want classes in another directory:
         javac -d classes ocppackage/Ocp.java ocapackage/Oca.java
-
-        /ocppackage
-            Ocp.java
-        /ocapackage
-            Oca.java
-        /classes
+            /ocppackage
+                Ocp.java
+            /ocapackage
+                Oca.java
+            /classes
             /ocppackage
                 Ocp.class
             /ocapackage
                 Oca.class
 
+        3 ways to run Ocp application:
         java -cp classes ocppackage.Ocp
         java -classpath classes ocppackage.Ocp
         java --class-path classes ocppackage.Ocp
+        // N.B. <classpath> option can be used with javac command to specify location of classes needed to compile the program.
 
-        // from files in current folder
+        Our application depends on other files to run - some of files are in package "deps", and some are in myJar.jar:
+        java -cp ".;C:\\com\\udemy\\deps;C:\\com\\udemy\\myJar.jar" myPackage.MyApp
+        java -cp ".:/com/udemy/deps:/com/udemy/myJar.jar" myPackage.MyApp
+
+        If you have many jars in a folder, you can use wildcards:
+        java -cp ".;C:\\com\\udemy\\myjars\\*" myPackage.MyApp
+        java -cp ".:/com/udemy/myjars/*" myPackage.MyApp
+        // N.B. wildcards doesn't include subfolders !!
+
+        Create your own jar file (from files in current folder):
         jar -cvf myNewJarFile.jar .
         jar --create --verbose --file myNewJarFile.jar .
 
-        // from files in custom folder
+        Create your own jar file (from files in custom folder):
         jar -cvf myNewJarFile.jar -C myFolder
         jar --create --verbose --file myNewJarFile.jar -C myFolder
+        // Fun fact: there is no long version of -C
          */
 
         System.out.println("========== S2: Objects [OCA]  ==========");
@@ -423,7 +449,7 @@ public class JavaApp {
         myOperator.playWithComparisonOperators();
 
         System.out.println("=============== S4: FLOW CONTROL [OCA, OCP] ===============");
-
+        System.out.println("========== S4: Switch Statement [OCA] ==========");
         /*
         ⚠️ WARNING: Switch using Boolean, Long, Float, Double is not allowed!
         ⚠️ WARNING: Switch expression must handle all possible cases!
@@ -433,21 +459,24 @@ public class JavaApp {
 
         myFlowController.switchItLikeInJava8(4);
         myFlowController.switchItLikeInJava17(3);
+
+        System.out.println("========== S4: Switch Expression [OCA] ==========");
         myFlowController.switchExpressionWithJava17(100);
         myFlowController.switchExpressionWithUndefinedType(23);
+        System.out.println(myFlowController.switchExpressionUsingEnum(Compass.NORTH));
 
-        /*
-        TODO: Switch expression using Enum!
-         */
-
+        System.out.println("========== S4: While Loop, Do/While Loop [OCA] ==========");
         myFlowController.playWithNamedWhileLoop();
         myFlowController.playWithMultipleNamedWhileLoops();
         myFlowController.playWithNestedWhileLoops();
         myFlowController.playWithDoWhileLoop();
 
+        System.out.println("========== S4: For Loop [OCA] ==========");
         myFlowController.playWithForLoop();
         myFlowController.playWithForLoopHavingMultipleParams();
         // myFlowController.playWithInfiniteForLoop();
+
+        System.out.println("========== S4: For-Each Loop [OCA] ==========");
         myFlowController.playWithForeachLoop();
 
         System.out.println("=============== S5: STRINGS [OCA, OCP] ===============");
@@ -466,22 +495,16 @@ public class JavaApp {
          */
 
         myStringDogg.playWithConcatenation();
-
         myStringDogg.playWithStringMethods();
 
-        /*
-        STRINGS ARE IMMUTABLE!
-         */
+        /* String is IMMUTABLE! */
         String nameToImmute = "John Wayne";
         nameToImmute.toUpperCase();
         System.out.println("nameToImmute = " + nameToImmute); /* John Wayne */
 
         System.out.println("========== S5: StringBuilder [OCA] ==========");
 
-        /*
-        StringBuilder is a MUTABLE class which contains a String, which contains useful methods for manipulating strings.
-         */
-
+        /* StringBuilder is MUTABLE class containing a String - it has useful methods for manipulating strings. */
         myStringDogg.playWithStringBuilder();
 
         System.out.println("========== S5: String Pool [OCA] ==========");
@@ -503,9 +526,7 @@ public class JavaApp {
         System.out.println("========== S6: Creating an Array [OCA] ==========");
         System.out.println("========== S6: Sorting, Searching, Comparing Arrays [OCA] ==========");
 
-        /*
-        ⚠️ WARNING: Arrays don't implement equals method!
-         */
+        /* ⚠️ WARNING: Arrays don't implement equals method! */
 
         var myArrayCharles = new ArrayCharles();
         myArrayCharles.playWithArrays();
@@ -519,9 +540,7 @@ public class JavaApp {
 
         DateTimmy myDateTimmy = new DateTimmy();
 
-        /*
-        import java.time.* package
-         */
+        /* import java.time.* package */
 
         myDateTimmy.playWithDateAndTime();
 
@@ -734,9 +753,7 @@ public class JavaApp {
         1. Can be called in the first line of the constructor.
         2. Can be called only once.
         3. ⚠️ WARNING: Can create a cycle - constructors calling each other infinitely!
-         */
 
-        /*
         super() Rules:
         1. Must be called in the fist line of the constructor.
         2. Can be called only once.
@@ -760,7 +777,7 @@ public class JavaApp {
         3. Process all instance variable declarations.
         4. Process all instance initializers.
         5. Initialize the constructor.
-        TODO: Watch this again!
+        ❗❗❗ IMPORTANT: Watch this again!
          */
 
         System.out.println("========== S9: Inheriting Members [OCA] ===============");
@@ -780,9 +797,24 @@ public class JavaApp {
         myMethodMan.playWithExceptions();
 
         /*
-        TODO:
-        Overriding private and static methods.
+        Overriding private and static methods:
+        If the method is private, it's not visible to other classes.
+        - The method with the same signature of subclass is independent of that method.
+        - This is not overriding, it's just completely different method.
+        - This is not overriding, it's just completely different method.
+        If the method is static, "overridden" method must also be declared static.
+        - This is not overriding, since every method belongs to its own class.
+        - This is called hiding the method.
+        Methods marked as final cannot be overridden nor hidden!
          */
+
+        Grandpa.greet();    /* Hello, grandson! */
+        Papa.greet();       /* Hello, son! */
+
+        Mama myMom = new Mama();
+        Grandma myGranny = myMom;
+        System.out.println(myMom.name);     /* Grandma */
+        System.out.println(myGranny.name);  /* Mama */
 
         System.out.println("=============== S10: ABSTRACT CLASSES AND INTERFACES [OCA, OCP] ===============");
         System.out.println("========== S10: Abstract Classes [OCA]  ==========");
@@ -1107,9 +1139,8 @@ public class JavaApp {
 
         /*
         📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#Common-Functional-Interfaces-for-Primitives
+        ❗❗❗ IMPORTANT: Revise Primitive Specific Functional Interfaces:
         📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#Primitive-Specific-Functional-Interfaces
-
-        TODO: Revise Primitive Specific Functional Interfaces
          */
 
         System.out.println("=============== S12: COLLECTIONS [OCA, OCP] ===============");
@@ -1136,7 +1167,6 @@ public class JavaApp {
          */
 
         ElCollector myCollector = new ElCollector();
-
         myCollector.playWithCommonCollectionMethods();
 
         System.out.println("========== S12: List Interface [OCA] ==========");
@@ -1197,7 +1227,6 @@ public class JavaApp {
 
         /*
         ⭐ DEFINITION: Deque = double-ended queue.
-
         Deque Interface used as Stack:
         Implemented by ArrayDeque.
         LIFO = Last In First Out
@@ -1369,9 +1398,7 @@ public class JavaApp {
 
         System.out.println("=============== S14: MATH APIS [OCP] ===============");
 
-        /*
-        import java.lang;
-         */
+        /* import java.lang; */
 
         // min(), max()
         int aaa = Math.max(3, 11); /* 11 */
@@ -1619,7 +1646,7 @@ public class JavaApp {
         System.out.println(myPolyCanRun.canRunFast()); /* false */
 
         // NOTE: Only one object is created here (ShihTzu)!
-        // IMPORTANT: Once you create a new reference, only the members of that reference type are accessible via that reference (!!!)
+        // ❗❗❗ IMPORTANT: Once you create a new reference, only the members of that reference type are accessible via that reference (!!!)
 
         PolyCanRun canRun = new PolyShihTzu();      /* Reference canRun points to ShihTzu object -> OK */
         // System.out.println(canRun.weight);       /* 🔴 ERROR: Does not compile! */
@@ -2445,7 +2472,7 @@ d
 
         // Option 1: Extend Thread class
         MyThreadClass myThreadClass = new MyThreadClass();
-        /* IMPORTANT: We implemented run() method, but we run start() in order to execute! */
+        /* ❗❗❗ IMPORTANT: We implemented run() method, but we run start() in order to execute! */
         myThreadClass.start();
         System.out.println("Thread '" + Thread.currentThread().getName() + "' is being executed...");
         /* Thread 'main' is being executed... */
@@ -2856,14 +2883,8 @@ d
         Advanced JDBC URL:
         Can contain username, password, enable ssl encryption etc.
         jdbc:postgresql://localhost/phonebook_db?user=petar?password=123?ssl=true
-         */
 
-        /*
-        🔴 ERROR: No suitable driver found for jdbc:postgresql://localhost:5432/phonebook_db?user=postgres?password=test1234
-        1. Download driver (e.g. postgresql-42.7.3.jar) from https://jdbc.postgresql.org/download/.
-        2. Move downloaded file to project directory.
-        3. Right click, choose 'Add as Library', select OK with default settings.
-        4. ✅ SUCCESS!
+        📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#jdbc-with-postgres
          */
 
         var myCarRandom = new Random();
@@ -3059,7 +3080,7 @@ d
         2. PreparedStatement / CallableStatement => stmt.close();
         3. Connection, e.g. conn.close();
 
-        GOOD PRACTICE: Use try-with-resources, but keep the order (reverse order from which they are initialized!
+        👍 GOOD PRACTICE: Use try-with-resources, but keep the order (reverse order from which they are initialized!)
         Check examples above - they are how things should be done!
          */
 
@@ -3069,10 +3090,10 @@ d
         /*
         Get Certified for Java SE 21
         Since the release of Java SE 21 Developer Professional Certificate I highly recommend that you take 1Z0-830 (Java SE 21) exam instead of 1Z0-829 (Java SE 17).
-        There are several reason why you should do that:
+        There are several reasons why you should do that:
         It's always better to be certified in latest technology.
         The exam is easier, since pass threshold is the same, but you get 30 minutes more on the exam!
-        The preparation is almost identical, if you are ready for Java 17, you'll be able to pass Java 21 with same knowledge.
+        The preparation is almost identical, if you are ready for Java 17, you'll be able to pass Java 21 with the same knowledge.
         You can find more information about recently released exam at the official Oracle website.
         One additional thing you need to learn regarding Java SE 21 is dealing with virtual threads.
         If you understand how threads work in previous versions of Java, this should be an easy read: Virtual Threads.
