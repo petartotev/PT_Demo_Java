@@ -9,8 +9,8 @@ public class RunbookInventory {
 
     public RunbookInventory() {
         this.runbooks = new ArrayList<>();
-        runbooks.add(new Runbook("OCA"));
-        runbooks.add(new Runbook("OCP"));
+        runbooks.add(new Runbook("OCA Study Guide"));
+        runbooks.add(new Runbook("OCP Study Guide"));
     }
 
     public List<Runbook> listRunbooks() { return runbooks; }

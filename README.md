@@ -98,6 +98,10 @@ public interface PentaConsumer<T,U,V,W,X> {
 3. Set Font Size: Go to Settings > Editor > Font > Change size to 16
 
 # Create Modules
+
+Package is for organizing code.
+Module is for managing and enforcing dependencies between groups of packages.
+
 ## Create new Module
 
 1. Go to `File` > `Project Structure` > `Modules`.

@@ -2196,6 +2196,11 @@ d
         /*
         📖 README: https://github.com/petartotev/PT_Demo_Java/blob/main/README.md#create-modules
 
+        Demo:
+        1. Create bookapi
+        2. Create inventory
+        3. Create reports
+
         1. Create module bookapi by following the instruction in the README above.
         2. Next import it here: import com.bookapi.Runbook;
         Now you can use it directly here:
@@ -2221,8 +2226,6 @@ d
         NotificationService myNotificationService = new EmailNotification();
         System.out.println(myNotificationService.getName());
         myNotificationService.sendNotification("This is some test message!");
-
-        /* TODO: Implement reports, checkout modules and finally, app module... */
 
         System.out.println("========== S18: Compiling and Running Modules ==========");
 
