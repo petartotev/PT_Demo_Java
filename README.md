@@ -96,6 +96,8 @@ public interface PentaConsumer<T,U,V,W,X> {
 2. Turn on/off Inlay Hints:
    ![File-Settings-Editor-Inlay-Hints](./res/File-Settings-Editor-Inlay-Hints.png)
 3. Set Font Size: Go to Settings > Editor > Font > Change size to 16
+4. Change Console Buffer Size:  
+  ![Change-Console-Buffer-Size](./res/Settings-Console-Buffer-Size.png)
 
 # Create Modules
 
